@@ -4,7 +4,7 @@
   --gold:#E29A2C; --cream:#FFF7EC; --peach:#FFEAD9; --mint:#E9F2ED; --paper:#FFFDF9;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Malgun Gothic",sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:"Pretendard","Pretendard Variable","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",system-ui,sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;word-break:keep-all}
 .app-shell{max-width:1080px;margin:0 auto;padding:28px 20px 56px}
 
 /* hero */
