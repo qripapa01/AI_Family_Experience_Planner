@@ -3,19 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Family Experience Planner</title>
+  <title>교과ON — 교과서에서 배우기 전에, 세상에서 먼저</title>
+  <meta name="description" content="교과ON은 앞으로 배울 초등 교과 내용을 재미있는 가족 나들이로 먼저 만나게 하고, 그 경험이 이후 학교 수업과 자연스럽게 연결되도록 돕는 AI 체험학습 추천 서비스입니다." />
+  <meta property="og:title" content="교과ON — 가족 나들이가 먼저, 배움은 자연스럽게" />
+  <meta property="og:description" content="앞으로 배울 초등 교과를 재미있는 가족 나들이로 먼저 만나는 AI 체험학습 추천 서비스" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="app-shell">
-    <section class="hero">
-      <div>
-        <p class="eyebrow">AI FAMILY EXPERIENCE PLANNER</p>
-        <h1>가족 나들이가 먼저,<br/>배움은 자연스럽게 따라오도록</h1>
-        <p class="subtitle">앞으로 최대 6개월 안에 배우게 될 교과 내용을 바탕으로, 아이가 공부처럼 느끼지 않는 재미있는 가족 경험을 추천합니다.</p>
+    <header class="hero">
+      <div class="hero-main">
+        <div class="brandline">
+          <span class="wordmark">교과<span class="on">ON</span></span>
+          <span class="toggle" aria-hidden="true"></span>
+          <span class="brand-tag">교과를 켜다</span>
+        </div>
+        <h1>가족 나들이가 <em>먼저</em>,<br/>배움은 자연스럽게 따라오도록</h1>
+        <p class="subtitle">앞으로 최대 6개월 안에 배우게 될 초등 교과 내용을 바탕으로, 아이가 공부처럼 느끼지 않는 <b>재미있는 가족 나들이</b>를 추천합니다. 그 경험이 이후 학교 수업과 자연스럽게 연결되도록 돕습니다.</p>
       </div>
       <div class="hero-badge">🎈 즐거운 경험 우선</div>
-    </section>
+    </header>
 
     <section class="panel controls">
       <label>학년
@@ -45,9 +56,9 @@
 
     <section class="panel parent-note">
       <div>
-        <p class="eyebrow">PARENT VIEW</p>
-        <h2>부모에게만 보이는 교육 연결 정보</h2>
-        <p>앞으로 1~6개월 안에 배우게 될 내용을 참고해 추천합니다. 아이에게는 예습이 아니라 ‘재미있는 주말 모험’으로 보여줍니다.</p>
+        <p class="eyebrow">PARENT VIEW · 부모 화면</p>
+        <h2>부모에게만 보이는 교과 연결 정보</h2>
+        <p>앞으로 1~6개월 안에 배우게 될 내용을 기준으로 추천합니다. 특히 <b>비교적 곧 배울 내용</b>은 <span class="hot">🔥 지금이 좋은 시점</span>으로 표시해요. 아이에게는 예습이 아니라 ‘재미있는 주말 모험’으로 보여줍니다.</p>
       </div>
       <span class="window">Experience Window · 최대 6개월</span>
     </section>
@@ -55,7 +66,7 @@
     <section>
       <div class="section-heading">
         <div>
-          <p class="eyebrow">THIS WEEKEND</p>
+          <p class="eyebrow">THIS WEEKEND · 이번 주말</p>
           <h2>이번 주말 추천 모험</h2>
         </div>
         <p id="summaryText" class="muted"></p>
@@ -64,7 +75,7 @@
     </section>
 
     <section class="panel philosophy">
-      <h2>서비스 원칙</h2>
+      <h2>교과ON의 원칙</h2>
       <div class="principles">
         <div><strong>1</strong><span>공부라는 느낌보다 재미</span></div>
         <div><strong>2</strong><span>문제풀이보다 발견과 대화</span></div>
@@ -72,6 +83,11 @@
         <div><strong>4</strong><span>지역 상권까지 이어지는 가족 하루</span></div>
       </div>
     </section>
+
+    <footer class="site-foot">
+      <span class="foot-mark">교과<span class="on">ON</span></span>
+      <p>모두의 창업 2기 지원용 MVP · 현재 장소·교과·시점 데이터는 서비스 개념 검증을 위한 데모이며, 실제 출시 전 최신 교육과정·시설 운영정보·위치정보를 검증·연동할 예정입니다.</p>
+    </footer>
   </main>
 
   <script src="main.js"></script>
