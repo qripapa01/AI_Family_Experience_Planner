@@ -55,6 +55,8 @@ h1 em{color:var(--brand-d);font-style:normal}
 .subject{font-size:14px;color:var(--brand-d);font-weight:800;margin:16px 0 2px}
 .experience-card h3{font-size:24px;margin:2px 0 6px;font-weight:900;letter-spacing:-.01em}
 .place{font-weight:700;color:#4a4652;margin:0 0 8px}
+.why{font-size:15px;font-weight:700;color:var(--teal);background:var(--mint);border-radius:12px;padding:10px 14px;margin:0 0 12px;line-height:1.5}
+.golden .why{background:#FFF7EC;color:#b45f1e}
 .story{line-height:1.65;color:#413e48;margin:0}
 .mission-box,.local-box{margin-top:16px;padding:16px;border-radius:16px;background:#F7F2EA}
 .golden .mission-box,.golden .local-box{background:#FFF7EC}
