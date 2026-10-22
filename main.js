@@ -4,70 +4,125 @@
 
 const experiences = [
   {
-    grade: 4, semester: 1, interest: 'history', monthsAhead: 1,
-    title: '수원화성 성곽 탐험', place: '수원화성', region: '경기 수원',
-    placeType: '유적·문화유산', rating: 4.7, fit: "사회 '지역의 역사·문화유산' 학습목표 부합",
-    story: '성곽을 따라 걸으며 옛 도시의 비밀을 찾아보는 하루 모험이에요.',
-    missions: ['가장 멋진 성문에서 사진 찍기', '성곽에서 신기한 구조 1개 찾기', '가족이 함께 가장 기억에 남는 장소 고르기'],
-    badge: '🏰 성곽 탐험가',
-    subject: '사회 · 우리가 알아보는 지역의 역사',
-    parent: '초등 사회의 지역 역사·문화유산 학습과 연결됩니다. 곧 배울 내용이라 지금 경험하기 좋은 시점이에요.',
-    local: '행궁동 상권·전통시장·지역 식당과 연계한 가족 코스로 확장할 수 있어요.'
+    grades: [5, 6], semesters: [1, 2], interest: 'science', monthsAhead: 4,
+    title: '로봇 탐정단', place: '부천로보파크', region: '경기 부천',
+    placeType: '로봇 전시관', cost: '무료~저가 · 방문 전 요금 확인', fit: "실과·과학 '로봇·소프트웨어' 영역과 연결 가능",
+    story: '움직이는 로봇을 보며 “어떻게 알고 움직일까?”를 찾아보는 탐정 놀이예요.',
+    missions: ['로봇의 센서(눈·귀 역할)를 1개 찾기', '로봇이 하는 일을 가족에게 설명하기', '가장 마음에 든 로봇 앞에서 사진 찍기'],
+    badge: '🤖 로봇 탐정',
+    subject: '실과·과학 · 로봇과 소프트웨어',
+    parent: '로봇의 센서와 움직임을 직접 보며 소프트웨어·기술에 대한 호기심을 키웁니다. 교과 연결은 영역 수준의 예시입니다.',
+    nearby: [{ name: '김명주뚝안채밥상 부천본점', kind: '식당', note: '한식 상차림' }, { name: 'Cafe And (까치울 카페거리)', kind: '카페', note: '차·커피' }]
   },
   {
-    grade: 4, semester: 1, interest: 'history', monthsAhead: 5,
-    title: '왕의 보물 찾기', place: '국립중앙박물관', region: '서울 용산',
-    placeType: '박물관', rating: 4.8, fit: "사회 '역사와 문화유산' 학습목표 부합",
-    story: '박물관을 공부하러 가는 대신, 가족과 함께 오늘의 보물을 찾으러 떠나요.',
-    missions: ['가장 신기한 유물 1개 고르기', '왕이나 옛사람과 관련된 물건 찾기', '내가 큐레이터라면 소개하고 싶은 유물 사진 찍기'],
-    badge: '👑 보물 큐레이터',
-    subject: '사회 · 역사와 문화유산',
-    parent: '사회·역사 관련 단원을 몇 달 앞두고 자연스럽게 배경경험을 쌓도록 돕습니다.',
-    local: '용산 일대 가족 식사·공원 산책과 결합할 수 있어요.'
-  },
-  {
-    grade: 4, semester: 1, interest: 'science', monthsAhead: 2,
-    title: '우주와 과학 놀이터', place: '국립과천과학관', region: '경기 과천',
-    placeType: '과학관', rating: 4.6, fit: "과학 '물질과 에너지·우주' 학습목표 부합",
-    story: '정답을 외우지 않고 만지고 보고 놀면서 “왜 그럴까?”를 발견해요.',
-    missions: ['가장 신기했던 과학 장치 고르기', '가족에게 “왜 그럴까?” 질문 하나 하기', '우주·로봇·자연 중 나의 최애 전시 고르기'],
-    badge: '🚀 호기심 탐험가',
-    subject: '과학 · 물질과 에너지',
-    parent: '과학 수업 전 이른 시점에 호기심과 친숙도를 높이는 경험입니다.',
-    local: '인근 공원·식당·카페와 함께 반나절 코스로 구성할 수 있어요.'
-  },
-  {
-    grade: 3, semester: 1, interest: 'nature', monthsAhead: 1,
-    title: '숲속 발견 대작전', place: '가까운 생태공원', region: '우리 동네',
-    placeType: '생태·야외', rating: 4.5, fit: "과학 '생명과 환경' 학습목표 부합",
-    story: '나뭇잎, 곤충, 소리, 냄새를 찾아보는 가벼운 야외 모험이에요.',
-    missions: ['서로 다른 모양의 잎 3개 찾기', '새소리나 자연의 소리 1분 듣기', '오늘의 자연 사진 한 장 남기기'],
-    badge: '🌿 자연 발견가',
-    subject: '과학 · 생명과 환경',
-    parent: '생태·환경 관련 과학 학습과 연결될 수 있는 경험입니다. 곧 배울 시기라 지금이 좋아요.',
-    local: '주변 로컬 카페나 시장과 함께 동네 나들이로 이어갈 수 있어요.'
-  },
-  {
-    grade: 5, semester: 1, interest: 'history', monthsAhead: 6,
-    title: '시간여행 궁궐 산책', place: '경복궁', region: '서울 종로',
-    placeType: '유적·문화유산', rating: 4.8, fit: "사회 '우리 역사의 흐름' 학습목표 부합",
-    story: '옛 궁궐을 돌아다니며 왕과 백성이 살던 시대를 상상해 보는 시간여행이에요.',
-    missions: ['가장 마음에 드는 건물 찾기', '옛날에 살았다면 어디서 지내고 싶은지 말하기', '가족 역사 사진 한 장 찍기'],
-    badge: '⏳ 시간여행자',
-    subject: '사회 · 우리 역사의 흐름',
-    parent: '역사 단원 학습 훨씬 전부터 문화유산에 대한 친숙함을 만드는 데 초점을 둡니다.',
-    local: '서촌·전통시장 등 지역상권과 자연스럽게 이어질 수 있어요.'
-  },
-  {
-    grade: 6, semester: 1, interest: 'science', monthsAhead: 3,
-    title: '지층과 화석 탐정단', place: '서대문자연사박물관', region: '서울 서대문',
-    placeType: '박물관', rating: 4.6, fit: "과학 '지구와 우주(지층·화석)' 학습목표 부합",
-    story: '땅속에 숨은 아주 오래된 이야기를 화석으로 읽어보는 탐정 놀이예요.',
-    missions: ['가장 오래돼 보이는 화석 찾기', '이 생물이 살던 환경 상상해서 말하기', '가장 멋진 전시 앞에서 사진 찍기'],
-    badge: '🦖 화석 탐정',
+    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'science', monthsAhead: 1,
+    title: '별자리 탐험대', place: '부천천문과학관', region: '경기 부천',
+    placeType: '과학관', cost: '무료~저가 · 방문 전 요금 확인', fit: "과학 '지구와 우주' 영역과 연결 가능",
+    story: '별과 달을 올려다보며 하늘의 규칙을 하나씩 찾아가는 탐험이에요.',
+    missions: ['계절별 별자리 1개 찾아 말해 보기', '달의 모양이 바뀌는 이유 가족에게 물어보기', '가장 신기했던 우주 이야기 한 줄 남기기'],
+    badge: '⭐ 별자리 탐험가',
     subject: '과학 · 지구와 우주',
-    parent: '지층·화석 관련 과학 단원과 연결되는 배경경험을 제공합니다.',
-    local: '서대문 지역 식당·카페와 함께 반나절 코스로 좋아요.'
+    parent: '별자리와 천체의 움직임을 먼저 접해 보는 경험입니다. 운영 프로그램은 방문 전 공식 안내를 확인해 주세요.',
+    nearby: [{ name: '곤드레밥집 여월', kind: '식당', note: '한식' }, { name: '카페동네 여월동점', kind: '카페', note: '동네 카페' }]
+  },
+  {
+    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 2,
+    title: '곤충 관찰 대작전', place: '부천자연생태공원·자연생태박물관', region: '경기 부천',
+    placeType: '생태공원·박물관', cost: '무료~저가 · 방문 전 요금 확인', fit: "과학 '생물과 환경' 영역과 연결 가능",
+    story: '풀숲과 연못 속 작은 생명들을 관찰 기록장에 남겨 보는 모험이에요.',
+    missions: ['관찰한 곤충·식물 이름 2개 적어 보기', '서로 다른 모양의 잎 3개 찾기', '오늘의 자연 사진 한 장 남기기'],
+    badge: '🌿 자연 관찰가',
+    subject: '과학 · 생물과 환경',
+    parent: '생태 환경을 직접 보고 기록하며 생물과 환경 단원의 배경경험을 쌓습니다.',
+    nearby: [{ name: '명가오리집', kind: '식당', note: '오리 요리 중심' }, { name: '카페 키아마', kind: '카페', note: '커피·디저트' }]
+  },
+  {
+    grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 3,
+    title: '만화로 남기는 하루', place: '한국만화박물관', region: '경기 부천',
+    placeType: '박물관', cost: '무료~저가 · 방문 전 요금 확인', fit: "국어·미술 '이야기 표현' 영역과 연결 가능",
+    story: '오늘 본 것을 4컷 만화로 표현해 보는 창작 나들이예요.',
+    missions: ['가장 재미있던 전시 1개 고르기', '오늘 있었던 일을 4컷 만화로 상상해 말하기', '좋아하는 캐릭터 앞에서 사진 찍기'],
+    badge: '🎨 이야기꾼',
+    subject: '국어·미술 · 이야기 표현',
+    parent: '체험을 자기 말과 그림으로 표현해 보는 활동으로, 교과 영역과의 연결은 예시입니다.',
+    nearby: [{ name: '신림춘천집 부천중동직영점', kind: '식당', note: '닭갈비' }, { name: 'Cafe Fantasia', kind: '카페', note: '만화박물관 인접 베이커리 카페' }]
+  },
+  {
+    grades: [3, 4], semesters: [1, 2], interest: 'history', monthsAhead: 4,
+    title: '옛 물건 비교 탐험', place: '부천시립박물관', region: '경기 부천',
+    placeType: '박물관', cost: '무료~저가 · 방문 전 요금 확인', fit: "사회 '우리 고장' 영역과 연결 가능",
+    story: '옛날 물건과 지금 물건을 견주며 우리 고장의 이야기를 찾아봐요.',
+    missions: ['옛날 물건 1개 골라 쓰임 상상해 보기', '지금의 물건과 다른 점 하나 말하기', '가장 오래돼 보이는 전시 앞에서 사진 찍기'],
+    badge: '🏛️ 고장 탐험가',
+    subject: '사회 · 우리 고장',
+    parent: '우리 고장의 역사와 생활 모습을 가볍게 접해 보는 경험입니다. 전시 구성은 방문 전 공식 안내를 확인해 주세요.',
+    nearby: [{ name: '담쟁이추억', kind: '식당', note: '한식·찌개류' }, { name: '담쟁이북카페', kind: '카페', note: '책이 있는 카페' }]
+  },
+  {
+    grades: [5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 6,
+    title: '활 속 과학 찾기', place: '부천활박물관', region: '경기 부천',
+    placeType: '박물관', cost: '무료~저가 · 방문 전 요금 확인', fit: "사회(역사)·과학 영역과 연결 가능",
+    story: '옛 활과 화살에 숨은 힘의 원리를 찾아보는 시간여행이에요.',
+    missions: ['활의 어느 부분이 힘을 만드는지 찾아보기', '옛 무기와 지금 물건의 닮은 점 말하기', '가장 마음에 든 전시 앞에서 사진 찍기'],
+    badge: '🏹 시간여행자',
+    subject: '사회·과학 · 역사 속 과학',
+    parent: '역사 속 도구에서 과학 원리를 찾아보는 활동입니다. 연결 영역은 예시입니다.',
+    nearby: [{ name: '호식당', kind: '식당', note: '한식 고깃집' }, { name: '카페동네 부천역점', kind: '카페', note: '동네 카페' }]
+  },
+  {
+    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'science', monthsAhead: 5,
+    title: '우리 집 탄소 줄이기', place: '부천기후변화체험관', region: '경기 부천',
+    placeType: '체험관', cost: '무료~저가 · 방문 전 요금 확인', fit: "사회·과학 '환경·자원' 영역과 연결 가능",
+    story: '기후 이야기를 체험으로 만나고 우리 집에서 할 약속을 정해 봐요.',
+    missions: ['기후 변화로 달라지는 점 1개 찾기', '우리 집에서 줄일 수 있는 것 한 가지 말하기', '가족 약속 한 줄 만들기'],
+    badge: '🌍 지구 지킴이',
+    subject: '사회·과학 · 환경과 자원',
+    parent: '환경 문제를 체험으로 접해 보는 활동입니다. 운영 여부와 프로그램은 방문 전 공식 안내 확인이 필요합니다.',
+    nearby: [{ name: '소사정육식당', kind: '식당', note: '고기 요리' }, { name: '투썸플레이스 부천소새울역점', kind: '카페', note: '카페·디저트' }]
+  },
+  {
+    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 5,
+    title: '호수공원 소리 지도', place: '상동호수공원', region: '경기 부천',
+    placeType: '공원', cost: '무료~저가 · 방문 전 요금 확인', fit: "과학 '생물과 환경' 영역과 연결 가능",
+    story: '호수 둘레를 걸으며 소리와 냄새로 나만의 지도를 만들어요.',
+    missions: ['들리는 소리 3가지 찾기', '물가에서 사는 생물 1개 관찰하기', '오늘의 호수 사진 한 장 남기기'],
+    badge: '🌊 호수 탐험가',
+    subject: '과학 · 생물과 환경',
+    parent: '가까운 공원에서 가볍게 시작하는 야외 관찰 활동입니다.',
+    nearby: [{ name: '한옥집숯불갈비 부천직영점', kind: '식당', note: '갈비·냉면' }, { name: '커피늘보', kind: '카페', note: '상동도서관 앞 카페' }]
+  },
+  {
+    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 6,
+    title: '나무 이름 찾기', place: '부천무릉도원수목원', region: '경기 부천',
+    placeType: '수목원', cost: '무료~저가 · 방문 전 요금 확인', fit: "과학 '식물' 영역과 연결 가능",
+    story: '나무와 꽃 이름표를 찾아 나만의 식물 도감을 만들어요.',
+    missions: ['이름표가 있는 나무 3그루 찾기', '잎 모양이 가장 특이한 식물 고르기', '가족과 가장 좋았던 장소 정하기'],
+    badge: '🌳 식물 도감가',
+    subject: '과학 · 식물의 생활',
+    parent: '식물을 직접 보고 이름을 알아가는 관찰 활동입니다. 개방 시간은 방문 전 확인해 주세요.',
+    nearby: [{ name: '물멍밥상 부천물멍타임점', kind: '식당', note: '수족관 콘셉트 식당' }, { name: 'TOV BEAN', kind: '카페', note: '베이커리 카페' }]
+  },
+  {
+    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 4,
+    title: '호수 위 식물 탐험', place: '호수식물원 수피아', region: '경기 부천',
+    placeType: '식물원', cost: '무료~저가 · 방문 전 요금 확인', fit: "과학 '식물' 영역과 연결 가능",
+    story: '호수와 식물이 어우러진 정원에서 나만의 식물 관찰 일기를 써 봐요.',
+    missions: ['처음 보는 식물 이름표 2개 찾기', '물가 식물과 땅 식물의 차이 말하기', '가장 마음에 든 풍경 사진 한 장 남기기'],
+    badge: '🌺 식물 탐험가',
+    subject: '과학 · 식물의 생활',
+    parent: '식물을 직접 보고 기록하는 관찰 활동입니다. 운영 시간·요금은 방문 전 공식 안내를 확인해 주세요.',
+    nearby: [{ name: '옥길장터식당', kind: '식당', note: '한식·찌개류' }, { name: '커피101스트릿 부천옥길점', kind: '카페', note: '베이커리 카페' }]
+  },
+  {
+    grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 3,
+    title: '도서관 보물 찾기', place: '부천 상동도서관', region: '경기 부천',
+    placeType: '도서관', cost: '무료 · 이용 시간은 방문 전 확인', fit: "국어 '읽기·표현' 영역과 연결 가능",
+    story: '서가를 탐험하며 오늘의 보물 책 한 권을 찾아 소개해 봐요.',
+    missions: ['표지가 마음에 드는 책 1권 고르기', '고른 이유를 가족에게 한 문장으로 말하기', '오늘의 한 줄 독서 기록 남기기'],
+    badge: '📚 책 탐험가',
+    subject: '국어 · 읽기와 표현',
+    parent: '도서관에서 책을 고르고 소개하는 활동으로, 읽기·표현 영역과의 연결은 예시입니다.',
+    nearby: [{ name: '목향 상동본점', kind: '식당', note: '고깃집' }, { name: '이디야커피 부천벚꽃마을점', kind: '카페', note: '커피·베이커리' }]
   }
 ];
 
@@ -91,7 +146,7 @@ function cardTemplate(item) {
       <p class="subject">${item.subject}</p>
       <h3>${item.title}</h3>
       <p class="place">📍 ${item.place} · ${item.region}</p>
-      <p class="why">⭐ 평점 ${item.rating} · ${item.placeType} · 왜 이곳? ${item.fit}</p>
+      <p class="why">📌 ${item.placeType} · ${item.cost} · 왜 이곳? ${item.fit}</p>
       <p class="story">${item.story}</p>
       <div class="mission-box quest" data-id="${item.title}">
         <div class="quest-head">
@@ -105,10 +160,11 @@ function cardTemplate(item) {
       <details>
         <summary>부모용 · 교과 연결 & 추천 이유</summary>
         <p><b>예상 학습 시기:</b> 앞으로 약 ${item.monthsAhead}개월 이내</p>
-        <p><b>장소 선정 기준:</b> ${item.placeType} 유형 중 평점 ${item.rating} · ${item.fit}</p>
+        <p><b>장소 선정 기준:</b> ${item.placeType} 유형 · ${item.fit}</p>
         <p>${item.parent}</p>
       </details>
-      <div class="local-box">🏪 <strong>Learning + Local</strong><br>${item.local}</div>
+      <div class="local-box">🏪 <strong>근처 코스 후보</strong> <span class="mute">참고용 · 제휴 아님 · 영업 여부는 방문 전 확인</span>
+        <ul class="nearby">${item.nearby.map(n => `<li><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('부천 ' + n.name)}" target="_blank" rel="noopener" data-place="${item.title}" data-store="${n.name}" data-kind="${n.kind}">${n.kind === '식당' ? '🍚' : '☕'} <b>${n.name}</b> <small>${n.note}</small></a></li>`).join('')}</ul></div>
     </article>`;
 }
 
@@ -159,7 +215,7 @@ function render() {
   const semester = Number(semesterSelect.value);
   const interest = interestSelect.value;
 
-  let filtered = experiences.filter(x => x.grade === grade && x.semester === semester);
+  let filtered = experiences.filter(x => x.grades.includes(grade) && x.semesters.includes(semester));
   if (interest !== 'all') filtered = filtered.filter(x => x.interest === interest);
 
   // 해당 학년·학기 데모 데이터가 없으면 관심사 기준으로 대체 추천
@@ -168,7 +224,7 @@ function render() {
   }
 
   // 2단계 엔진: 가까운 시점(골든타임) 우선, 같은 시점이면 평점 높은 순
-  filtered = filtered.slice().sort((a, b) => a.monthsAhead - b.monthsAhead || b.rating - a.rating);
+  filtered = filtered.slice().sort((a, b) => a.monthsAhead - b.monthsAhead);
 
   const goldenCount = filtered.filter(x => x.monthsAhead <= GOLDEN_MAX_MONTHS).length;
   cards.innerHTML = filtered.map(cardTemplate).join('');
@@ -184,13 +240,17 @@ interestSelect.addEventListener('change', render);
 render();
 
 // ===== 측정 도우미 =====
-function track(type, data) { try { if (window.GO) return window.GO.send(type, data); } catch (e) {} return Promise.resolve(false); }
+function track(type, data) { try { if (window.GO) return window.GO.send(type, data).catch(() => false); } catch (e) {} return Promise.resolve(false); }
 recommendBtn.addEventListener('click', () => track('recommend', { grade: gradeSelect.value, semester: semesterSelect.value, interest: interestSelect.value }));
 cards.addEventListener('click', (e) => {
   const btn = e.target.closest('.quest-btn');
   if (!btn) return;
   const box = btn.closest('.quest');
   track('quest_tap', { card: box.dataset.id, mission: btn.dataset.i, done: btn.classList.contains('done') });
+});
+cards.addEventListener('click', (e) => {
+  const a = e.target.closest('.nearby a');
+  if (a) track('local_click', { card: a.dataset.place, store: a.dataset.store, kind: a.dataset.kind });
 });
 cards.addEventListener('toggle', (e) => {
   if (e.target.tagName !== 'DETAILS' || !e.target.open) return;

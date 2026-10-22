@@ -40,5 +40,5 @@
     }).then(function () { return true; });
   }
   window.GO = { send: send, enabled: !!ENDPOINT, vid: vid };
-  send('pageview', {});
+  send('pageview', {}).catch(function () {});
 })();
