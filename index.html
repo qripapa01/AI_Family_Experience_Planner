@@ -76,6 +76,34 @@
       <div id="cards" class="cards"></div>
     </section>
 
+    <section class="panel signup" id="signup">
+      <p class="eyebrow">PRE-REGISTER · 사전신청</p>
+      <h2>출시 소식을 가장 먼저 받아보세요</h2>
+      <p class="muted">교과 시점에 맞춘 주말 체험 추천, 곧 정식으로 만나요. 사전신청해 주신 분께 출시 소식과 짧은 의견 요청을 드립니다.</p>
+      <form id="signupForm" novalidate>
+        <fieldset>
+          <legend>자녀 학년 <small>(해당하는 학년을 모두 선택)</small></legend>
+          <div class="chips">
+            <label><input type="checkbox" name="grade" value="1"><span>1학년</span></label>
+            <label><input type="checkbox" name="grade" value="2"><span>2학년</span></label>
+            <label><input type="checkbox" name="grade" value="3"><span>3학년</span></label>
+            <label><input type="checkbox" name="grade" value="4"><span>4학년</span></label>
+            <label><input type="checkbox" name="grade" value="5"><span>5학년</span></label>
+            <label><input type="checkbox" name="grade" value="6"><span>6학년</span></label>
+          </div>
+        </fieldset>
+        <label class="field">이메일
+          <input type="email" id="signupEmail" placeholder="parent@example.com" autocomplete="email">
+        </label>
+        <label class="check"><input type="checkbox" id="signupInterview"><span>10분 인터뷰에 참여할 수 있어요 (선택)</span></label>
+        <label class="check"><input type="checkbox" id="signupConsent"><span>출시 안내와 의견 요청을 위한 개인정보(이메일) 수집·이용에 동의합니다. (보호자가 작성해 주세요)</span></label>
+        <details class="privacy"><summary>개인정보 수집·이용 안내</summary><p>수집 항목: 이메일, 자녀 학년, 인터뷰 참여 의향(선택). 이용 목적: 출시 안내, 짧은 의견 요청. 보관: 서비스 검증이 끝나면 파기합니다. 동의하지 않으셔도 추천 기능은 이용하실 수 있습니다. 자녀의 이름·사진 등 개인정보는 받지 않습니다.</p></details>
+        <button type="submit" class="signup-btn">사전신청하기</button>
+        <p id="signupMsg" class="signup-msg" hidden></p>
+      </form>
+      <p class="signup-note">※ 방문·클릭 횟수는 서비스 개선을 위해 익명으로 기록합니다.</p>
+    </section>
+
     <section class="panel philosophy">
       <h2>교과ON의 원칙</h2>
       <div class="principles">
@@ -92,6 +120,8 @@
     </footer>
   </main>
 
-  <script src="main.js?v=4"></script>
+  <script src="config.js?v=5"></script>
+  <script src="tracking.js?v=5"></script>
+  <script src="main.js?v=5"></script>
 </body>
 </html>

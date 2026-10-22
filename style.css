@@ -93,3 +93,49 @@ summary{cursor:pointer;font-weight:800;color:var(--teal)}
   .hero{padding:26px}
   .experience-card{padding:20px}
 }
+
+/* 게임형 탐험 퀘스트 */
+.quest{background:linear-gradient(160deg,#FFF1DD,#FFE3C7)!important;border:2px dashed var(--brand)}
+.quest-head{display:flex;justify-content:space-between;align-items:center}
+.quest-xp{background:var(--brand);color:#fff;font-weight:800;font-size:13px;padding:3px 11px;border-radius:20px}
+.quest-bar{height:10px;background:#fff;border-radius:10px;margin:10px 0 12px;overflow:hidden}
+.quest-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--brand));border-radius:10px;transition:width .35s}
+.quest-list{list-style:none;padding:0!important;margin:0!important}
+.quest-btn{width:100%;display:flex;align-items:center;gap:12px;text-align:left;font:inherit;font-size:15px;line-height:1.4;
+  padding:12px 14px;margin:8px 0;border:2px solid #fff;border-radius:16px;background:#fff;color:var(--ink);cursor:pointer;
+  box-shadow:0 3px 0 rgba(210,120,60,.25);transition:transform .08s,box-shadow .08s}
+.quest-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(210,120,60,.25)}
+.quest-btn .q-icon{font-size:24px}
+.quest-btn .q-text{flex:1}
+.quest-btn.done{background:var(--mint);border-color:var(--teal)}
+.quest-btn.done .q-text{text-decoration:line-through;color:var(--muted)}
+.quest-reward{margin-top:12px;padding:12px;border-radius:14px;background:var(--teal);color:#fff;text-align:center;font-size:15px;animation:pop .5s}
+.quest-reward[hidden]{display:none}
+@keyframes pop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+.quest.complete{border-style:solid;border-color:var(--teal)}
+
+/* 사전신청 (샘플) */
+.signup{margin-top:28px;background:linear-gradient(160deg,#FFF3E4,#FFE7D2);border:2px solid var(--brand)}
+.signup h2{margin:6px 0 8px}
+.signup form{margin-top:16px;display:grid;gap:14px;max-width:520px}
+.signup fieldset{border:0;padding:0;margin:0}
+.signup legend{font-weight:800;margin-bottom:8px}
+.signup legend small{font-weight:500;color:var(--muted)}
+.signup .chips{display:flex;flex-wrap:wrap;gap:8px}
+.signup .chips label{cursor:pointer}
+.signup .chips input{position:absolute;opacity:0}
+.signup .chips span{display:inline-block;padding:9px 16px;border-radius:22px;background:#fff;border:2px solid #fff;box-shadow:0 2px 0 rgba(210,120,60,.25);font-weight:700}
+.signup .chips input:checked+span{background:var(--brand);color:#fff}
+.signup .chips input:focus-visible+span{outline:3px solid var(--navy)}
+.signup .field{display:grid;gap:6px;font-weight:800}
+.signup input[type=email]{font:inherit;padding:13px 14px;border-radius:14px;border:2px solid #fff;background:#fff;font-weight:500}
+.signup .check{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;cursor:pointer}
+.signup .check input{margin-top:4px;width:18px;height:18px;accent-color:var(--brand)}
+.signup-btn{font:inherit;font-weight:900;font-size:17px;padding:15px;border:0;border-radius:16px;background:var(--brand);color:#fff;cursor:pointer;box-shadow:0 4px 0 var(--brand-d)}
+.signup-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--brand-d)}
+.signup-msg{margin:0;padding:12px;border-radius:12px;background:var(--teal);color:#fff;font-weight:700}
+.signup-msg.err{background:#B3261E}
+.signup-note{margin:14px 0 0;font-size:12px;color:var(--muted)}
+
+.privacy { margin: .4rem 0 .6rem; font-size: .85rem; color: #555; }
+.privacy summary { cursor: pointer; }

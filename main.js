@@ -93,9 +93,14 @@ function cardTemplate(item) {
       <p class="place">📍 ${item.place} · ${item.region}</p>
       <p class="why">⭐ 평점 ${item.rating} · ${item.placeType} · 왜 이곳? ${item.fit}</p>
       <p class="story">${item.story}</p>
-      <div class="mission-box">
-        <strong>🎯 오늘의 발견 미션</strong>
-        <ul>${item.missions.map(m => `<li>${m}</li>`).join('')}</ul>
+      <div class="mission-box quest" data-id="${item.title}">
+        <div class="quest-head">
+          <strong>🎮 오늘의 탐험 퀘스트</strong>
+          <span class="quest-xp" data-xp>0 / ${item.missions.length}</span>
+        </div>
+        <div class="quest-bar"><i data-bar style="width:0%"></i></div>
+        <ul class="quest-list">${item.missions.map((m, i) => questItem(item, m, i)).join('')}</ul>
+        <div class="quest-reward" data-reward hidden>🎉 퀘스트 완료! <b>${item.badge}</b> 배지 획득</div>
       </div>
       <details>
         <summary>부모용 · 교과 연결 & 추천 이유</summary>
@@ -106,6 +111,48 @@ function cardTemplate(item) {
       <div class="local-box">🏪 <strong>Learning + Local</strong><br>${item.local}</div>
     </article>`;
 }
+
+// ===== 게임형 미션: 탭하면 완료, 진행바, 배지 =====
+const QUEST_KEY = 'gyogwaon_quest_v1';
+function loadQuest() { try { return JSON.parse(localStorage.getItem(QUEST_KEY)) || {}; } catch (e) { return {}; } }
+function saveQuest(d) { try { localStorage.setItem(QUEST_KEY, JSON.stringify(d)); } catch (e) { /* 저장 불가 환경 무시 */ } }
+const questState = loadQuest();
+
+function missionIcon(text) {
+  if (/사진|찍/.test(text)) return '📸';
+  if (/말하|질문|이야기/.test(text)) return '🗣️';
+  if (/듣기|소리/.test(text)) return '👂';
+  if (/찾기|찾아/.test(text)) return '🔍';
+  return '⭐';
+}
+function questItem(item, text, i) {
+  const done = (questState[item.title] || []).includes(i);
+  return `<li><button type="button" class="quest-btn${done ? ' done' : ''}" data-i="${i}" aria-pressed="${done}">
+    <span class="q-icon">${missionIcon(text)}</span><span class="q-text">${text}</span><span class="q-check">${done ? '✅' : '⬜'}</span></button></li>`;
+}
+function refreshQuest(box) {
+  const id = box.dataset.id;
+  const total = box.querySelectorAll('.quest-btn').length;
+  const done = (questState[id] || []).length;
+  box.querySelector('[data-xp]').textContent = `${done} / ${total}`;
+  box.querySelector('[data-bar]').style.width = `${Math.round(done / total * 100)}%`;
+  box.querySelector('[data-reward]').hidden = done < total;
+  box.classList.toggle('complete', done === total);
+}
+cards.addEventListener('click', (e) => {
+  const btn = e.target.closest('.quest-btn');
+  if (!btn) return;
+  const box = btn.closest('.quest');
+  const id = box.dataset.id, i = Number(btn.dataset.i);
+  const set = new Set(questState[id] || []);
+  if (set.has(i)) set.delete(i); else set.add(i);
+  questState[id] = [...set];
+  saveQuest(questState);
+  btn.classList.toggle('done');
+  btn.setAttribute('aria-pressed', set.has(i));
+  btn.querySelector('.q-check').textContent = set.has(i) ? '✅' : '⬜';
+  refreshQuest(box);
+});
 
 function render() {
   const grade = Number(gradeSelect.value);
@@ -125,6 +172,7 @@ function render() {
 
   const goldenCount = filtered.filter(x => x.monthsAhead <= GOLDEN_MAX_MONTHS).length;
   cards.innerHTML = filtered.map(cardTemplate).join('');
+  cards.querySelectorAll('.quest').forEach(refreshQuest);
   summaryText.textContent = `${grade}학년 ${semester}학기 · 최대 6개월 Experience Window에서 ${filtered.length}개 추천`
     + (goldenCount ? ` · 그중 ${goldenCount}개는 지금이 좋은 시점 🔥` : '');
 }
@@ -134,3 +182,49 @@ gradeSelect.addEventListener('change', render);
 semesterSelect.addEventListener('change', render);
 interestSelect.addEventListener('change', render);
 render();
+
+// ===== 측정 도우미 =====
+function track(type, data) { try { if (window.GO) return window.GO.send(type, data); } catch (e) {} return Promise.resolve(false); }
+recommendBtn.addEventListener('click', () => track('recommend', { grade: gradeSelect.value, semester: semesterSelect.value, interest: interestSelect.value }));
+cards.addEventListener('click', (e) => {
+  const btn = e.target.closest('.quest-btn');
+  if (!btn) return;
+  const box = btn.closest('.quest');
+  track('quest_tap', { card: box.dataset.id, mission: btn.dataset.i, done: btn.classList.contains('done') });
+});
+cards.addEventListener('toggle', (e) => {
+  if (e.target.tagName !== 'DETAILS' || !e.target.open) return;
+  const art = e.target.closest('article');
+  const q = art && art.querySelector('[data-id]');
+  track('parent_detail_open', { card: q ? q.dataset.id : '' });
+}, true);
+
+// ===== 사전신청: 구글 시트로 전송 (config.js의 주소가 있을 때만) =====
+(function () {
+  const form = document.getElementById('signupForm');
+  if (!form) return;
+  const msg = document.getElementById('signupMsg');
+  const btn = form.querySelector('.signup-btn');
+  let started = false;
+  form.addEventListener('focusin', () => { if (!started) { started = true; track('signup_start', {}); } });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('signupEmail').value.trim();
+    const grades = [...form.querySelectorAll('input[name=grade]:checked')].map(x => x.value);
+    const consent = document.getElementById('signupConsent').checked;
+    const interview = document.getElementById('signupInterview').checked;
+    let err = '';
+    if (!grades.length) err = '자녀 학년을 하나 이상 선택해 주세요.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) err = '이메일 주소를 확인해 주세요.';
+    else if (!consent) err = '개인정보 수집·이용 동의가 필요합니다.';
+    msg.hidden = false;
+    msg.classList.toggle('err', !!err);
+    if (err) { msg.textContent = err; track('signup_error', { reason: err.slice(0, 12) }); return; }
+    if (!window.GO || !window.GO.enabled) { msg.classList.add('err'); msg.textContent = '아직 신청 접수가 연결되지 않아 저장되지 않았어요.'; return; }
+    btn.disabled = true; msg.classList.remove('err'); msg.textContent = '접수 중...';
+    window.GO.send('signup', { email, grades: grades.join(','), interview, consent: true })
+      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시 소식을 보내 드릴게요.'; form.reset(); })
+      .catch(() => { msg.classList.add('err'); msg.textContent = '전송에 실패했어요. 잠시 뒤 다시 시도해 주세요.'; })
+      .finally(() => { btn.disabled = false; });
+  });
+})();
