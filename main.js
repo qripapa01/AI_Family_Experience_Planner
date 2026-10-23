@@ -157,12 +157,19 @@ function cardTemplate(item) {
         <ul class="quest-list">${item.missions.map((m, i) => questItem(item, m, i)).join('')}</ul>
         <div class="quest-reward" data-reward hidden>🎉 퀘스트 완료! <b>${item.badge}</b> 배지 획득</div>
       </div>
+      <div class="diary" data-diary="${item.title}">
+        <strong>📝 오늘의 한 줄 기록</strong>
+        <div class="diary-row"><input type="date" class="d-date" aria-label="방문일"><input type="text" class="d-text" maxlength="80" placeholder="오늘 가장 기억에 남은 건?" aria-label="한 줄 소감"><button type="button" class="d-save">저장</button></div>
+        <small class="mute d-msg">이 기기에만 저장돼요(서버로 보내지 않아요).</small>
+      </div>
       <details>
         <summary>부모용 가이드 · 교과 연결 & 질문</summary>
         <p><b>예상 학습 시기:</b> 앞으로 약 ${item.monthsAhead}개월 이내</p>
         <p><b>장소 선정 기준:</b> ${item.placeType} 유형 · ${item.fit}</p>
         <p>${item.parent}</p>
         ${guideHTML(item)}
+        <div class="pguide check"><p><b>✅ 가기 전 확인</b></p><ul class="chk"><li><label><input type="checkbox"> 운영시간·요금·휴관일을 시설 공식 안내로 확인했어요</label></li><li><label><input type="checkbox"> 이동 방법과 주차·대중교통을 확인했어요</label></li><li><label><input type="checkbox"> 물·간식·편한 신발 등 준비물을 챙겼어요</label></li><li><label><input type="checkbox"> 아이와 안전 약속(손 잡기, 흩어지지 않기)을 정했어요</label></li></ul></div>
+        <button type="button" class="print-card">🖨️ 미션지 인쇄</button>
       </details>
       <div class="local-box">🏪 <strong>근처 코스 후보</strong> <span class="mute">참고용 · 제휴 아님 · 영업 여부는 방문 전 확인</span>
         <ul class="nearby">${item.nearby.map(n => `<li><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('부천 ' + n.name)}" target="_blank" rel="noopener" data-place="${item.title}" data-store="${n.name}" data-kind="${n.kind}">${n.kind === '식당' ? '🍚' : '☕'} <b>${n.name}</b> <small>${n.note}</small></a></li>`).join('')}</ul></div>
@@ -218,6 +225,8 @@ function render() {
 
   let filtered = experiences.filter(x => x.grades.includes(grade) && x.semesters.includes(semester));
   if (interest !== 'all') filtered = filtered.filter(x => x.interest === interest);
+  const subj = document.getElementById('subjectSelect') ? document.getElementById('subjectSelect').value : 'all';
+  if (subj !== 'all') filtered = filtered.filter(x => x.subject.includes(subj));
 
   // 해당 학년·학기 데모 데이터가 없으면 관심사 기준으로 대체 추천
   if (!filtered.length) {
@@ -230,6 +239,7 @@ function render() {
   const goldenCount = filtered.filter(x => x.monthsAhead <= GOLDEN_MAX_MONTHS).length;
   cards.innerHTML = filtered.map(cardTemplate).join('');
   cards.querySelectorAll('.quest').forEach(refreshQuest);
+  cards.querySelectorAll('.diary').forEach(fillDiary);
   summaryText.textContent = `${grade}학년 ${semester}학기 · 앞으로 6개월 안에 배울 내용과 연결된 코스 ${filtered.length}개`
     + (goldenCount ? ` · 그중 ${goldenCount}개는 지금이 좋은 시점 🔥` : '');
 }
@@ -238,6 +248,7 @@ recommendBtn.addEventListener('click', render);
 gradeSelect.addEventListener('change', render);
 semesterSelect.addEventListener('change', render);
 interestSelect.addEventListener('change', render);
+const _ss = document.getElementById('subjectSelect'); if (_ss) _ss.addEventListener('change', render);
 render();
 
 // ===== 측정 도우미 =====
@@ -355,5 +366,60 @@ function setDl() {
       const it = experiences.find((e) => e.title === x.title); const g = GUIDES[x.title];
       return `<div class="notice-item"><b>${x.title}</b> · ${it ? it.place : ''}<br><small>알림장의 "${x.hits.slice(0, 3).join('", "')}" 와 연결돼요</small><br><small>💬 ${g ? g.asks[0] : ''}</small></div>`;
     }).join('') + '<p class="muted"><small>※ 단어가 겹치는 정도로 찾는 간단한 추천(베타)이며, 정확한 교과 연결은 아닙니다. 내용은 저장·전송되지 않아요.</small></p>';
+  });
+})();
+
+// ===== 한 줄 기록 · 스탬프북 · 결과보고서 초안 · 미션지 인쇄 (모두 이 기기 안에서만 처리) =====
+const DIARY_KEY = 'gyogwaon_diary_v1';
+function loadDiary() { try { return JSON.parse(localStorage.getItem(DIARY_KEY)) || {}; } catch (e) { return {}; } }
+function saveDiary(d) { try { localStorage.setItem(DIARY_KEY, JSON.stringify(d)); return true; } catch (e) { return false; } }
+function esc(s) { return String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function fillDiary(box) {
+  const rec = loadDiary()[box.dataset.diary];
+  if (rec) { box.querySelector('.d-date').value = rec.date || ''; box.querySelector('.d-text').value = rec.text || ''; }
+}
+cards.addEventListener('click', (e) => {
+  const b = e.target.closest('.d-save'); if (!b) return;
+  const box = b.closest('.diary'); const id = box.dataset.diary;
+  const date = box.querySelector('.d-date').value; const text = box.querySelector('.d-text').value.trim();
+  const msg = box.querySelector('.d-msg');
+  if (!text) { msg.textContent = '한 줄을 적어 주세요.'; return; }
+  const d = loadDiary(); d[id] = { date: date || new Date().toISOString().slice(0, 10), text };
+  msg.textContent = saveDiary(d) ? '저장했어요. 아래 스탬프북에 반영돼요. (소감 내용은 서버로 보내지 않아요)' : '이 브라우저에서는 저장할 수 없어요.';
+  track('diary_save', { card: id });
+  renderStamps();
+});
+cards.addEventListener('click', (e) => {
+  const b = e.target.closest('.print-card'); if (!b) return;
+  const art = b.closest('article'); const det = b.closest('details'); if (det) det.open = true;
+  art.classList.add('pr-target'); document.body.classList.add('pr-card');
+  track('card_print', { card: (art.querySelector('[data-id]') || {}).dataset.id || '' });
+  setTimeout(() => { window.print(); document.body.classList.remove('pr-card'); art.classList.remove('pr-target'); }, 50);
+});
+function renderStamps() {
+  const box = document.getElementById('stampGrid'); if (!box) return;
+  const diary = loadDiary();
+  const stamped = experiences.filter((x) => (questState[x.title] || []).length >= x.missions.length || diary[x.title]);
+  box.innerHTML = experiences.map((x) => {
+    const on = stamped.includes(x);
+    return `<div class="stamp${on ? ' on' : ''}"><span>${on ? '⭐' : '⚪'}</span><b>${x.title}</b><small>${on && diary[x.title] ? esc(diary[x.title].date) : x.place}</small></div>`;
+  }).join('');
+  const sum = document.getElementById('stampSum');
+  const months = {}; Object.values(diary).forEach((r) => { const k = (r.date || '').slice(0, 7); months[k] = (months[k] || 0) + 1; });
+  sum.textContent = `모은 스탬프 ${stamped.length} / ${experiences.length}` + (Object.keys(months).length ? ' · 기록: ' + Object.keys(months).sort().map((k) => `${k} ${months[k]}건`).join(', ') : '');
+}
+(function () {
+  renderStamps();
+  const b = document.getElementById('reportBtn'); if (!b) return;
+  b.addEventListener('click', () => {
+    const diary = loadDiary(); const keys = Object.keys(diary);
+    const out = document.getElementById('reportPrint');
+    if (!keys.length) { document.getElementById('reportMsg').hidden = false; return; }
+    document.getElementById('reportMsg').hidden = true;
+    keys.sort((a, c) => (diary[a].date || '').localeCompare(diary[c].date || ''));
+    out.innerHTML = '<h1>체험학습 결과 보고 (초안)</h1><p>※ 학교 제출 양식이 아닌 일반 양식입니다. 학교 양식에 맞춰 옮겨 적어 주세요.</p><p>학년/반/이름: ____________________</p><table><tr><th>방문일</th><th>체험 장소</th><th>연결 교과 영역</th><th>학생 소감(한 줄)</th></tr>'
+      + keys.map((k) => { const it = experiences.find((x) => x.title === k); return `<tr><td>${esc(diary[k].date)}</td><td>${esc(it ? it.place : k)}</td><td>${esc(it ? it.subject : '')}</td><td>${esc(diary[k].text)}</td></tr>`; }).join('') + '</table><p>보호자 확인: ______________ (서명)</p>';
+    track('report_print', { n: keys.length });
+    document.body.classList.add('pr-report'); setTimeout(() => { window.print(); document.body.classList.remove('pr-report'); }, 50);
   });
 })();
