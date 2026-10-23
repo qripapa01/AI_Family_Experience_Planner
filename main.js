@@ -283,8 +283,24 @@ cards.addEventListener('toggle', (e) => {
     if (!window.GO || !window.GO.enabled) { msg.classList.add('err'); msg.textContent = '아직 신청 접수가 연결되지 않아 저장되지 않았어요.'; return; }
     btn.disabled = true; msg.classList.remove('err'); msg.textContent = '접수 중...';
     window.GO.send('signup', { email, grades: grades.join(','), interview, consent: true })
-      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시 소식을 보내 드릴게요.'; form.reset(); })
+      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시 소식을 보내 드릴게요.'; form.reset(); const sv = document.getElementById('surveyForm'); if (sv) { sv.hidden = false; sv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } })
       .catch(() => { msg.classList.add('err'); msg.textContent = '전송에 실패했어요. 잠시 뒤 다시 시도해 주세요.'; })
       .finally(() => { btn.disabled = false; });
+  });
+})();
+
+// ===== 신청 후 짧은 의견 (선택) =====
+(function () {
+  const sv = document.getElementById('surveyForm');
+  if (!sv) return;
+  const msg = document.getElementById('surveyMsg');
+  sv.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const v = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.value : ''; };
+    const data = { q1_hard: v('q1'), q2_feature: v('q2'), q3_price: v('q3'), q4_text: document.getElementById('surveyText').value.trim().slice(0, 120) };
+    msg.hidden = false;
+    if (!data.q1_hard && !data.q2_feature && !data.q3_price && !data.q4_text) { msg.classList.add('err'); msg.textContent = '하나 이상 선택하거나 적어 주세요.'; return; }
+    msg.classList.remove('err'); msg.textContent = '보내는 중...';
+    track('survey', data).then(() => { msg.textContent = '감사합니다! 서비스 개선에 큰 도움이 돼요. 🙌'; sv.querySelector('button').disabled = true; });
   });
 })();
