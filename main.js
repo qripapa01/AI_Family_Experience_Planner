@@ -284,7 +284,7 @@ cards.addEventListener('toggle', (e) => {
     if (!window.GO || !window.GO.enabled) { msg.classList.add('err'); msg.textContent = '아직 신청 접수가 연결되지 않아 저장되지 않았어요.'; return; }
     btn.disabled = true; msg.classList.remove('err'); msg.textContent = '접수 중...';
     window.GO.send('signup', { email, grades: grades.join(','), interview, consent: true })
-      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시 소식을 보내 드릴게요.'; form.reset(); const sv = document.getElementById('surveyForm'); if (sv) { sv.hidden = false; sv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } })
+      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시 소식을 보내 드릴게요.'; form.reset(); try { localStorage.setItem('gyogwaon_signed', '1'); } catch (e) {} setDl(); const sv = document.getElementById('surveyForm'); if (sv) { sv.hidden = false; sv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } })
       .catch(() => { msg.classList.add('err'); msg.textContent = '전송에 실패했어요. 잠시 뒤 다시 시도해 주세요.'; })
       .finally(() => { btn.disabled = false; });
   });
@@ -318,3 +318,42 @@ cards.addEventListener('toggle', (e) => {
 
 // ===== 첫 화면 버튼 측정 =====
 ['ctaStart','ctaSignup'].forEach((id) => { const el = document.getElementById(id); if (el) el.addEventListener('click', () => track('cta_click', { id })); });
+
+// ===== 무료 자료(PDF): 사전신청 후 받기 =====
+function isSigned() { try { return localStorage.getItem('gyogwaon_signed') === '1'; } catch (e) { return false; } }
+function setDl() {
+  document.querySelectorAll('.resource .dl').forEach((b) => {
+    const base = b.dataset.file === 'curriculum_5-6' ? '5~6학년군 PDF 받기' : '3~4학년군 PDF 받기';
+    b.textContent = isSigned() ? base : '사전신청하고 ' + base;
+  });
+}
+(function () {
+  const btns = document.querySelectorAll('.resource .dl'); if (!btns.length) return;
+  setDl();
+  btns.forEach((b) => b.addEventListener('click', (e) => {
+    const signed = isSigned();
+    track('download_click', { file: b.dataset.file, signed });
+    if (!signed) {
+      e.preventDefault();
+      const s = document.getElementById('signup'); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const m = document.getElementById('dlMsg'); m.hidden = false; m.textContent = '아래에서 사전신청을 하시면 PDF를 받을 수 있어요.';
+    }
+  }));
+})();
+
+// ===== 알림장 연결 추천 (입력 내용은 저장·전송하지 않음) =====
+(function () {
+  const btn = document.getElementById('noticeBtn'); if (!btn) return;
+  const ta = document.getElementById('noticeText'); const out = document.getElementById('noticeOut');
+  btn.addEventListener('click', () => {
+    const text = ta.value.trim(); out.hidden = false;
+    if (text.length < 4) { out.innerHTML = '<p class="signup-msg err">알림장 내용을 조금 더 붙여 넣어 주세요.</p>'; return; }
+    const r = matchNotice(text);
+    track('notice_match', { len: Math.min(Math.floor(text.length / 100) * 100, 800), matched: r.length, top: r[0] ? r[0].title : '' });
+    if (!r.length) { out.innerHTML = '<p class="muted">연결되는 체험을 찾지 못했어요. 교과 단원 이름이나 활동(예: 달 관찰, 독서록)이 들어 있으면 더 잘 찾아요.</p>'; return; }
+    out.innerHTML = r.map((x) => {
+      const it = experiences.find((e) => e.title === x.title); const g = GUIDES[x.title];
+      return `<div class="notice-item"><b>${x.title}</b> · ${it ? it.place : ''}<br><small>알림장의 "${x.hits.slice(0, 3).join('", "')}" 와 연결돼요</small><br><small>💬 ${g ? g.asks[0] : ''}</small></div>`;
+    }).join('') + '<p class="muted"><small>※ 단어가 겹치는 정도로 찾는 간단한 추천(베타)이며, 정확한 교과 연결은 아닙니다. 내용은 저장·전송되지 않아요.</small></p>';
+  });
+})();

@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=11" />
+  <link rel="stylesheet" href="style.css?v=14" />
 </head>
 <body>
   <main class="app-shell">
@@ -78,8 +78,18 @@
         <p class="eyebrow">부모님께</p>
         <h2>왜 이 장소를 추천하나요?</h2>
         <p>앞으로 1~6개월 안에 학교에서 배울 내용과 이어지는 곳을 골랐어요. 곧 배울 내용은 <span class="hot">🔥 지금이 좋은 시점</span>으로 표시합니다. 아이에게는 공부가 아니라 <b>재미있는 주말 모험</b>으로 보여요.</p>
+        <p class="src">📚 교과 연결은 <b>2022 개정 교육과정 성취기준</b>(교육부 고시 제2022-33호, 국가교육과정정보센터 공개 자료)을 참고했어요. 교육부·학교의 공식·인증 서비스는 아니며, 연결은 교과ON이 정리한 예시예요.</p>
       </div>
       <span class="window">최대 6개월 앞 교과 연결</span>
+    </section>
+
+    <section class="panel notice" id="notice">
+      <p class="eyebrow">BETA · 알림장 연결 추천</p>
+      <h2>📝 알림장 내용을 붙여 넣어 보세요</h2>
+      <p class="muted">학교 알림장이나 숙제 안내를 붙여 넣으면 관련 있는 체험 장소를 찾아 드려요. 입력한 내용은 <b>서버로 보내거나 저장하지 않고</b> 이 화면에서만 비교해요. 아이 이름 등 개인정보는 지우고 붙여 넣어 주세요.</p>
+      <textarea id="noticeText" rows="4" maxlength="800" placeholder="예) 다음 주 과학: 달의 모양 관찰하기, 국어: 독서록 쓰기"></textarea>
+      <button type="button" id="noticeBtn" class="signup-btn">관련 체험 찾기</button>
+      <div id="noticeOut" class="notice-out" hidden></div>
     </section>
 
     <section>
@@ -91,6 +101,14 @@
         <p id="summaryText" class="muted"></p>
       </div>
       <div id="cards" class="cards"></div>
+    </section>
+
+    <section class="panel resource" id="resource">
+      <p class="eyebrow">FREE GUIDE · 무료 자료</p>
+      <h2>📄 체험학습 연결표 (PDF)</h2>
+      <p class="muted">교과 성취기준과 부천 체험 장소, 아이에게 물어볼 질문을 한 장으로 정리했어요. 사전신청을 하시면 바로 받을 수 있어요.</p>
+      <a id="dlBtn" class="signup-btn dl" href="files/gyogwaon_curriculum_3-4.pdf" download data-file="curriculum_3-4">3~4학년군 PDF 받기</a> <a id="dlBtn2" class="signup-btn dl" href="files/gyogwaon_curriculum_5-6.pdf" download data-file="curriculum_5-6">5~6학년군 PDF 받기</a>
+      <p id="dlMsg" class="signup-msg" hidden></p>
     </section>
 
     <section class="panel signup" id="signup">
@@ -147,13 +165,13 @@
 
     <footer class="site-foot">
       <span class="foot-mark">교과<span class="on">ON</span></span>
-      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 교육과정 영역 수준의 예시이며 교사 검수 전입니다.</p>
+      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 2022 개정 교육과정 성취기준을 참고한 예시이며 교사 검수 전입니다.</p>
     </footer>
   </main>
 
-  <script src="config.js?v=11"></script>
-  <script src="tracking.js?v=11"></script>
-  <script src="guides.js?v=11"></script>
-  <script src="main.js?v=11"></script>
+  <script src="config.js?v=14"></script>
+  <script src="tracking.js?v=14"></script>
+  <script src="guides.js?v=14"></script>
+  <script src="main.js?v=14"></script>
 </body>
 </html>
