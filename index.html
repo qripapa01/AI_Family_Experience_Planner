@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=8" />
+  <link rel="stylesheet" href="style.css?v=9" />
 </head>
 <body>
   <main class="app-shell">
@@ -24,15 +24,32 @@
           <span class="toggle" aria-hidden="true"></span>
           <span class="brand-tag">교과를 켜다</span>
         </div>
-        <h1>가족 나들이가 <em>먼저</em>,<br/>배움은 자연스럽게 따라오도록</h1>
-        <p class="subtitle">앞으로 최대 6개월 안에 배우게 될 초등 교과 내용을 바탕으로, 아이가 공부처럼 느끼지 않는 <b>재미있는 가족 나들이</b>를 추천합니다. 그 경험이 이후 학교 수업과 자연스럽게 연결되도록 돕습니다.</p>
+        <h1>이번 주말, 어디 가지?<br/><em>우리 아이 교과와 이어지는</em> 부천 나들이를 골라 드려요</h1>
+        <p class="subtitle">학년만 고르면 <b>곧 배울 내용과 연결된 체험 장소</b>와 <b>아이용 미션</b>, 근처 식당·카페까지 한 번에. 부모는 가이드대로, 아이는 미션 놀이로 즐기면 됩니다.</p>
+        <div class="hero-cta">
+          <a class="cta primary" href="#controls" id="ctaStart">내 아이 맞춤 코스 보기 →</a>
+          <a class="cta ghost" href="#signup" id="ctaSignup">출시 소식 받기</a>
+        </div>
+        <ul class="trust">
+          <li>📍 부천 체험 11곳</li><li>🆓 무료·저가 장소 중심</li><li>👨‍👩‍👧 부모용 가이드</li><li>🎮 아이 미션·배지</li>
+        </ul>
       </div>
-      <div class="hero-badge">📍 부천에서 먼저 시작</div>
     </header>
 
-    <section class="panel controls">
+    <section class="steps" aria-label="이용 방법">
+      <h2>이렇게 써요 <small>30초면 충분해요</small></h2>
+      <div class="step-grid">
+        <div class="step"><b>1</b><strong>학년·학기 고르기</strong><span>아이 관심사까지 고르면 더 잘 맞아요</span></div>
+        <div class="step"><b>2</b><strong>이번 주말 코스 받기</strong><span>장소·연결 교과·근처 식당·카페를 한눈에</span></div>
+        <div class="step"><b>3</b><strong>미션하고 칭찬하기</strong><span>아이는 미션 놀이, 부모는 질문 가이드</span></div>
+      </div>
+    </section>
+
+    <section class="panel controls" id="controls">
       <label>학년
         <select id="gradeSelect">
+          <option value="1">1학년</option>
+          <option value="2">2학년</option>
           <option value="3">3학년</option>
           <option value="4" selected>4학년</option>
           <option value="5">5학년</option>
@@ -58,11 +75,11 @@
 
     <section class="panel parent-note">
       <div>
-        <p class="eyebrow">PARENT VIEW · 부모 화면</p>
-        <h2>부모에게만 보이는 교과 연결 정보</h2>
-        <p>앞으로 1~6개월 안에 배우게 될 내용을 기준으로, <b>교과 → 장소 유형 → 평점·학습목표 부합</b> 순으로 가장 알맞은 곳을 추천합니다. 비교적 곧 배울 내용은 <span class="hot">🔥 지금이 좋은 시점</span>으로 표시하고, 아이에게는 예습이 아니라 ‘재미있는 주말 모험’으로 보여줍니다.</p>
+        <p class="eyebrow">부모님께</p>
+        <h2>왜 이 장소를 추천하나요?</h2>
+        <p>앞으로 1~6개월 안에 학교에서 배울 내용과 이어지는 곳을 골랐어요. 곧 배울 내용은 <span class="hot">🔥 지금이 좋은 시점</span>으로 표시합니다. 아이에게는 공부가 아니라 <b>재미있는 주말 모험</b>으로 보여요.</p>
       </div>
-      <span class="window">Experience Window · 최대 6개월</span>
+      <span class="window">최대 6개월 앞 교과 연결</span>
     </section>
 
     <section>
@@ -107,7 +124,7 @@
           <div class="chips"><label><input type="radio" name="q1" value="1"><span>1 전혀</span></label><label><input type="radio" name="q1" value="2"><span>2</span></label><label><input type="radio" name="q1" value="3"><span>3</span></label><label><input type="radio" name="q1" value="4"><span>4</span></label><label><input type="radio" name="q1" value="5"><span>5 매우</span></label></div></fieldset>
         <fieldset><legend>2. 가장 도움이 될 것 같은 기능은?</legend>
           <div class="chips"><label><input type="radio" name="q2" value="curriculum"><span>교과·단원별 추천</span></label><label><input type="radio" name="q2" value="guide"><span>부모용 가이드</span></label><label><input type="radio" name="q2" value="quest"><span>아이 미션·배지</span></label><label><input type="radio" name="q2" value="local"><span>근처 식당·카페</span></label><label><input type="radio" name="q2" value="record"><span>기록·성장 리포트</span></label></div></fieldset>
-        <fieldset><legend>3. 핵심 기능은 무료이고, 월간 리포트·서류 자동 작성 같은 추가 기능이 유료라면 월 얼마까지 괜찮으신가요? <small>(가정 질문입니다)</small></legend>
+        <fieldset><legend>3. 기본 기능(코스 추천·미션)은 무료이고, 나중에 아이 기록 모아보기·학교 서류 자동 작성 같은 추가 기능이 유료로 생긴다면 월 얼마까지 괜찮으세요? <small>(아직 없는 기능에 대한 가정 질문이에요)</small></legend>
           <div class="chips"><label><input type="radio" name="q3" value="0"><span>내지 않음</span></label><label><input type="radio" name="q3" value="3000"><span>3,000원</span></label><label><input type="radio" name="q3" value="5000"><span>5,000원</span></label><label><input type="radio" name="q3" value="9900"><span>9,900원</span></label></div></fieldset>
         <label class="field">4. 바라는 점이나 걱정되는 점 (선택)
           <input type="text" id="surveyText" maxlength="120" placeholder="한 줄이면 충분해요">
@@ -134,8 +151,8 @@
     </footer>
   </main>
 
-  <script src="config.js?v=8"></script>
-  <script src="tracking.js?v=8"></script>
-  <script src="main.js?v=8"></script>
+  <script src="config.js?v=9"></script>
+  <script src="tracking.js?v=9"></script>
+  <script src="main.js?v=9"></script>
 </body>
 </html>

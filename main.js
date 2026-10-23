@@ -229,7 +229,7 @@ function render() {
   const goldenCount = filtered.filter(x => x.monthsAhead <= GOLDEN_MAX_MONTHS).length;
   cards.innerHTML = filtered.map(cardTemplate).join('');
   cards.querySelectorAll('.quest').forEach(refreshQuest);
-  summaryText.textContent = `${grade}학년 ${semester}학기 · 최대 6개월 Experience Window에서 ${filtered.length}개 추천`
+  summaryText.textContent = `${grade}학년 ${semester}학기 · 앞으로 6개월 안에 배울 내용과 연결된 코스 ${filtered.length}개`
     + (goldenCount ? ` · 그중 ${goldenCount}개는 지금이 좋은 시점 🔥` : '');
 }
 
@@ -304,3 +304,6 @@ cards.addEventListener('toggle', (e) => {
     track('survey', data).then(() => { msg.textContent = '감사합니다! 서비스 개선에 큰 도움이 돼요. 🙌'; sv.querySelector('button').disabled = true; });
   });
 })();
+
+// ===== 첫 화면 버튼 측정 =====
+['ctaStart','ctaSignup'].forEach((id) => { const el = document.getElementById(id); if (el) el.addEventListener('click', () => track('cta_click', { id })); });
