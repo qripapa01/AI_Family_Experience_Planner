@@ -176,3 +176,4 @@ summary{cursor:pointer;font-weight:800;color:var(--teal)}
 .pguide ul,.pguide ol{margin:4px 0 8px 1.2rem;padding:0}
 .pguide p{margin:6px 0}
 @media print{.hero,.steps,#controls,.signup,.survey,.local-box,footer{display:none!important}details{display:block}details>*{display:block}}
+.pguide .std{margin:4px 0 4px 1.1rem}.pguide .std li{margin-bottom:4px}
