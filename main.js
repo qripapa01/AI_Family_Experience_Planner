@@ -158,10 +158,11 @@ function cardTemplate(item) {
         <div class="quest-reward" data-reward hidden>🎉 퀘스트 완료! <b>${item.badge}</b> 배지 획득</div>
       </div>
       <details>
-        <summary>부모용 · 교과 연결 & 추천 이유</summary>
+        <summary>부모용 가이드 · 교과 연결 & 질문</summary>
         <p><b>예상 학습 시기:</b> 앞으로 약 ${item.monthsAhead}개월 이내</p>
         <p><b>장소 선정 기준:</b> ${item.placeType} 유형 · ${item.fit}</p>
         <p>${item.parent}</p>
+        ${guideHTML(item)}
       </details>
       <div class="local-box">🏪 <strong>근처 코스 후보</strong> <span class="mute">참고용 · 제휴 아님 · 영업 여부는 방문 전 확인</span>
         <ul class="nearby">${item.nearby.map(n => `<li><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('부천 ' + n.name)}" target="_blank" rel="noopener" data-place="${item.title}" data-store="${n.name}" data-kind="${n.kind}">${n.kind === '식당' ? '🍚' : '☕'} <b>${n.name}</b> <small>${n.note}</small></a></li>`).join('')}</ul></div>
@@ -296,8 +297,18 @@ cards.addEventListener('toggle', (e) => {
   const msg = document.getElementById('surveyMsg');
   sv.addEventListener('submit', (e) => {
     e.preventDefault();
+    const q = (n) => { const f = sv.querySelector('input[name=' + n + ']'); const fs = f ? f.closest('fieldset') : null; const lg = fs ? fs.querySelector('legend') : null; return lg ? lg.textContent.replace(/\s+/g, ' ').trim() : ''; };
     const v = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.value : ''; };
-    const data = { q1_hard: v('q1'), q2_feature: v('q2'), q3_price: v('q3'), q4_text: document.getElementById('surveyText').value.trim().slice(0, 120) };
+    const lab = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.parentElement.textContent.trim() : ''; };
+    const tx = document.getElementById('surveyText');
+    const data = {
+      survey_ver: 'v10',
+      q1_hard: v('q1'), q2_feature: v('q2'), q3_price: v('q3'), q4_text: tx.value.trim().slice(0, 120),
+      q1_question: q('q1'), q1_answer: lab('q1'),
+      q2_question: q('q2'), q2_answer: lab('q2'),
+      q3_question: q('q3'), q3_answer: lab('q3'),
+      q4_question: tx.closest('label') ? tx.closest('label').firstChild.textContent.trim() : '4. 바라는 점이나 걱정되는 점', q4_answer: tx.value.trim().slice(0, 120)
+    };
     msg.hidden = false;
     if (!data.q1_hard && !data.q2_feature && !data.q3_price && !data.q4_text) { msg.classList.add('err'); msg.textContent = '하나 이상 선택하거나 적어 주세요.'; return; }
     msg.classList.remove('err'); msg.textContent = '보내는 중...';

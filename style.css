@@ -172,3 +172,7 @@ summary{cursor:pointer;font-weight:800;color:var(--teal)}
 .step strong{font-size:16px}
 .step span{font-size:14px;color:var(--muted);line-height:1.5}
 @media(max-width:700px){.hero{padding:24px 20px}.step-grid{grid-template-columns:1fr}.cta{width:100%;text-align:center}}
+.pguide{margin-top:8px;padding:10px 12px;background:#f6f9ff;border-radius:10px;font-size:.92rem;line-height:1.6}
+.pguide ul,.pguide ol{margin:4px 0 8px 1.2rem;padding:0}
+.pguide p{margin:6px 0}
+@media print{.hero,.steps,#controls,.signup,.survey,.local-box,footer{display:none!important}details{display:block}details>*{display:block}}
