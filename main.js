@@ -431,13 +431,24 @@ function setDl() {
     if (text.length < 1) { out.innerHTML = '<p class="signup-msg err">알림장 내용을 한 단어 이상 붙여 넣어 주세요. (예: 별자리, 독서록)</p>'; return; }
     const r = matchNotice(text);
     track('notice_match', { len: Math.min(Math.floor(text.length / 100) * 100, 800), matched: r.length, top: r[0] ? r[0].title : '' });
-    if (!r.length) { out.innerHTML = '<p class="muted">연결되는 체험을 아직 찾지 못했어요. 교과 이름(과학·국어…)이나 단원·활동 단어(예: 별자리, 곤충, 독서록, 소리)를 넣으면 더 잘 찾아요. 현재는 부천 체험 11곳과 연결되는 단어만 인식하는 베타예요.</p>'; return; }
+    if (!r.length) {
+      out.innerHTML = '<p class="muted">입력하신 내용에서 연결되는 체험을 찾지 못했어요. 아직 베타라 일부 단어만 알아봐요. 아래에서 교과를 골라 바로 볼 수 있어요.</p><div class="chips notice-chips">' + ['과학', '사회', '국어', '실과'].map((s) => '<button type="button" class="chip-btn" data-subj="' + s + '">' + s + ' 체험 보기</button>').join('') + '</div><p class="muted"><small>입력하신 내용은 저장하거나 보내지 않아요. 어떤 단어를 찾으면 좋을지 아래 의견란에 남겨 주셔도 좋아요.</small></p>';
+      return;
+    }
     out.innerHTML = r.map((x) => {
       const it = experiences.find((e) => e.title === x.title); const g = GUIDES[x.title];
       return `<div class="notice-item"><b>${x.title}</b> · ${it ? it.place : ''}<br><small>알림장의 "${x.hits.slice(0, 3).join('", "')}" 와 연결돼요</small><br><small>💬 ${g ? g.asks[0] : ''}</small></div>`;
     }).join('') + '<p class="muted"><small>※ 단어가 겹치는 정도로 찾는 간단한 추천(베타)이며, 정확한 교과 연결은 아닙니다. 내용은 저장·전송되지 않아요.</small></p>';
   });
 })();
+
+document.getElementById('noticeOut').addEventListener('click', (e) => {
+  const b = e.target.closest('.chip-btn'); if (!b) return;
+  const sel = document.getElementById('subjectSelect'); if (sel) sel.value = b.dataset.subj;
+  track('notice_fallback', { subj: b.dataset.subj });
+  const rb = document.getElementById('recommendBtn'); if (rb) rb.click();
+  const c = document.getElementById('controls'); if (c) c.scrollIntoView({ behavior: 'smooth' });
+});
 
 // ===== 한 줄 기록 · 스탬프북 · 결과보고서 초안 · 미션지 인쇄 (모두 이 기기 안에서만 처리) =====
 const DIARY_KEY = 'gyogwaon_diary_v1';
