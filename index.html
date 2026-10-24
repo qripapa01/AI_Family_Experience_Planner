@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=15" />
+  <link rel="stylesheet" href="style.css?v=17" />
 </head>
 <body>
   <main class="app-shell">
@@ -31,7 +31,7 @@
           <a class="cta ghost" href="#signup" id="ctaSignup">출시 소식 받기</a>
         </div>
         <ul class="trust">
-          <li>📍 부천 체험 11곳</li><li>🆓 무료·저가 장소 중심</li><li>👨‍👩‍👧 부모용 가이드</li><li>🎮 아이 미션·배지</li>
+          <li>📍 부천 체험 11곳</li><li>💰 비용 안내 포함</li><li>👨‍👩‍👧 부모용 가이드</li><li>🎮 아이 미션·배지</li>
         </ul>
       </div>
     </header>
@@ -74,22 +74,22 @@
       <label>아이 관심사
         <select id="interestSelect">
           <option value="all">전체</option>
-          <option value="history">역사·문화</option>
+          <option value="history">역사·문화·책</option>
           <option value="science">과학·자연</option>
           <option value="nature">야외·생태</option>
         </select>
       </label>
-      <button id="recommendBtn">이번 주말 모험 찾기</button>
+      <button id="recommendBtn" type="button">이번 주말 코스 보기</button>
     </section>
 
     <section class="panel parent-note">
       <div>
         <p class="eyebrow">부모님께</p>
         <h2>왜 이 장소를 추천하나요?</h2>
-        <p>앞으로 1~6개월 안에 학교에서 배울 내용과 이어지는 곳을 골랐어요. 곧 배울 내용은 <span class="hot">🔥 지금이 좋은 시점</span>으로 표시합니다. 아이에게는 공부가 아니라 <b>재미있는 주말 모험</b>으로 보여요.</p>
+        <p>학년·학기·교과·관심사에 맞춰 학교에서 배울 내용과 이어질 만한 곳을 골랐어요. 곧 만나게 될 내용은 <span class="hot">🔥 곧 연결되는 내용</span>으로 표시하는데, 시점은 교과ON이 잡은 예시이며 학교 진도와 다를 수 있어요. 아이에게는 공부가 아니라 <b>재미있는 주말 모험</b>으로 보여요.</p>
         <p class="src">📚 교과 연결은 <b>2022 개정 교육과정 성취기준</b>(교육부 고시 제2022-33호, 국가교육과정정보센터 공개 자료)을 참고했어요. 교육부·학교의 공식·인증 서비스는 아니며, 연결은 교과ON이 정리한 예시예요.</p>
       </div>
-      <span class="window">최대 6개월 앞 교과 연결</span>
+      <span class="window">교과 연결 예시 (교사 검수 전)</span>
     </section>
 
     <section class="panel notice" id="notice">
@@ -105,11 +105,33 @@
       <div class="section-heading">
         <div>
           <p class="eyebrow">THIS WEEKEND · 이번 주말</p>
-          <h2>이번 주말 추천 모험</h2>
+          <h2>이번 주말 추천 코스</h2>
         </div>
         <p id="summaryText" class="muted"></p>
       </div>
+      <p id="matchNote" class="match-note" role="status" hidden></p>
       <div id="cards" class="cards"></div>
+      <div id="feedbackBox" class="panel feedback">
+        <h3>이 추천, 도움이 됐나요?</h3>
+        <div class="chips fb-main"><button type="button" class="fb-btn" data-v="1">👍 도움이 됐어요</button><button type="button" class="fb-btn" data-v="0">👎 아쉬워요</button></div>
+        <div id="fbMore" hidden>
+          <p class="fb-q">이유를 골라 주세요 <small>(여러 개 가능)</small></p>
+          <div class="chips" id="fbReasons">
+            <label><input type="checkbox" value="grade_fit"><span>우리 아이 학년에 맞아요</span></label>
+            <label><input type="checkbox" value="want_go"><span>가 보고 싶은 곳이 있어요</span></label>
+            <label><input type="checkbox" value="guide_help"><span>미션·질문이 도움돼요</span></label>
+            <label><input type="checkbox" value="not_fit"><span>우리 아이와 안 맞아요</span></label>
+            <label><input type="checkbox" value="few"><span>장소가 너무 적어요</span></label>
+            <label><input type="checkbox" value="no_cost"><span>비용 정보가 부족해요</span></label>
+          </div>
+          <p class="fb-q">다음 주말에 이 중 한 곳에 가 볼 생각이 드시나요?</p>
+          <div class="chips" id="fbIntent"><label><input type="radio" name="fbi" value="1"><span>1 전혀</span></label><label><input type="radio" name="fbi" value="2"><span>2</span></label><label><input type="radio" name="fbi" value="3"><span>3</span></label><label><input type="radio" name="fbi" value="4"><span>4</span></label><label><input type="radio" name="fbi" value="5"><span>5 꼭</span></label></div>
+          <input type="text" id="fbText" maxlength="120" placeholder="아쉬운 점이나 바라는 점 한 줄 (선택, 개인정보 금지)">
+          <button type="button" id="fbSend" class="signup-btn">보내기</button>
+        </div>
+        <p id="fbMsg" class="signup-msg" hidden></p>
+      </div>
+
     </section>
 
     <section class="panel stampbook" id="stampbook">
@@ -125,8 +147,8 @@
     <section class="panel resource" id="resource">
       <p class="eyebrow">FREE GUIDE · 무료 자료</p>
       <h2>📄 체험학습 연결표 (PDF)</h2>
-      <p class="muted">교과 성취기준과 부천 체험 장소, 아이에게 물어볼 질문을 한 장으로 정리했어요. 사전신청을 하시면 바로 받을 수 있어요.</p>
-      <a id="dlBtn" class="signup-btn dl" href="files/gyogwaon_curriculum_3-4.pdf" download data-file="curriculum_3-4">3~4학년군 PDF 받기</a> <a id="dlBtn2" class="signup-btn dl" href="files/gyogwaon_curriculum_5-6.pdf" download data-file="curriculum_5-6">5~6학년군 PDF 받기</a>
+      <p class="muted">교과 성취기준과 부천 체험 장소, 아이에게 물어볼 질문을 한 장으로 정리했어요. 사전신청을 하시면 바로 받을 수 있어요. (1~2학년군은 국어 성취기준 기준이며, 통합교과 연결은 준비 중이에요.)</p>
+      <a id="dlBtn0" class="signup-btn dl" href="files/gyogwaon_curriculum_1-2.pdf" download data-file="curriculum_1-2">1~2학년군 PDF 받기</a> <a id="dlBtn" class="signup-btn dl" href="files/gyogwaon_curriculum_3-4.pdf" download data-file="curriculum_3-4">3~4학년군 PDF 받기</a> <a id="dlBtn2" class="signup-btn dl" href="files/gyogwaon_curriculum_5-6.pdf" download data-file="curriculum_5-6">5~6학년군 PDF 받기</a>
       <p id="dlMsg" class="signup-msg" hidden></p>
     </section>
 
@@ -149,21 +171,36 @@
         <label class="field">이메일
           <input type="email" id="signupEmail" placeholder="parent@example.com" autocomplete="email">
         </label>
+        <label class="field">사는 지역 <small>(선택)</small>
+          <select id="signupRegion"><option value="">선택 안 함</option><option value="부천">부천</option><option value="경기 다른 지역">경기 다른 지역</option><option value="서울">서울</option><option value="인천">인천</option><option value="기타">기타</option></select>
+        </label>
         <label class="check"><input type="checkbox" id="signupInterview"><span>10분 인터뷰에 참여할 수 있어요 (선택)</span></label>
         <label class="check"><input type="checkbox" id="signupConsent"><span>출시 안내와 의견 요청을 위한 개인정보(이메일) 수집·이용에 동의합니다. (보호자가 작성해 주세요)</span></label>
-        <details class="privacy"><summary>개인정보 수집·이용 안내</summary><p>수집 항목: 이메일, 자녀 학년, 인터뷰 참여 의향(선택). 이용 목적: 출시 안내, 짧은 의견 요청. 보관: 서비스 검증이 끝나면 파기합니다. 동의하지 않으셔도 추천 기능은 이용하실 수 있습니다. 자녀의 이름·사진 등 개인정보는 받지 않습니다.</p></details>
+        <details class="privacy" open><summary>개인정보 수집·이용 안내</summary><p id="privacyText">수집 항목: 이메일, 자녀 학년, 사는 지역(선택), 인터뷰 참여 의향(선택). 이용 목적: 출시·진행 소식 안내, 짧은 의견 요청. 보관·파기: <span id="privDestroy">2027년 6월 30일</span>까지 보관 후 파기합니다. 동의를 거부하셔도 추천 기능 이용에는 불이익이 없으며, 사전신청과 PDF 자료 받기만 이용하실 수 없습니다. 자녀의 이름·사진 등은 받지 않습니다. <span id="privContact"></span></p></details>
         <button type="submit" class="signup-btn">사전신청하기</button>
         <p id="signupMsg" class="signup-msg" hidden></p>
       </form>
       <form id="surveyForm" class="survey" hidden novalidate>
-        <h3>🙏 30초만 의견을 들려주세요 <small>(선택 · 개인정보는 적지 마세요)</small></h3>
+        <h3>🙏 1~2분만 의견을 들려주세요 <small>(선택 · 개인정보는 적지 마세요)</small></h3>
         <fieldset><legend>1. 주말에 아이와 갈 곳을 고르는 일이 얼마나 어려우신가요?</legend>
           <div class="chips"><label><input type="radio" name="q1" value="1"><span>1 전혀</span></label><label><input type="radio" name="q1" value="2"><span>2</span></label><label><input type="radio" name="q1" value="3"><span>3</span></label><label><input type="radio" name="q1" value="4"><span>4</span></label><label><input type="radio" name="q1" value="5"><span>5 매우</span></label></div></fieldset>
-        <fieldset><legend>2. 가장 도움이 될 것 같은 기능은?</legend>
-          <div class="chips"><label><input type="radio" name="q2" value="curriculum"><span>교과·단원별 추천</span></label><label><input type="radio" name="q2" value="guide"><span>부모용 가이드</span></label><label><input type="radio" name="q2" value="quest"><span>아이 미션·배지</span></label><label><input type="radio" name="q2" value="local"><span>근처 식당·카페</span></label><label><input type="radio" name="q2" value="record"><span>기록·성장 리포트</span></label></div></fieldset>
-        <fieldset><legend>3. 기본 기능(코스 추천·미션)은 무료이고, 나중에 아이 기록 모아보기·학교 서류 자동 작성 같은 추가 기능이 유료로 생긴다면 월 얼마까지 괜찮으세요? <small>(아직 없는 기능에 대한 가정 질문이에요)</small></legend>
-          <div class="chips"><label><input type="radio" name="q3" value="0"><span>내지 않음</span></label><label><input type="radio" name="q3" value="3000"><span>3,000원</span></label><label><input type="radio" name="q3" value="5000"><span>5,000원</span></label><label><input type="radio" name="q3" value="9900"><span>9,900원</span></label></div></fieldset>
-        <label class="field">4. 바라는 점이나 걱정되는 점 (선택)
+        <fieldset><legend>2. 아이와 갈 곳을 보통 어떻게 찾으세요?</legend>
+          <div class="chips"><label><input type="radio" name="q2" value="search"><span>검색·블로그</span></label><label><input type="radio" name="q2" value="sns"><span>SNS·맘카페</span></label><label><input type="radio" name="q2" value="school"><span>학교 안내·가정통신문</span></label><label><input type="radio" name="q2" value="peer"><span>지인 추천</span></label><label><input type="radio" name="q2" value="app"><span>앱·서비스</span></label><label><input type="radio" name="q2" value="fixed"><span>가던 곳만 감</span></label></div></fieldset>
+        <fieldset><legend>3. 요즘 한 달에 평균 몇 번 아이와 체험학습·체험 나들이를 가시나요?</legend>
+          <div class="chips"><label><input type="radio" name="q3" value="0"><span>거의 안 감</span></label><label><input type="radio" name="q3" value="1"><span>월 1번</span></label><label><input type="radio" name="q3" value="2"><span>월 2번</span></label><label><input type="radio" name="q3" value="3"><span>월 3~4번</span></label><label><input type="radio" name="q3" value="5"><span>월 5번 이상</span></label></div></fieldset>
+        <fieldset><legend>4. 주말 나들이로 편도 이동시간은 어느 정도까지 괜찮으세요?</legend>
+          <div class="chips"><label><input type="radio" name="q4" value="30"><span>30분 이내</span></label><label><input type="radio" name="q4" value="60"><span>1시간 이내</span></label><label><input type="radio" name="q4" value="90"><span>1시간 넘어도 괜찮음</span></label></div></fieldset>
+        <fieldset><legend>5. 아이와 체험학습 1회에 보통 얼마를 쓰시나요? <small>(입장료·체험비, 식비·교통비 제외)</small></legend>
+          <div class="chips"><label><input type="radio" name="q5" value="0"><span>거의 안 씀</span></label><label><input type="radio" name="q5" value="1"><span>1만원 미만</span></label><label><input type="radio" name="q5" value="2"><span>1~3만원</span></label><label><input type="radio" name="q5" value="3"><span>3~5만원</span></label><label><input type="radio" name="q5" value="4"><span>5만원 이상</span></label></div></fieldset>
+        <fieldset><legend>6. 비용이 부담돼서 체험학습을 포기하거나 줄인 적이 있나요?</legend>
+          <div class="chips"><label><input type="radio" name="q6" value="never"><span>없음</span></label><label><input type="radio" name="q6" value="sometimes"><span>가끔</span></label><label><input type="radio" name="q6" value="often"><span>자주</span></label></div></fieldset>
+        <fieldset><legend>7. 체험 비용이 지금보다 낮아진다면 체험학습을 더 자주 가실 것 같나요?</legend>
+          <div class="chips"><label><input type="radio" name="q7" value="1"><span>1 전혀</span></label><label><input type="radio" name="q7" value="2"><span>2</span></label><label><input type="radio" name="q7" value="3"><span>3</span></label><label><input type="radio" name="q7" value="4"><span>4</span></label><label><input type="radio" name="q7" value="5"><span>5 매우</span></label></div></fieldset>
+        <fieldset><legend>8. 가장 도움이 될 것 같은 기능은?</legend>
+          <div class="chips"><label><input type="radio" name="q8" value="curriculum"><span>교과·단원별 추천</span></label><label><input type="radio" name="q8" value="price"><span>저렴한 가격·할인 정보</span></label><label><input type="radio" name="q8" value="alert"><span>주말 추천 알림</span></label><label><input type="radio" name="q8" value="paperwork"><span>체험학습 신청서·결과보고서 자동 작성</span></label><label><input type="radio" name="q8" value="guide"><span>부모용 가이드</span></label><label><input type="radio" name="q8" value="quest"><span>아이 미션·배지</span></label><label><input type="radio" name="q8" value="local"><span>근처 식당·카페</span></label><label><input type="radio" name="q8" value="record"><span>기록·성장 리포트</span></label></div></fieldset>
+        <fieldset><legend>9. 기본 기능은 무료이고, 아이 기록 모아보기 같은 추가 기능이 나중에 유료로 생긴다면 월 얼마까지 괜찮으세요? <small>(아직 없는 기능에 대한 가정 질문이에요)</small></legend>
+          <div class="chips"><label><input type="radio" name="q9" value="0"><span>내지 않음</span></label><label><input type="radio" name="q9" value="3000"><span>3,000원 이하</span></label><label><input type="radio" name="q9" value="5000"><span>5,000원 이하</span></label><label><input type="radio" name="q9" value="10000"><span>1만원 이하</span></label><label><input type="radio" name="q9" value="10001"><span>1만원 초과</span></label></div></fieldset>
+        <label class="field">10. 바라는 점이나 걱정되는 점 <small>(선택)</small>
           <input type="text" id="surveyText" maxlength="120" placeholder="한 줄이면 충분해요">
         </label>
         <button type="submit" class="signup-btn">의견 보내기</button>
@@ -190,9 +227,9 @@
     </footer>
   </main>
 
-  <script src="config.js?v=15"></script>
-  <script src="tracking.js?v=15"></script>
-  <script src="guides.js?v=15"></script>
-  <script src="main.js?v=15"></script>
+  <script src="config.js?v=17"></script>
+  <script src="tracking.js?v=17"></script>
+  <script src="guides.js?v=17"></script>
+  <script src="main.js?v=17"></script>
 </body>
 </html>

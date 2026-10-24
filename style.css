@@ -128,7 +128,9 @@ summary{cursor:pointer;font-weight:800;color:var(--teal)}
 .signup .chips input:checked+span{background:var(--brand);color:#fff}
 .signup .chips input:focus-visible+span{outline:3px solid var(--navy)}
 .signup .field{display:grid;gap:6px;font-weight:800}
-.signup input[type=email]{font:inherit;padding:13px 14px;border-radius:14px;border:2px solid #fff;background:#fff;font-weight:500}
+.signup input[type=email],.signup input[type=text],.signup select{font:inherit;padding:13px 14px;border-radius:14px;border:2px solid #fff;background:#fff;font-weight:500;width:100%;box-sizing:border-box}
+.match-note{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:#FFF3E4;border:1.5px solid var(--brand);font-weight:700;font-size:14px;line-height:1.5}
+.survey .qnote{font-weight:500;color:var(--muted);font-size:13px}
 .signup .check{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;cursor:pointer}
 .signup .check input{margin-top:4px;width:18px;height:18px;accent-color:var(--brand)}
 .signup-btn{font:inherit;font-weight:900;font-size:17px;padding:15px;border:0;border-radius:16px;background:var(--brand);color:#fff;cursor:pointer;box-shadow:0 4px 0 var(--brand-d)}
@@ -186,3 +188,12 @@ summary{cursor:pointer;font-weight:800;color:var(--teal)}
 #reportPrint{display:none}
 @media print{body.pr-report *{visibility:hidden}body.pr-report #reportPrint,body.pr-report #reportPrint *{visibility:visible}body.pr-report #reportPrint{display:block;position:absolute;left:0;top:0;width:100%}#reportPrint table{border-collapse:collapse;width:100%}#reportPrint th,#reportPrint td{border:1px solid #444;padding:6px}
 body.pr-card *{visibility:hidden}body.pr-card .pr-target,body.pr-card .pr-target *{visibility:visible}body.pr-card .pr-target{position:absolute;left:0;top:0;width:100%;display:block}body.pr-card .pr-target .local-box,body.pr-card .pr-target .print-card,body.pr-card .pr-target .diary{display:none}}
+[hidden]{display:none!important}
+
+.feedback{margin-top:16px}.feedback h3{margin:0 0 10px;font-size:16px}
+.feedback .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.feedback .chips input{position:absolute;opacity:0}
+.feedback .chips span,.fb-btn{display:inline-block;padding:9px 14px;border-radius:999px;border:1.5px solid #E4DAC9;background:#fff;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.feedback .chips input:checked+span,.fb-btn.on{background:#E8772E;color:#fff;border-color:#E8772E}
+.fb-q{margin:10px 0 6px;font-weight:800;font-size:14px}.fb-q small{font-weight:500;color:var(--muted)}
+.feedback input[type=text]{font:inherit;padding:12px 14px;border-radius:14px;border:1.5px solid #E4DAC9;width:100%;box-sizing:border-box;margin:6px 0 10px}

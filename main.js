@@ -1,6 +1,7 @@
 // 교과ON — 모두의 창업 2기 지원용 MVP
-// 추천 2단계 엔진: (1) 교과 → 장소 '유형' 매칭  (2) 유형 → 평점 + 학습목표 부합도로 '최적 장소' 선정
-// 아이는 '재미있는 모험'을, 부모는 '앞으로 배울 교과와의 연결'을. 가까운 시점은 '지금이 좋은 시점'으로 강조.
+// 추천 방식(규칙 기반, AI 아님): 학년·학기·교과·관심사를 모두 만족하는 장소를 고르고(AND),
+// 없으면 '관심사 → 교과' 순으로 조건을 풀어 가까운 대안을 보여 주며 그 사실을 화면에 알립니다(학년·학기는 항상 지킴).
+// 정렬은 교과ON이 잡은 예시 시점(monthsAhead) 순이며, 실제 학교 진도와는 다를 수 있습니다.
 
 const experiences = [
   {
@@ -140,7 +141,7 @@ function cardTemplate(item) {
   return `
     <article class="experience-card${golden ? ' golden' : ''}">
       <div class="card-topline">
-        <span class="chip${golden ? ' hot' : ''}">${golden ? '🔥 지금이 좋은 시점' : `📅 약 ${item.monthsAhead}개월 뒤 학습과 연결`}</span>
+        <span class="chip${golden ? ' hot' : ''}">${golden ? '🔥 곧 연결되는 내용(예시)' : `📅 약 ${item.monthsAhead}개월 뒤 학습과 연결(예시)`}</span>
         <span class="badge">${item.badge}</span>
       </div>
       <p class="subject">${item.subject}</p>
@@ -164,7 +165,7 @@ function cardTemplate(item) {
       </div>
       <details>
         <summary>부모용 가이드 · 교과 연결 & 질문</summary>
-        <p><b>예상 학습 시기:</b> 앞으로 약 ${item.monthsAhead}개월 이내</p>
+        <p><b>예상 학습 시기(예시):</b> 앞으로 약 ${item.monthsAhead}개월 이내 · 학교 진도에 따라 달라요</p>
         <p><b>장소 선정 기준:</b> ${item.placeType} 유형 · ${item.fit}</p>
         <p>${item.parent}</p>
         ${guideHTML(item)}
@@ -218,42 +219,65 @@ cards.addEventListener('click', (e) => {
   refreshQuest(box);
 });
 
+const matchNote = document.getElementById('matchNote');
+let lastMatch = { n: 0, relax: 'none' };
+function pick(grade, semester, interest, subj, useInterest, useSubj) {
+  return experiences.filter(x => x.grades.includes(grade) && x.semesters.includes(semester)
+    && (!useInterest || interest === 'all' || x.interest === interest)
+    && (!useSubj || subj === 'all' || x.subject.includes(subj)));
+}
+const INTEREST_KO = { history: '역사·문화·책', science: '과학·자연', nature: '야외·생태' };
 function render() {
   const grade = Number(gradeSelect.value);
   const semester = Number(semesterSelect.value);
   const interest = interestSelect.value;
+  const subjEl = document.getElementById('subjectSelect');
+  const subj = subjEl ? subjEl.value : 'all';
 
-  let filtered = experiences.filter(x => x.grades.includes(grade) && x.semesters.includes(semester));
-  if (interest !== 'all') filtered = filtered.filter(x => x.interest === interest);
-  const subj = document.getElementById('subjectSelect') ? document.getElementById('subjectSelect').value : 'all';
-  if (subj !== 'all') filtered = filtered.filter(x => x.subject.includes(subj));
+  // 1) 모든 조건 일치 → 2) 관심사 풀기 → 3) 교과 풀기 → 4) 둘 다 풀기 (학년·학기는 항상 지킴)
+  let relax = 'none';
+  let filtered = pick(grade, semester, interest, subj, true, true);
+  if (!filtered.length) { filtered = pick(grade, semester, interest, subj, false, true); relax = 'interest'; }
+  if (!filtered.length) { filtered = pick(grade, semester, interest, subj, true, false); relax = 'subject'; }
+  if (!filtered.length) { filtered = pick(grade, semester, interest, subj, false, false); relax = 'both'; }
+  lastMatch = { n: filtered.length, relax };
 
-  // 해당 학년·학기 데모 데이터가 없으면 관심사 기준으로 대체 추천
-  if (!filtered.length) {
-    filtered = experiences.filter(x => interest === 'all' || x.interest === interest).slice(0, 3);
-  }
-
-  // 2단계 엔진: 가까운 시점(골든타임) 우선, 같은 시점이면 평점 높은 순
   filtered = filtered.slice().sort((a, b) => a.monthsAhead - b.monthsAhead);
+
+  if (matchNote) {
+    const sj = subj === 'all' ? '' : ` 교과 "${subj}"`;
+    const it = interest === 'all' ? '' : ` 관심사 "${INTEREST_KO[interest] || interest}"`;
+    const msgs = {
+      interest: `${grade}학년${sj}${it}에 딱 맞는 곳은 아직 없어요. 관심사를 넓혀서 ${grade}학년${sj}에 맞는 곳을 보여 드려요.`,
+      subject: `${grade}학년${sj}${it}에 딱 맞는 곳은 아직 없어요. 교과를 넓혀서 ${grade}학년${it}에 맞는 곳을 보여 드려요.`,
+      both: `${grade}학년${sj}${it}에 딱 맞는 곳은 아직 없어요. 교과·관심사를 넓혀서 ${grade}학년 ${semester}학기에 갈 수 있는 곳을 보여 드려요.`
+    };
+    matchNote.hidden = relax === 'none';
+    matchNote.textContent = msgs[relax] || '';
+  }
 
   const goldenCount = filtered.filter(x => x.monthsAhead <= GOLDEN_MAX_MONTHS).length;
   cards.innerHTML = filtered.map(cardTemplate).join('');
   cards.querySelectorAll('.quest').forEach(refreshQuest);
   cards.querySelectorAll('.diary').forEach(fillDiary);
-  summaryText.textContent = `${grade}학년 ${semester}학기 · 앞으로 6개월 안에 배울 내용과 연결된 코스 ${filtered.length}개`
-    + (goldenCount ? ` · 그중 ${goldenCount}개는 지금이 좋은 시점 🔥` : '');
+  summaryText.textContent = `${grade}학년 ${semester}학기 · 연결 코스 ${filtered.length}개 (시점은 예시)`
+    + (goldenCount ? ` · 그중 ${goldenCount}개는 곧 연결되는 내용 🔥` : '');
 }
 
-recommendBtn.addEventListener('click', render);
-gradeSelect.addEventListener('change', render);
-semesterSelect.addEventListener('change', render);
-interestSelect.addEventListener('change', render);
-const _ss = document.getElementById('subjectSelect'); if (_ss) _ss.addEventListener('change', render);
+let recTimer = null;
+function trackRecommend(src) {
+  track('recommend', { src, grade: gradeSelect.value, semester: semesterSelect.value, subject: (document.getElementById('subjectSelect') || {}).value || 'all', interest: interestSelect.value, n: lastMatch.n, relax: lastMatch.relax });
+}
+function onSelectChange() { render(); clearTimeout(recTimer); recTimer = setTimeout(() => trackRecommend('select'), 800); }
+recommendBtn.addEventListener('click', () => { render(); trackRecommend('button'); const c = document.getElementById('cards'); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+gradeSelect.addEventListener('change', onSelectChange);
+semesterSelect.addEventListener('change', onSelectChange);
+interestSelect.addEventListener('change', onSelectChange);
+const _ss = document.getElementById('subjectSelect'); if (_ss) _ss.addEventListener('change', onSelectChange);
 render();
 
 // ===== 측정 도우미 =====
 function track(type, data) { try { if (window.GO) return window.GO.send(type, data).catch(() => false); } catch (e) {} return Promise.resolve(false); }
-recommendBtn.addEventListener('click', () => track('recommend', { grade: gradeSelect.value, semester: semesterSelect.value, interest: interestSelect.value }));
 cards.addEventListener('click', (e) => {
   const btn = e.target.closest('.quest-btn');
   if (!btn) return;
@@ -294,36 +318,45 @@ cards.addEventListener('toggle', (e) => {
     if (err) { msg.textContent = err; track('signup_error', { reason: err.slice(0, 12) }); return; }
     if (!window.GO || !window.GO.enabled) { msg.classList.add('err'); msg.textContent = '아직 신청 접수가 연결되지 않아 저장되지 않았어요.'; return; }
     btn.disabled = true; msg.classList.remove('err'); msg.textContent = '접수 중...';
-    window.GO.send('signup', { email, grades: grades.join(','), interview, consent: true })
-      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시 소식을 보내 드릴게요.'; form.reset(); try { localStorage.setItem('gyogwaon_signed', '1'); } catch (e) {} setDl(); const sv = document.getElementById('surveyForm'); if (sv) { sv.hidden = false; sv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } })
+    const region = (document.getElementById('signupRegion') || {}).value || '';
+    window.GO.send('signup', { email, grades: grades.join(','), interview, consent: true, region })
+      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시·진행 소식을 입력하신 이메일로 안내드릴게요.'; form.reset(); try { localStorage.setItem('gyogwaon_signed', '1'); } catch (e) {} setDl(); const sv = document.getElementById('surveyForm'); if (sv) { if (!surveyDone()) { sv.hidden = false; sv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } } })
       .catch(() => { msg.classList.add('err'); msg.textContent = '전송에 실패했어요. 잠시 뒤 다시 시도해 주세요.'; })
       .finally(() => { btn.disabled = false; });
   });
 })();
 
 // ===== 신청 후 짧은 의견 (선택) =====
+function surveyDone() { try { return localStorage.getItem('gyogwaon_survey_done') === '1'; } catch (e) { return false; } }
 (function () {
   const sv = document.getElementById('surveyForm');
   if (!sv) return;
   const msg = document.getElementById('surveyMsg');
+  const btn = sv.querySelector('button[type=submit]');
+  // 이미 사전신청을 한 방문자가 다시 오면 의견 폼을 다시 보여 줌(이미 보냈으면 숨김)
+  if (isSigned() && !surveyDone()) sv.hidden = false;
+  const NAMES = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
+  const legendOf = (n) => { const f = sv.querySelector('input[name=' + n + ']'); const lg = f && f.closest('fieldset') ? f.closest('fieldset').querySelector('legend') : null; return lg ? lg.textContent.replace(/\s+/g, ' ').trim() : ''; };
+  const val = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.value : ''; };
+  const lab = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.parentElement.textContent.trim() : ''; };
+  let sending = false;
   sv.addEventListener('submit', (e) => {
     e.preventDefault();
-    const q = (n) => { const f = sv.querySelector('input[name=' + n + ']'); const fs = f ? f.closest('fieldset') : null; const lg = fs ? fs.querySelector('legend') : null; return lg ? lg.textContent.replace(/\s+/g, ' ').trim() : ''; };
-    const v = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.value : ''; };
-    const lab = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.parentElement.textContent.trim() : ''; };
+    if (sending) return;
     const tx = document.getElementById('surveyText');
-    const data = {
-      survey_ver: 'v10',
-      q1_hard: v('q1'), q2_feature: v('q2'), q3_price: v('q3'), q4_text: tx.value.trim().slice(0, 120),
-      q1_question: q('q1'), q1_answer: lab('q1'),
-      q2_question: q('q2'), q2_answer: lab('q2'),
-      q3_question: q('q3'), q3_answer: lab('q3'),
-      q4_question: tx.closest('label') ? tx.closest('label').firstChild.textContent.trim() : '4. 바라는 점이나 걱정되는 점', q4_answer: tx.value.trim().slice(0, 120)
-    };
+    const text = tx.value.trim().slice(0, 120);
     msg.hidden = false;
-    if (!data.q1_hard && !data.q2_feature && !data.q3_price && !data.q4_text) { msg.classList.add('err'); msg.textContent = '하나 이상 선택하거나 적어 주세요.'; return; }
+    if (!NAMES.some((n) => val(n)) && !text) { msg.classList.add('err'); msg.textContent = '하나 이상 선택하거나 적어 주세요.'; return; }
+    const data = { survey_ver: 'v17' };
+    NAMES.forEach((n) => { data[n + '_value'] = val(n); data[n + '_question'] = legendOf(n); data[n + '_answer'] = lab(n); });
+    data.q10_value = text; data.q10_question = '10. 바라는 점이나 걱정되는 점'; data.q10_answer = text;
+    sending = true; btn.disabled = true;
     msg.classList.remove('err'); msg.textContent = '보내는 중...';
-    track('survey', data).then(() => { msg.textContent = '감사합니다! 서비스 개선에 큰 도움이 돼요. 🙌'; sv.querySelector('button').disabled = true; });
+    track('survey', data).then((ok) => {
+      if (ok === false && !(window.GO && window.GO.enabled)) { sending = false; btn.disabled = false; msg.classList.add('err'); msg.textContent = '의견이 연결되지 않아 저장되지 않았어요.'; return; }
+      try { localStorage.setItem('gyogwaon_survey_done', '1'); } catch (e2) {}
+      msg.textContent = '감사합니다! 서비스 개선에 큰 도움이 돼요. 🙌';
+    });
   });
 })();
 
@@ -334,7 +367,7 @@ cards.addEventListener('toggle', (e) => {
 function isSigned() { try { return localStorage.getItem('gyogwaon_signed') === '1'; } catch (e) { return false; } }
 function setDl() {
   document.querySelectorAll('.resource .dl').forEach((b) => {
-    const base = b.dataset.file === 'curriculum_5-6' ? '5~6학년군 PDF 받기' : '3~4학년군 PDF 받기';
+    const base = ({ 'curriculum_1-2': '1~2학년군 PDF 받기', 'curriculum_5-6': '5~6학년군 PDF 받기' })[b.dataset.file] || '3~4학년군 PDF 받기';
     b.textContent = isSigned() ? base : '사전신청하고 ' + base;
   });
 }
@@ -421,5 +454,35 @@ function renderStamps() {
       + keys.map((k) => { const it = experiences.find((x) => x.title === k); return `<tr><td>${esc(diary[k].date)}</td><td>${esc(it ? it.place : k)}</td><td>${esc(it ? it.subject : '')}</td><td>${esc(diary[k].text)}</td></tr>`; }).join('') + '</table><p>보호자 확인: ______________ (서명)</p>';
     track('report_print', { n: keys.length });
     document.body.classList.add('pr-report'); setTimeout(() => { window.print(); document.body.classList.remove('pr-report'); }, 50);
+  });
+})();
+
+
+// ===== 개인정보 안내문의 파기일·연락처 (config.js 값) =====
+(function () {
+  const P = window.GYOGWAON_PRIVACY || {};
+  const d = document.getElementById('privDestroy'); if (d && P.destroyDate) d.textContent = P.destroyDate;
+  const c = document.getElementById('privContact');
+  if (c) { if (P.contact) c.textContent = P.contact; else { c.textContent = ''; try { console.warn('[교과ON] config.js의 GYOGWAON_PRIVACY.contact(운영자 연락처)가 비어 있습니다.'); } catch (e) {} } }
+})();
+
+
+// ===== 추천 유용성 피드백 (👍/👎 + 이유) =====
+(function () {
+  const box = document.getElementById('feedbackBox'); if (!box) return;
+  const more = document.getElementById('fbMore'), msg = document.getElementById('fbMsg'), send = document.getElementById('fbSend');
+  let helpful = null, sent = false;
+  box.querySelectorAll('.fb-btn').forEach((b) => b.addEventListener('click', () => {
+    if (sent) return;
+    helpful = b.dataset.v; box.querySelectorAll('.fb-btn').forEach((x) => x.classList.toggle('on', x === b)); more.hidden = false;
+  }));
+  send.addEventListener('click', () => {
+    if (sent || helpful === null) return;
+    const reasons = [...box.querySelectorAll('#fbReasons input:checked')].map((x) => x.value);
+    const it = box.querySelector('#fbIntent input:checked');
+    sent = true; send.disabled = true;
+    track('feedback', { helpful, reasons: reasons.join(','), go_intent: it ? it.value : '', text: document.getElementById('fbText').value.trim().slice(0, 120),
+      grade: gradeSelect.value, semester: semesterSelect.value, subject: (document.getElementById('subjectSelect') || {}).value || 'all', interest: interestSelect.value, n: lastMatch.n, relax: lastMatch.relax })
+      .then(() => { msg.hidden = false; msg.classList.remove('err'); msg.textContent = '의견 고마워요! 추천을 고치는 데 쓸게요. 🙌'; });
   });
 })();
