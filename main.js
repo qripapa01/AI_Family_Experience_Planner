@@ -355,7 +355,7 @@ cards.addEventListener('toggle', (e) => {
     btn.disabled = true; msg.classList.remove('err'); msg.textContent = '접수 중...';
     const region = (document.getElementById('signupRegion') || {}).value || '';
     window.GO.send('signup', { email, grades: grades.join(','), interview, consent: true, region })
-      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시·진행 소식을 입력하신 이메일로 안내드릴게요.'; form.reset(); try { localStorage.setItem('gyogwaon_signed', '1'); } catch (e) {} setDl(); const sv = document.getElementById('surveyForm'); if (sv) { if (!surveyDone()) { sv.hidden = false; sv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } else { msg.textContent += ' (의견은 이미 보내 주셨어요. 감사합니다 🙌)'; } } })
+      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시·진행 소식을 입력하신 이메일로 안내드릴게요.'; form.reset(); try { localStorage.setItem('gyogwaon_signed', '1'); } catch (e) {} setDl(); const sv = document.getElementById('surveyForm'); if (sv) { sv.dispatchEvent(new CustomEvent('survey:open')); sv.hidden = false; setTimeout(() => sv.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100); } })
       .catch(() => { msg.classList.add('err'); msg.textContent = '전송에 실패했어요. 잠시 뒤 다시 시도해 주세요.'; })
       .finally(() => { btn.disabled = false; });
   });
@@ -375,6 +375,8 @@ function surveyDone() { try { return localStorage.getItem('gyogwaon_survey_done'
   const val = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.value : ''; };
   const lab = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.parentElement.textContent.trim() : ''; };
   let sending = false;
+  // 새로 사전신청하면 설문을 항상 다시 열어 줌(같은 기기에서 이전에 보냈어도). 중복은 방문자ID로 걸러 집계.
+  sv.addEventListener('survey:open', () => { sending = false; btn.disabled = false; msg.hidden = true; sv.reset(); try { localStorage.removeItem('gyogwaon_survey_done'); } catch (e) {} });
   sv.addEventListener('submit', (e) => {
     e.preventDefault();
     if (sending) return;
