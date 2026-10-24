@@ -70,10 +70,10 @@ function guideHTML(item) {
 
 // 알림장 연결 추천용 키워드 (서버 전송 없이 브라우저에서만 비교)
 const KW = {
-  '별자리 탐험대': ['별자리','별','달','행성','태양','우주','밤하늘','망원경','자전','공전','천체'],
+  '별자리 탐험대': ['별자리','별','달','행성','태양','우주','밤하늘','망원경','자전','공전','천체','달의','달 모양','보름달','초승달','위상','월식'],
   '곤충 관찰 대작전': ['곤충','동물','한살이','나비','개미','관찰','생물','서식','분류'],
-  '만화로 남기는 하루': ['만화','그림','표현','이야기','글쓰기','감상','독서록','매체','발표','시'],
-  '옛 물건 비교 탐험': ['옛날','역사','풍습','박물관','문화유산','유물','우리 고장','과거','생활 모습','시간'],
+  '만화로 남기는 하루': ['만화','그림','글쓰기','감상','독서록','매체'],
+  '옛 물건 비교 탐험': ['옛날','역사','풍습','박물관','문화유산','유물','우리 고장','과거','생활 모습'],
   '활 속 과학 찾기': ['활','도구','힘','당기','지레','빗면','조선','유물','옛 도구'],
   '우리 집 탄소 줄이기': ['기후','환경','탄소','에너지','자원','재활용','지구온난화','재생에너지','절약'],
   '로봇 탐정단': ['로봇','코딩','프로그램','소프트웨어','센서','인공지능','기술','발명'],
@@ -83,12 +83,28 @@ const KW = {
   '도서관 보물 찾기': ['책','독서','읽기','도서관','독서록','낭독','요약','문장']
 };
 function matchNotice(text) {
-  const t = String(text || '');
-  const res = [];
+  const t = String(text || '').replace(/\s+/g, ' ');
+  const map = {};
   Object.keys(KW).forEach((title) => {
-    const hits = KW[title].filter((k) => t.includes(k));
-    if (hits.length) res.push({ title, hits });
+    const shortOk = t.trim().length <= 3; // 한 글자 단어는 그 단어만 입력했을 때만 인정('특별활동'의 '별' 오탐 방지)
+    const hits = KW[title].filter((k) => t.includes(k) && (k.length > 1 || shortOk));
+    if (hits.length) map[title] = { title, hits: hits.slice(), w: hits.length * 2 };
   });
-  res.sort((a, b) => b.hits.length - a.hits.length);
+  // 교과 이름(과학·국어 등)만 적어도 해당 교과 장소를 약하게 연결
+  const SUBJ = ['과학', '국어', '사회', '실과', '미술', '역사', '환경'];
+  if (typeof experiences !== 'undefined') {
+    SUBJ.forEach((w) => {
+      if (!t.includes(w)) return;
+      experiences.forEach((x) => {
+        const ok = x.subject.includes(w) || x.title.includes(w) || (w === '역사' && x.interest === 'history');
+        if (!ok) return;
+        const m = map[x.title] || (map[x.title] = { title: x.title, hits: [], w: 0 });
+        if (!m.hits.includes(w)) m.hits.push(w);
+        m.w += 1;
+      });
+    });
+  }
+  const res = Object.values(map);
+  res.sort((a, b) => b.w - a.w);
   return res.slice(0, 3);
 }

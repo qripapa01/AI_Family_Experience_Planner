@@ -391,10 +391,10 @@ function setDl() {
   const ta = document.getElementById('noticeText'); const out = document.getElementById('noticeOut');
   btn.addEventListener('click', () => {
     const text = ta.value.trim(); out.hidden = false;
-    if (text.length < 4) { out.innerHTML = '<p class="signup-msg err">알림장 내용을 조금 더 붙여 넣어 주세요.</p>'; return; }
+    if (text.length < 1) { out.innerHTML = '<p class="signup-msg err">알림장 내용을 한 단어 이상 붙여 넣어 주세요. (예: 별자리, 독서록)</p>'; return; }
     const r = matchNotice(text);
     track('notice_match', { len: Math.min(Math.floor(text.length / 100) * 100, 800), matched: r.length, top: r[0] ? r[0].title : '' });
-    if (!r.length) { out.innerHTML = '<p class="muted">연결되는 체험을 찾지 못했어요. 교과 단원 이름이나 활동(예: 달 관찰, 독서록)이 들어 있으면 더 잘 찾아요.</p>'; return; }
+    if (!r.length) { out.innerHTML = '<p class="muted">연결되는 체험을 아직 찾지 못했어요. 교과 이름(과학·국어…)이나 단원·활동 단어(예: 별자리, 곤충, 독서록, 소리)를 넣으면 더 잘 찾아요. 현재는 부천 체험 11곳과 연결되는 단어만 인식하는 베타예요.</p>'; return; }
     out.innerHTML = r.map((x) => {
       const it = experiences.find((e) => e.title === x.title); const g = GUIDES[x.title];
       return `<div class="notice-item"><b>${x.title}</b> · ${it ? it.place : ''}<br><small>알림장의 "${x.hits.slice(0, 3).join('", "')}" 와 연결돼요</small><br><small>💬 ${g ? g.asks[0] : ''}</small></div>`;
