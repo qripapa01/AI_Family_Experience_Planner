@@ -1,3 +1,5 @@
+// 시험용: 주소 뒤에 ?reset=1 을 붙이면 이 기기에 저장된 진행·신청 표시를 지웁니다(서버 데이터는 그대로).
+try { if (/[?&]reset=1/.test(location.search)) { ['gyogwaon_quest_v1', 'gyogwaon_diary_v1', 'gyogwaon_signed', 'gyogwaon_survey_done'].forEach((k) => localStorage.removeItem(k)); history.replaceState(null, '', location.pathname + location.hash); } } catch (e) {}
 // 교과ON — 모두의 창업 2기 지원용 MVP
 // 추천 방식(규칙 기반, AI 아님): 학년·학기·교과·관심사를 모두 만족하는 장소를 고르고(AND),
 // 없으면 '관심사 → 교과' 순으로 조건을 풀어 가까운 대안을 보여 주며 그 사실을 화면에 알립니다(학년·학기는 항상 지킴).
@@ -156,7 +158,8 @@ function cardTemplate(item) {
         </div>
         <div class="quest-bar"><i data-bar style="width:0%"></i></div>
         <ul class="quest-list">${item.missions.map((m, i) => questItem(item, m, i)).join('')}</ul>
-        <div class="quest-reward" data-reward hidden>🎉 퀘스트 완료! <b>${item.badge}</b> 배지 획득</div>
+        <div class="quest-reward" data-reward hidden>🎉 퀘스트 완료! <b>${item.badge}</b> 배지 획득 · +20 XP</div>
+        <div class="quest-bonus" data-bonus hidden>🌟 숨은 미션: 아래 <b>한 줄 기록</b>을 저장하면 <b>+15 XP</b>!</div>
       </div>
       <div class="diary" data-diary="${item.title}">
         <strong>📝 오늘의 한 줄 기록</strong>
@@ -203,7 +206,31 @@ function refreshQuest(box) {
   box.querySelector('[data-bar]').style.width = `${Math.round(done / total * 100)}%`;
   box.querySelector('[data-reward]').hidden = done < total;
   box.classList.toggle('complete', done === total);
+  const bonus = box.querySelector('[data-bonus]');
+  if (bonus) { const has = !!loadDiary()[id]; bonus.hidden = done < total; bonus.classList.toggle('done', has); bonus.innerHTML = has ? '🌟 숨은 미션 성공! 기록왕 <b>+15 XP</b>' : '🌟 숨은 미션: 아래 <b>한 줄 기록</b>을 저장하면 <b>+15 XP</b>!'; }
 }
+
+// ===== 경험치·레벨 (저장된 진행 상태에서 계산 — 별도 저장 없음) =====
+const LEVELS = [[0, '새싹 탐험가'], [40, '호기심 탐험가'], [100, '용감한 탐험가'], [200, '부천 탐험대장'], [350, '전설의 탐험가']];
+function calcXP() {
+  let xp = 0; const diary = loadDiary();
+  experiences.forEach((x) => { const n = (questState[x.title] || []).length; xp += n * 10; if (n >= x.missions.length) xp += 20; if (diary[x.title]) xp += 15; });
+  return xp;
+}
+function levelOf(xp) { let i = 0; LEVELS.forEach((l, k) => { if (xp >= l[0]) i = k; }); const next = LEVELS[i + 1]; return { i, name: LEVELS[i][1], next: next ? next[0] : null, base: LEVELS[i][0] }; }
+let lastLevel = levelOf(calcXP()).i;
+function renderHud(levelUp) {
+  const xp = calcXP(), L = levelOf(xp);
+  const pct = L.next ? Math.round((xp - L.base) / (L.next - L.base) * 100) : 100;
+  const html = `<span class="lv">Lv.${L.i + 1}</span><span>${L.name}</span><div class="bar"><i style="width:${pct}%"></i></div><small>${xp} XP${L.next ? ' · 다음 레벨까지 ' + (L.next - xp) : ' · 최고 레벨!'}</small>` + (levelUp ? '<span class="lvlup">🎊 레벨 업!</span>' : '');
+  ['hud', 'stampHud'].forEach((id) => { const el = document.getElementById(id); if (el) el.innerHTML = html; });
+}
+function burst(box) {
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const em = ['🎉', '⭐', '✨', '🎈', '🌟', '🎊'];
+  for (let k = 0; k < 14; k++) { const s = document.createElement('span'); s.className = 'confetti'; s.textContent = em[k % em.length]; s.style.setProperty('--dx', (Math.random() * 240 - 120) + 'px'); s.style.setProperty('--dy', (Math.random() * 160 - 90) + 'px'); box.appendChild(s); setTimeout(() => s.remove(), 1200); }
+}
+function floatXP(btn, txt) { const s = document.createElement('span'); s.className = 'xp-float'; s.textContent = txt; btn.closest('.quest').appendChild(s); s.style.top = (btn.offsetTop + 6) + 'px'; setTimeout(() => s.remove(), 950); }
 cards.addEventListener('click', (e) => {
   const btn = e.target.closest('.quest-btn');
   if (!btn) return;
@@ -216,7 +243,14 @@ cards.addEventListener('click', (e) => {
   btn.classList.toggle('done');
   btn.setAttribute('aria-pressed', set.has(i));
   btn.querySelector('.q-check').textContent = set.has(i) ? '✅' : '⬜';
+  const total = box.querySelectorAll('.quest-btn').length;
+  const justCompleted = set.has(i) && set.size === total;
+  if (set.has(i)) floatXP(btn, justCompleted ? '+30 XP!' : '+10 XP');
   refreshQuest(box);
+  if (justCompleted) burst(box);
+  const L = levelOf(calcXP()).i; const up = L > lastLevel; lastLevel = L;
+  renderHud(up);
+  renderStamps();
 });
 
 const matchNote = document.getElementById('matchNote');
@@ -260,6 +294,7 @@ function render() {
   cards.innerHTML = filtered.map(cardTemplate).join('');
   cards.querySelectorAll('.quest').forEach(refreshQuest);
   cards.querySelectorAll('.diary').forEach(fillDiary);
+  renderHud(false);
   summaryText.textContent = `${grade}학년 ${semester}학기 · 연결 코스 ${filtered.length}개 (시점은 예시)`
     + (goldenCount ? ` · 그중 ${goldenCount}개는 곧 연결되는 내용 🔥` : '');
 }
@@ -320,7 +355,7 @@ cards.addEventListener('toggle', (e) => {
     btn.disabled = true; msg.classList.remove('err'); msg.textContent = '접수 중...';
     const region = (document.getElementById('signupRegion') || {}).value || '';
     window.GO.send('signup', { email, grades: grades.join(','), interview, consent: true, region })
-      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시·진행 소식을 입력하신 이메일로 안내드릴게요.'; form.reset(); try { localStorage.setItem('gyogwaon_signed', '1'); } catch (e) {} setDl(); const sv = document.getElementById('surveyForm'); if (sv) { if (!surveyDone()) { sv.hidden = false; sv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } } })
+      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시·진행 소식을 입력하신 이메일로 안내드릴게요.'; form.reset(); try { localStorage.setItem('gyogwaon_signed', '1'); } catch (e) {} setDl(); const sv = document.getElementById('surveyForm'); if (sv) { if (!surveyDone()) { sv.hidden = false; sv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } else { msg.textContent += ' (의견은 이미 보내 주셨어요. 감사합니다 🙌)'; } } })
       .catch(() => { msg.classList.add('err'); msg.textContent = '전송에 실패했어요. 잠시 뒤 다시 시도해 주세요.'; })
       .finally(() => { btn.disabled = false; });
   });
@@ -421,6 +456,8 @@ cards.addEventListener('click', (e) => {
   msg.textContent = saveDiary(d) ? '저장했어요. 아래 스탬프북에 반영돼요. (소감 내용은 서버로 보내지 않아요)' : '이 브라우저에서는 저장할 수 없어요.';
   track('diary_save', { card: id });
   renderStamps();
+  const qb = cards.querySelector('.quest[data-id="' + id.replace(/"/g, '') + '"]'); if (qb) refreshQuest(qb);
+  const L2 = levelOf(calcXP()).i; const up2 = L2 > lastLevel; lastLevel = L2; renderHud(up2);
 });
 cards.addEventListener('click', (e) => {
   const b = e.target.closest('.print-card'); if (!b) return;
@@ -439,6 +476,7 @@ function renderStamps() {
   }).join('');
   const sum = document.getElementById('stampSum');
   const months = {}; Object.values(diary).forEach((r) => { const k = (r.date || '').slice(0, 7); months[k] = (months[k] || 0) + 1; });
+  renderHud(false);
   sum.textContent = `모은 스탬프 ${stamped.length} / ${experiences.length}` + (Object.keys(months).length ? ' · 기록: ' + Object.keys(months).sort().map((k) => `${k} ${months[k]}건`).join(', ') : '');
 }
 (function () {
@@ -475,6 +513,9 @@ function renderStamps() {
   box.querySelectorAll('.fb-btn').forEach((b) => b.addEventListener('click', () => {
     if (sent) return;
     helpful = b.dataset.v; box.querySelectorAll('.fb-btn').forEach((x) => x.classList.toggle('on', x === b)); more.hidden = false;
+    const want = helpful === '1' ? 'p' : 'n';
+    box.querySelectorAll('#fbReasons label').forEach((l) => { const show = l.dataset.pol === want; l.hidden = !show; if (!show) l.querySelector('input').checked = false; });
+    const q = document.getElementById('fbReasonQ'); if (q) q.firstChild.textContent = helpful === '1' ? '어떤 점이 좋았나요? ' : '어떤 점이 아쉬웠나요? ';
   }));
   send.addEventListener('click', () => {
     if (sent || helpful === null) return;

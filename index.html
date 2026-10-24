@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=19" />
+  <link rel="stylesheet" href="style.css?v=21" />
 </head>
 <body>
   <main class="app-shell">
@@ -109,20 +109,24 @@
         </div>
         <p id="summaryText" class="muted"></p>
       </div>
+      <div id="hud" class="hud" aria-live="polite"></div>
       <p id="matchNote" class="match-note" role="status" hidden></p>
       <div id="cards" class="cards"></div>
       <div id="feedbackBox" class="panel feedback">
         <h3>이 추천, 도움이 됐나요?</h3>
         <div class="chips fb-main"><button type="button" class="fb-btn" data-v="1">👍 도움이 됐어요</button><button type="button" class="fb-btn" data-v="0">👎 아쉬워요</button></div>
         <div id="fbMore" hidden>
-          <p class="fb-q">이유를 골라 주세요 <small>(여러 개 가능)</small></p>
+          <p class="fb-q" id="fbReasonQ">이유를 골라 주세요 <small>(여러 개 가능)</small></p>
           <div class="chips" id="fbReasons">
-            <label><input type="checkbox" value="grade_fit"><span>우리 아이 학년에 맞아요</span></label>
-            <label><input type="checkbox" value="want_go"><span>가 보고 싶은 곳이 있어요</span></label>
-            <label><input type="checkbox" value="guide_help"><span>미션·질문이 도움돼요</span></label>
-            <label><input type="checkbox" value="not_fit"><span>우리 아이와 안 맞아요</span></label>
-            <label><input type="checkbox" value="few"><span>장소가 너무 적어요</span></label>
-            <label><input type="checkbox" value="no_cost"><span>비용 정보가 부족해요</span></label>
+            <label data-pol="p"><input type="checkbox" value="grade_fit"><span>우리 아이 학년에 맞아요</span></label>
+            <label data-pol="p"><input type="checkbox" value="want_go"><span>가 보고 싶은 곳이 있어요</span></label>
+            <label data-pol="p"><input type="checkbox" value="guide_help"><span>미션·질문이 도움돼요</span></label>
+            <label data-pol="p"><input type="checkbox" value="cost_info"><span>비용 정보가 도움돼요</span></label>
+            <label data-pol="n"><input type="checkbox" value="not_fit"><span>우리 아이와 안 맞아요</span></label>
+            <label data-pol="n"><input type="checkbox" value="few"><span>장소가 너무 적어요</span></label>
+            <label data-pol="n"><input type="checkbox" value="no_cost"><span>비용 정보가 부족해요</span></label>
+            <label data-pol="n"><input type="checkbox" value="hard_use"><span>쓰기 어려워요</span></label>
+            <label data-pol="n"><input type="checkbox" value="bug"><span>오류가 있어요</span></label>
           </div>
           <p class="fb-q">다음 주말에 이 중 한 곳에 가 볼 생각이 드시나요?</p>
           <div class="chips" id="fbIntent"><label><input type="radio" name="fbi" value="1"><span>1 전혀</span></label><label><input type="radio" name="fbi" value="2"><span>2</span></label><label><input type="radio" name="fbi" value="3"><span>3</span></label><label><input type="radio" name="fbi" value="4"><span>4</span></label><label><input type="radio" name="fbi" value="5"><span>5 꼭</span></label></div>
@@ -138,6 +142,7 @@
       <p class="eyebrow">STAMP BOOK · 스탬프북</p>
       <h2>⭐ 내 스탬프북 · 체험 기록</h2>
       <p class="muted">미션을 모두 마치거나 한 줄 기록을 저장하면 스탬프가 찍혀요. 기록은 이 기기에만 저장되고 서버로 보내지 않아요.</p>
+      <div id="stampHud" class="hud"></div>
       <p id="stampSum" class="stamp-sum"></p>
       <div id="stampGrid" class="stamp-grid"></div>
       <button type="button" id="reportBtn" class="signup-btn">🖨️ 체험 결과 보고 초안 인쇄</button>
@@ -223,13 +228,13 @@
 
     <footer class="site-foot">
       <span class="foot-mark">교과<span class="on">ON</span></span>
-      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 2022 개정 교육과정 성취기준을 참고한 예시이며 교사 검수 전입니다.</p>
+      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 2022 개정 교육과정 성취기준을 참고한 예시이며 교사 검수 전입니다. <span class="ver">앱 버전 v21</span></p>
     </footer>
   </main>
 
-  <script src="config.js?v=19"></script>
-  <script src="tracking.js?v=19"></script>
-  <script src="guides.js?v=19"></script>
-  <script src="main.js?v=19"></script>
+  <script src="config.js?v=21"></script>
+  <script src="tracking.js?v=21"></script>
+  <script src="guides.js?v=21"></script>
+  <script src="main.js?v=21"></script>
 </body>
 </html>
