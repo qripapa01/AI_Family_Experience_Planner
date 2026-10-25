@@ -504,7 +504,7 @@ function setDl() {
     const r = matchNotice(text);
     track('notice_match', { len: Math.min(Math.floor(text.length / 100) * 100, 800), matched: r.length, top: r[0] ? r[0].title : '' });
     if (!r.length) {
-      out.innerHTML = '<p class="muted">입력하신 내용에서 연결되는 체험을 찾지 못했어요. 아직 베타라 일부 단어만 알아봐요. 아래에서 교과를 골라 바로 볼 수 있어요.</p><div class="chips notice-chips">' + ['과학', '사회', '국어', '실과'].map((s) => '<button type="button" class="chip-btn" data-subj="' + s + '">' + s + ' 체험 보기</button>').join('') + '</div><p class="muted"><small>입력하신 내용은 저장하거나 보내지 않아요. 어떤 단어를 찾으면 좋을지 아래 의견란에 남겨 주셔도 좋아요.</small></p>';
+      out.innerHTML = '<p class="muted">입력하신 내용과 연결되는 부천 체험을 찾지 못했어요. 지금은 부천 체험 16곳과 관련된 단어만 알아봐요(다른 지역 장소는 아직 없어요). 아래에서 교과를 골라 바로 볼 수 있어요.</p><div class="chips notice-chips">' + ['과학', '사회', '국어', '실과'].map((s) => '<button type="button" class="chip-btn" data-subj="' + s + '">' + s + ' 체험 보기</button>').join('') + '</div><p class="muted"><small>입력하신 내용은 저장하거나 보내지 않아요. 어떤 단어를 찾으면 좋을지 아래 의견란에 남겨 주셔도 좋아요.</small></p>';
       return;
     }
     out.innerHTML = r.map((x) => {
