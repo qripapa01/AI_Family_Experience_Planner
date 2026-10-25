@@ -356,6 +356,7 @@ function render() {
 
 let recTimer = null;
 function trackRecommend(src) {
+  window.__recommended = true; if (window.__showSurvey) window.__showSurvey();
   track('recommend', { src, grade: gradeSelect.value, semester: semesterSelect.value, subject: (document.getElementById('subjectSelect') || {}).value || 'all', interest: interestSelect.value, n: lastMatch.n, relax: lastMatch.relax });
 }
 function onSelectChange() { render(); clearTimeout(recTimer); recTimer = setTimeout(() => trackRecommend('select'), 800); }
@@ -424,8 +425,21 @@ function surveyDone() { try { return localStorage.getItem('gyogwaon_survey_done'
   const msg = document.getElementById('surveyMsg');
   const btn = sv.querySelector('button[type=submit]');
   // 이미 사전신청을 한 방문자가 다시 오면 의견 폼을 다시 보여 줌(이미 보냈으면 숨김)
-  if (isSigned() && !surveyDone()) sv.hidden = false;
-  const NAMES = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
+  // v28: 사전신청 여부와 상관없이, 추천을 한 번 본 뒤(또는 신청 후) 의견 폼을 보여 줌. 응답에 signed(Y/N)를 함께 기록.
+  const maybeShow = () => { if (!surveyDone() && (isSigned() || window.__recommended)) sv.hidden = false; };
+  window.__showSurvey = maybeShow;
+  maybeShow();
+  const NAMES = ['q1', 'q2', 'q3', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11'];
+  // q13: 최대 2개 선택
+  sv.querySelectorAll('input[name=q13]').forEach((c) => c.addEventListener('change', () => {
+    const on = [...sv.querySelectorAll('input[name=q13]:checked')];
+    if (c.value === 'none' && c.checked) on.forEach((x) => { if (x !== c) x.checked = false; });
+    else if (c.checked) { const n = sv.querySelector('input[name=q13][value=none]'); if (n) n.checked = false; }
+    const now = [...sv.querySelectorAll('input[name=q13]:checked')];
+    if (now.length > 2) c.checked = false;
+  }));
+  const val13 = () => [...sv.querySelectorAll('input[name=q13]:checked')].map((x) => x.value).join(',');
+  const lab13 = () => [...sv.querySelectorAll('input[name=q13]:checked')].map((x) => x.parentElement.textContent.trim()).join(' / ');
   const legendOf = (n) => { const f = sv.querySelector('input[name=' + n + ']'); const lg = f && f.closest('fieldset') ? f.closest('fieldset').querySelector('legend') : null; return lg ? lg.textContent.replace(/\s+/g, ' ').trim() : ''; };
   const val = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.value : ''; };
   const lab = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.parentElement.textContent.trim() : ''; };
@@ -438,10 +452,13 @@ function surveyDone() { try { return localStorage.getItem('gyogwaon_survey_done'
     const tx = document.getElementById('surveyText');
     const text = tx.value.trim().slice(0, 120);
     msg.hidden = false;
-    if (!NAMES.some((n) => val(n)) && !text) { msg.classList.add('err'); msg.textContent = '하나 이상 선택하거나 적어 주세요.'; return; }
-    const data = { survey_ver: 'v17' };
+    if (!NAMES.some((n) => val(n)) && !val13() && !text) { msg.classList.add('err'); msg.textContent = '하나 이상 선택하거나 적어 주세요.'; return; }
+    const rg = document.getElementById('surveyRegion');
+    const data = { survey_ver: 'v28', signed: isSigned() ? 'Y' : 'N', region: rg ? rg.value : '', grade_ctx: (typeof gradeSelect !== 'undefined' && gradeSelect.value) || '' };
     NAMES.forEach((n) => { data[n + '_value'] = val(n); data[n + '_question'] = legendOf(n); data[n + '_answer'] = lab(n); });
-    data.q10_value = text; data.q10_question = '10. 바라는 점이나 걱정되는 점'; data.q10_answer = text;
+    const f13 = sv.querySelector('#fsq13 legend');
+    data.q13_value = val13(); data.q13_question = f13 ? f13.textContent.replace(/\s+/g, ' ').trim() : ''; data.q13_answer = lab13();
+    data.q12_value = text; data.q12_question = '11. 바라는 점이나 걱정되는 점'; data.q12_answer = text;
     sending = true; btn.disabled = true;
     msg.classList.remove('err'); msg.textContent = '보내는 중...';
     track('survey', data).then((ok) => {
@@ -563,6 +580,38 @@ function renderStamps() {
   });
 })();
 
+
+// ===== v28: 교외체험학습 신청서 초안 (인쇄 전용, 입력값 저장·전송 없음) =====
+(function () {
+  const btn = document.getElementById('applyBtn'); if (!btn) return;
+  const sel = document.getElementById('applyPlace');
+  sel.innerHTML = experiences.map((x) => `<option value="${esc(x.title)}">${esc(x.place)}</option>`).join('');
+  const f = document.getElementById('applyFrom'), t = document.getElementById('applyTo');
+  const pur = document.getElementById('applyPurpose');
+  const fill = () => { const it = experiences.find((x) => x.title === sel.value); if (it && !pur.dataset.edited) pur.value = `${it.place} 방문 체험 (연결 교과: ${it.subject}). ${it.story || ''}`.slice(0, 300); };
+  pur.addEventListener('input', () => { pur.dataset.edited = '1'; });
+  sel.addEventListener('change', fill); fill();
+  f.addEventListener('change', () => { if (!t.value) t.value = f.value; });
+  const fmt = (d) => d ? d.replace(/-/g, '.') : '____.__.__';
+  btn.addEventListener('click', () => {
+    const it = experiences.find((x) => x.title === sel.value) || {};
+    const out = document.getElementById('reportPrint');
+    const row = (a, b) => `<tr><th>${a}</th><td>${b}</td></tr>`;
+    out.innerHTML = '<h1>교외체험학습 신청서 (초안)</h1><p>※ 학교 제출 양식이 아닌 일반 초안입니다. 학교 양식에 맞춰 옮겨 적어 주세요. (신청 시기·제출처는 학교 안내를 따릅니다)</p>'
+      + '<table>' + row('학년/반/번호/성명', '____학년 ____반 ____번 &nbsp; 성명: ______________')
+      + row('체험 기간', `${esc(fmt(f.value))} ~ ${esc(fmt(t.value))}`)
+      + row('체험 장소', esc(it.place || ''))
+      + row('체험 유형', '현장체험학습 (가족 동반)')
+      + row('체험 목적·내용', esc(pur.value).replace(/\n/g, '<br>'))
+      + row('연결 교과', esc(it.subject || ''))
+      + row('동행자', esc(document.getElementById('applyWith').value) || '________')
+      + row('이동 수단', esc(document.getElementById('applyMove').value))
+      + row('보호자 연락처', '______________________')
+      + '</table><p>위와 같이 교외체험학습을 신청합니다.</p><p>____년 ____월 ____일 &nbsp; 보호자: ______________ (서명)</p><p>※ 체험 후 "체험 결과 보고 초안"으로 결과보고서를 정리할 수 있어요.</p>';
+    track('apply_print', { place: it.title || '' });
+    document.body.classList.add('pr-report'); setTimeout(() => { window.print(); document.body.classList.remove('pr-report'); }, 50);
+  });
+})();
 
 // ===== 개인정보 안내문의 파기일·연락처 (config.js 값) =====
 (function () {

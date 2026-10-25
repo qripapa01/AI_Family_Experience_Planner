@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=26" />
+  <link rel="stylesheet" href="style.css?v=28" />
 </head>
 <body>
   <main class="app-shell">
@@ -146,6 +146,16 @@
       <p id="stampSum" class="stamp-sum"></p>
       <div id="stampGrid" class="stamp-grid"></div>
       <button type="button" id="reportBtn" class="signup-btn">🖨️ 체험 결과 보고 초안 인쇄</button>
+      <details id="applyBox" class="apply">
+        <summary>📝 교외체험학습 신청서 초안 만들기 (인쇄용)</summary>
+        <p class="muted"><small>학교마다 양식이 달라서, 학교 양식에 옮겨 적기 쉬운 일반 초안이에요. 이름·연락처는 입력하지 않고 인쇄한 뒤 손으로 적어요. 입력한 내용은 저장하거나 보내지 않아요.</small></p>
+        <label class="field">체험 장소 <select id="applyPlace"></select></label>
+        <label class="field">체험 기간 <input type="date" id="applyFrom"> ~ <input type="date" id="applyTo"></label>
+        <label class="field">체험 목적·내용 <textarea id="applyPurpose" rows="3" maxlength="300"></textarea></label>
+        <label class="field">동행자 <input type="text" id="applyWith" maxlength="30" placeholder="예) 부모, 형제"></label>
+        <label class="field">이동 수단 <select id="applyMove"><option>도보</option><option selected>대중교통</option><option>자가용</option><option>기타</option></select></label>
+        <button type="button" id="applyBtn" class="signup-btn">🖨️ 신청서 초안 인쇄</button>
+      </details>
       <p id="reportMsg" class="signup-msg err" hidden>저장된 한 줄 기록이 아직 없어요. 장소 카드에서 먼저 기록해 주세요.</p>
     </section>
 
@@ -187,25 +197,31 @@
       </form>
       <form id="surveyForm" class="survey" hidden novalidate>
         <h3>🙏 1~2분만 의견을 들려주세요 <small>(선택 · 개인정보는 적지 마세요)</small></h3>
+        <p class="muted"><small>사전신청 없이도 참여할 수 있어요. 추천을 한 번 보신 뒤 답해 주시면 더 정확해요.</small></p>
+        <label class="field">사는 지역 <small>(선택)</small> <select id="surveyRegion"><option value="">선택 안 함</option><option value="부천">부천</option><option value="경기 다른 지역">경기 다른 지역</option><option value="서울">서울</option><option value="인천">인천</option><option value="기타">기타</option></select></label>
         <fieldset><legend>1. 주말에 아이와 갈 곳을 고르는 일이 얼마나 어려우신가요?</legend>
           <div class="chips"><label><input type="radio" name="q1" value="1"><span>1 전혀</span></label><label><input type="radio" name="q1" value="2"><span>2</span></label><label><input type="radio" name="q1" value="3"><span>3</span></label><label><input type="radio" name="q1" value="4"><span>4</span></label><label><input type="radio" name="q1" value="5"><span>5 매우</span></label></div></fieldset>
         <fieldset><legend>2. 아이와 갈 곳을 보통 어떻게 찾으세요?</legend>
           <div class="chips"><label><input type="radio" name="q2" value="search"><span>검색·블로그</span></label><label><input type="radio" name="q2" value="sns"><span>SNS·맘카페</span></label><label><input type="radio" name="q2" value="school"><span>학교 안내·가정통신문</span></label><label><input type="radio" name="q2" value="peer"><span>지인 추천</span></label><label><input type="radio" name="q2" value="app"><span>앱·서비스</span></label><label><input type="radio" name="q2" value="fixed"><span>가던 곳만 감</span></label></div></fieldset>
         <fieldset><legend>3. 요즘 한 달에 평균 몇 번 아이와 체험학습·체험 나들이를 가시나요?</legend>
           <div class="chips"><label><input type="radio" name="q3" value="0"><span>거의 안 감</span></label><label><input type="radio" name="q3" value="1"><span>월 1번</span></label><label><input type="radio" name="q3" value="2"><span>월 2번</span></label><label><input type="radio" name="q3" value="3"><span>월 3~4번</span></label><label><input type="radio" name="q3" value="5"><span>월 5번 이상</span></label></div></fieldset>
-        <fieldset><legend>4. 주말 나들이로 편도 이동시간은 어느 정도까지 괜찮으세요?</legend>
-          <div class="chips"><label><input type="radio" name="q4" value="30"><span>30분 이내</span></label><label><input type="radio" name="q4" value="60"><span>1시간 이내</span></label><label><input type="radio" name="q4" value="90"><span>1시간 넘어도 괜찮음</span></label></div></fieldset>
-        <fieldset><legend>5. 아이와 체험학습 1회에 보통 얼마를 쓰시나요? <small>(입장료·체험비, 식비·교통비 제외)</small></legend>
+        <fieldset><legend>4. 아이와 체험학습 1회에 보통 얼마를 쓰시나요? <small>(입장료·체험비, 식비·교통비 제외)</small></legend>
           <div class="chips"><label><input type="radio" name="q5" value="0"><span>거의 안 씀</span></label><label><input type="radio" name="q5" value="1"><span>1만원 미만</span></label><label><input type="radio" name="q5" value="2"><span>1~3만원</span></label><label><input type="radio" name="q5" value="3"><span>3~5만원</span></label><label><input type="radio" name="q5" value="4"><span>5만원 이상</span></label></div></fieldset>
-        <fieldset><legend>6. 비용이 부담돼서 체험학습을 포기하거나 줄인 적이 있나요?</legend>
+        <fieldset><legend>5. 비용이 부담돼서 체험학습을 포기하거나 줄인 적이 있나요?</legend>
           <div class="chips"><label><input type="radio" name="q6" value="never"><span>없음</span></label><label><input type="radio" name="q6" value="sometimes"><span>가끔</span></label><label><input type="radio" name="q6" value="often"><span>자주</span></label></div></fieldset>
-        <fieldset><legend>7. 체험 비용이 지금보다 낮아진다면 체험학습을 더 자주 가실 것 같나요?</legend>
+        <fieldset><legend>6. 체험 비용이 지금보다 낮아진다면 체험학습을 더 자주 가실 것 같나요?</legend>
           <div class="chips"><label><input type="radio" name="q7" value="1"><span>1 전혀</span></label><label><input type="radio" name="q7" value="2"><span>2</span></label><label><input type="radio" name="q7" value="3"><span>3</span></label><label><input type="radio" name="q7" value="4"><span>4</span></label><label><input type="radio" name="q7" value="5"><span>5 매우</span></label></div></fieldset>
-        <fieldset><legend>8. 가장 도움이 될 것 같은 기능은?</legend>
+        <fieldset><legend>7. 가장 도움이 될 것 같은 기능은?</legend>
           <div class="chips"><label><input type="radio" name="q8" value="curriculum"><span>교과·단원별 추천</span></label><label><input type="radio" name="q8" value="price"><span>저렴한 가격·할인 정보</span></label><label><input type="radio" name="q8" value="alert"><span>주말 추천 알림</span></label><label><input type="radio" name="q8" value="paperwork"><span>체험학습 신청서·결과보고서 자동 작성</span></label><label><input type="radio" name="q8" value="guide"><span>부모용 가이드</span></label><label><input type="radio" name="q8" value="quest"><span>아이 미션·배지</span></label><label><input type="radio" name="q8" value="local"><span>근처 식당·카페</span></label><label><input type="radio" name="q8" value="record"><span>기록·성장 리포트</span></label></div></fieldset>
+        <fieldset id="fsq13"><legend>8. 나중에 유료로 생겨도 쓸 만하다고 생각하는 기능은 무엇인가요? <small>(최대 2개 · 아직 없는 기능에 대한 가정 질문이에요)</small></legend>
+          <div class="chips"><label><input type="checkbox" name="q13" value="curriculum"><span>교과·단원별 추천</span></label><label><input type="checkbox" name="q13" value="price"><span>저렴한 가격·할인 정보</span></label><label><input type="checkbox" name="q13" value="alert"><span>주말 추천 알림</span></label><label><input type="checkbox" name="q13" value="paperwork"><span>체험학습 신청서·결과보고서 자동 작성</span></label><label><input type="checkbox" name="q13" value="guide"><span>부모용 가이드</span></label><label><input type="checkbox" name="q13" value="quest"><span>아이 미션·배지</span></label><label><input type="checkbox" name="q13" value="local"><span>근처 식당·카페</span></label><label><input type="checkbox" name="q13" value="record"><span>기록·성장 리포트</span></label><label><input type="checkbox" name="q13" value="none"><span>유료로 낼 기능은 없음</span></label></div></fieldset>
         <fieldset><legend>9. 기본 기능은 무료이고, 아이 기록 모아보기 같은 추가 기능이 나중에 유료로 생긴다면 월 얼마까지 괜찮으세요? <small>(아직 없는 기능에 대한 가정 질문이에요)</small></legend>
           <div class="chips"><label><input type="radio" name="q9" value="0"><span>내지 않음</span></label><label><input type="radio" name="q9" value="3000"><span>3,000원 이하</span></label><label><input type="radio" name="q9" value="5000"><span>5,000원 이하</span></label><label><input type="radio" name="q9" value="10000"><span>1만원 이하</span></label><label><input type="radio" name="q9" value="10001"><span>1만원 초과</span></label></div></fieldset>
-        <label class="field">10. 바라는 점이나 걱정되는 점 <small>(선택)</small>
+        <fieldset><legend>10. 우리 아이의 학년·관심사에 맞춘 체험 코스를 주 1회 제안해 주는 추가 기능이 나중에 유료로 생긴다면 월 얼마까지 괜찮으세요? <small>(아직 없는 기능에 대한 가정 질문이에요)</small></legend>
+          <div class="chips"><label><input type="radio" name="q10" value="0"><span>내지 않음</span></label><label><input type="radio" name="q10" value="3000"><span>3,000원 이하</span></label><label><input type="radio" name="q10" value="5000"><span>5,000원 이하</span></label><label><input type="radio" name="q10" value="10000"><span>1만원 이하</span></label><label><input type="radio" name="q10" value="10001"><span>1만원 초과</span></label></div></fieldset>
+        <fieldset><legend>11. 교과 연결 체험 가이드(미션지 포함)를 한 번 구매한다면 얼마까지 괜찮으세요? <small>(아직 판매하지 않는 상품에 대한 가정 질문이에요)</small></legend>
+          <div class="chips"><label><input type="radio" name="q11" value="0"><span>구매하지 않음</span></label><label><input type="radio" name="q11" value="3000"><span>3,000원 이하</span></label><label><input type="radio" name="q11" value="5000"><span>5,000원 이하</span></label><label><input type="radio" name="q11" value="10000"><span>1만원 이하</span></label><label><input type="radio" name="q11" value="10001"><span>1만원 초과</span></label></div></fieldset>
+        <label class="field">12. 바라는 점이나 걱정되는 점 <small>(선택)</small>
           <input type="text" id="surveyText" maxlength="120" placeholder="한 줄이면 충분해요">
         </label>
         <button type="submit" class="signup-btn">의견 보내기</button>
@@ -228,13 +244,13 @@
 
     <footer class="site-foot">
       <span class="foot-mark">교과<span class="on">ON</span></span>
-      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 2022 개정 교육과정 성취기준을 참고한 예시이며 교사 검수 전입니다. <span class="ver">앱 버전 v26</span></p>
+      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 2022 개정 교육과정 성취기준을 참고한 예시이며 교사 검수 전입니다. <span class="ver">앱 버전 v28</span></p>
     </footer>
   </main>
 
-  <script src="config.js?v=26"></script>
-  <script src="tracking.js?v=26"></script>
-  <script src="guides.js?v=26"></script>
-  <script src="main.js?v=26"></script>
+  <script src="config.js?v=28"></script>
+  <script src="tracking.js?v=28"></script>
+  <script src="guides.js?v=28"></script>
+  <script src="main.js?v=28"></script>
 </body>
 </html>
