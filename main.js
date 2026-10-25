@@ -126,6 +126,61 @@ const experiences = [
     subject: '국어 · 읽기와 표현',
     parent: '도서관에서 책을 고르고 소개하는 활동으로, 읽기·표현 영역과의 연결은 예시입니다.',
     nearby: [{ name: '목향 상동본점', kind: '식당', note: '고깃집' }, { name: '이디야커피 부천벚꽃마을점', kind: '카페', note: '커피·베이커리' }]
+  },
+  {
+    grades: [3, 4], semesters: [1, 2], interest: 'science', monthsAhead: 3,
+    title: '물의 여행 따라가기', place: '부천물박물관', region: '경기 부천',
+    placeType: '박물관', cost: '무료(공공예약 안내 기준, 평일 운영) · 방문 전 예약·휴관일 확인', fit: '과학 \'물의 상태 변화\' 영역과 연결 가능',
+    story: '물이 얼음, 물, 수증기로 모습을 바꾸는 여행을 따라가 봐요.',
+    missions: ['물이 모습을 바꾸는 예 1개 찾기', '우리 집에서 물을 쓰는 곳 3곳 떠올려 보기', '가장 신기했던 물 이야기 한 줄 남기기'],
+    badge: '💧 물 탐험가',
+    subject: '과학 · 물의 상태 변화',
+    parent: '물의 상태 변화와 물의 쓰임을 먼저 접해 보는 경험입니다. 운영 프로그램과 예약은 방문 전 공식 안내를 확인해 주세요.',
+    nearby: []
+  },
+  {
+    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 5,
+    title: '한옥에서 옛 생활 체험', place: '부천한옥체험마을', region: '경기 부천',
+    placeType: '전통문화 체험 공간', cost: '입장 무료·체험 유료(비공식 정보) · 방문 전 공식 확인 필수', fit: '사회 \'옛 생활과 풍습\' 영역과 연결 가능',
+    story: '한옥을 둘러보며 옛 사람들의 집과 생활을 오늘과 견주어 봐요.',
+    missions: ['한옥에서 우리 집과 다른 점 2개 찾기', '옛날 방식의 체험 1가지 해 보기', '한옥 앞에서 가족 사진 찍기'],
+    badge: '🏯 한옥 탐험가',
+    subject: '사회 · 옛 생활과 풍습',
+    parent: '전통 가옥과 옛 생활 모습을 가볍게 접해 보는 경험입니다. 체험 종류·요금·휴관일은 방문 전 공식 안내를 꼭 확인해 주세요.',
+    nearby: []
+  },
+  {
+    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 6,
+    title: '선사시대 마을 탐험', place: '부천고강선사유적체험관', region: '경기 부천',
+    placeType: '유적 체험관', cost: '방문 전 요금·예약 확인', fit: '사회 \'역사·지역 유산\' 영역과 연결 가능',
+    story: '아주 오래전 사람들의 도구와 마을을 살펴보며 생활을 상상해 봐요.',
+    missions: ['선사시대 도구 1개 골라 쓰임 상상하기', '지금의 물건과 닮은 점 찾기', '가장 오래돼 보이는 유물 앞에서 사진 찍기'],
+    badge: '🪨 선사 탐험가',
+    subject: '사회 · 선사 시대와 지역 유산',
+    parent: '선사시대 유적과 유물을 보며 옛 사람들의 생활을 추론해 보는 경험입니다. 체험 프로그램과 예약은 방문 전 공식 안내를 확인해 주세요.',
+    nearby: []
+  },
+  {
+    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 5,
+    title: '다름을 존중하는 하루', place: '부천펄벅기념관', region: '경기 부천',
+    placeType: '기념관', cost: '방문 전 요금·운영 확인', fit: '사회 \'인권과 다문화\' 영역과 연결 가능',
+    story: '전시 속 사람들의 이야기를 따라가며 서로 다름을 존중한다는 것을 생각해 봐요.',
+    missions: ['전시에서 마음에 남는 사람 이야기 1개 찾기', '다름을 존중하는 말 한 가지 적어 보기', '오늘 배운 점을 한 줄로 쓰기'],
+    badge: '🤝 존중 탐험가',
+    subject: '사회 · 인권과 다문화',
+    parent: '인권과 다양한 문화를 존중하는 태도를 이야기해 보는 경험입니다. 전시·운영 정보는 방문 전 공식 안내를 확인해 주세요.',
+    nearby: []
+  },
+  {
+    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 4,
+    title: '시인의 말 수집가', place: '부천수주문학관', region: '경기 부천',
+    placeType: '문학관', cost: '방문 전 요금·운영 확인', fit: '국어 \'시와 감상\' 영역과 연결 가능',
+    story: '시인의 말과 표현을 모아 보고, 나만의 한 줄 시를 써 봐요.',
+    missions: ['마음에 드는 표현 1개 찾아 적기', '소리나 모양이 떠오르는 말 찾기', '나만의 한 줄 시 써 보기'],
+    badge: '✒️ 말 수집가',
+    subject: '국어 · 시와 감상',
+    parent: '시와 문학 작품의 표현을 살펴보고 나의 말로 바꿔 써 보는 경험입니다. 전시·프로그램은 방문 전 공식 안내를 확인해 주세요.',
+    nearby: []
   }
 ];
 
@@ -175,8 +230,8 @@ function cardTemplate(item) {
         <div class="pguide check"><p><b>✅ 가기 전 확인</b></p><ul class="chk"><li><label><input type="checkbox"> 운영시간·요금·휴관일을 시설 공식 안내로 확인했어요</label></li><li><label><input type="checkbox"> 이동 방법과 주차·대중교통을 확인했어요</label></li><li><label><input type="checkbox"> 물·간식·편한 신발 등 준비물을 챙겼어요</label></li><li><label><input type="checkbox"> 아이와 안전 약속(손 잡기, 흩어지지 않기)을 정했어요</label></li></ul></div>
         <button type="button" class="print-card">🖨️ 미션지 인쇄</button>
       </details>
-      <div class="local-box">🏪 <strong>근처 코스 후보</strong> <span class="mute">참고용 · 제휴 아님 · 영업 여부는 방문 전 확인</span>
-        <ul class="nearby">${item.nearby.map(n => `<li><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('부천 ' + n.name)}" target="_blank" rel="noopener" data-place="${item.title}" data-store="${n.name}" data-kind="${n.kind}">${n.kind === '식당' ? '🍚' : '☕'} <b>${n.name}</b> <small>${n.note}</small></a></li>`).join('')}</ul></div>
+      ${item.nearby && item.nearby.length ? `<div class="local-box">🏪 <strong>근처 코스 후보</strong> <span class="mute">참고용 · 제휴 아님 · 영업 여부는 방문 전 확인</span>
+        <ul class="nearby">${item.nearby.map(n => `<li><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('부천 ' + n.name)}" target="_blank" rel="noopener" data-place="${item.title}" data-store="${n.name}" data-kind="${n.kind}">${n.kind === '식당' ? '🍚' : '☕'} <b>${n.name}</b> <small>${n.note}</small></a></li>`).join('')}</ul></div>` : ''}
     </article>`;
 }
 
@@ -437,7 +492,7 @@ function setDl() {
     }
     out.innerHTML = r.map((x) => {
       const it = experiences.find((e) => e.title === x.title); const g = GUIDES[x.title];
-      return `<div class="notice-item"><b>${x.title}</b> · ${it ? it.place : ''}<br><small>알림장의 "${x.hits.slice(0, 3).join('", "')}" 와 연결돼요</small><br><small>💬 ${g ? g.asks[0] : ''}</small></div>`;
+      return `<div class="notice-item"><b>${x.title}</b> · ${it ? it.place : ''}<br><small>${x.weak ? '단원 단어는 찾지 못했고, 교과 이름 "' + x.hits.slice(0, 3).join('", "') + '"만 같아서 보여 드려요' : '알림장의 "' + x.hits.slice(0, 3).join('", "') + '" 와 연결돼요'}</small><br><small>💬 ${g ? g.asks[0] : ''}</small></div>`;
     }).join('') + '<p class="muted"><small>※ 단어가 겹치는 정도로 찾는 간단한 추천(베타)이며, 정확한 교과 연결은 아닙니다. 내용은 저장·전송되지 않아요.</small></p>';
   });
 })();
