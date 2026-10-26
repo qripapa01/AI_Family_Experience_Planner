@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://qripapa-ai-family-20260817.web.app/sitemap.xml
