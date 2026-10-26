@@ -29,13 +29,14 @@ const experiences = [
     nearby: [{ name: '곤드레밥집 여월', kind: '식당', note: '한식' }, { name: '카페동네 여월동점', kind: '카페', note: '동네 카페' }]
   },
   {
-    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 2,
+    grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 2,
     title: '곤충 관찰 대작전', place: '부천자연생태공원·자연생태박물관', region: '경기 부천',
     placeType: '생태공원·박물관', cost: '무료~저가 · 방문 전 요금 확인', fit: "과학 '생물과 환경' 영역과 연결 가능",
     story: '풀숲과 연못 속 작은 생명들을 관찰 기록장에 남겨 보는 모험이에요.',
     missions: ['관찰한 곤충·식물 이름 2개 적어 보기', '서로 다른 모양의 잎 3개 찾기', '오늘의 자연 사진 한 장 남기기'],
     badge: '🌿 자연 관찰가',
     subject: '과학 · 생물과 환경',
+    subject12: '통합교과(슬기로운 생활) · 자연과 생태', fit12: "통합교과 '슬기로운 생활(생태 탐구)'와 연결 가능",
     parent: '생태 환경을 직접 보고 기록하며 생물과 환경 단원의 배경경험을 쌓습니다.',
     nearby: [{ name: '명가오리집', kind: '식당', note: '오리 요리 중심' }, { name: '카페 키아마', kind: '카페', note: '커피·디저트' }]
   },
@@ -51,13 +52,14 @@ const experiences = [
     nearby: [{ name: '신림춘천집 부천중동직영점', kind: '식당', note: '닭갈비' }, { name: 'Cafe Fantasia', kind: '카페', note: '만화박물관 인접 베이커리 카페' }]
   },
   {
-    grades: [3, 4], semesters: [1, 2], interest: 'history', monthsAhead: 4,
+    grades: [1, 2, 3, 4], semesters: [1, 2], interest: 'history', monthsAhead: 4,
     title: '옛 물건 비교 탐험', place: '부천시립박물관', region: '경기 부천',
     placeType: '박물관', cost: '무료~저가 · 방문 전 요금 확인', fit: "사회 '우리 고장' 영역과 연결 가능",
     story: '옛날 물건과 지금 물건을 견주며 우리 고장의 이야기를 찾아봐요.',
     missions: ['옛날 물건 1개 골라 쓰임 상상해 보기', '지금의 물건과 다른 점 하나 말하기', '가장 오래돼 보이는 전시 앞에서 사진 찍기'],
     badge: '🏛️ 고장 탐험가',
     subject: '사회 · 우리 고장',
+    subject12: '통합교과(슬기로운 생활) · 우리 마을과 옛 물건', fit12: "통합교과 '슬기로운 생활(마을·과거와 현재)'와 연결 가능",
     parent: '우리 고장의 역사와 생활 모습을 가볍게 접해 보는 경험입니다. 전시 구성은 방문 전 공식 안내를 확인해 주세요.',
     nearby: [{ name: '담쟁이추억', kind: '식당', note: '한식·찌개류' }, { name: '담쟁이북카페', kind: '카페', note: '책이 있는 카페' }]
   },
@@ -84,35 +86,38 @@ const experiences = [
     nearby: [{ name: '소사정육식당', kind: '식당', note: '고기 요리' }, { name: '투썸플레이스 부천소새울역점', kind: '카페', note: '카페·디저트' }]
   },
   {
-    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 5,
+    grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 5,
     title: '호수공원 소리 지도', place: '상동호수공원', region: '경기 부천',
     placeType: '공원', cost: '무료~저가 · 방문 전 요금 확인', fit: "과학 '생물과 환경' 영역과 연결 가능",
     story: '호수 둘레를 걸으며 소리와 냄새로 나만의 지도를 만들어요.',
     missions: ['들리는 소리 3가지 찾기', '물가에서 사는 생물 1개 관찰하기', '오늘의 호수 사진 한 장 남기기'],
     badge: '🌊 호수 탐험가',
     subject: '과학 · 생물과 환경',
+    subject12: '통합교과(즐거운 생활) · 자연 감상', fit12: "통합교과 '즐거운 생활(자연 감상)'과 연결 가능",
     parent: '가까운 공원에서 가볍게 시작하는 야외 관찰 활동입니다.',
     nearby: [{ name: '한옥집숯불갈비 부천직영점', kind: '식당', note: '갈비·냉면' }, { name: '커피늘보', kind: '카페', note: '상동도서관 앞 카페' }]
   },
   {
-    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 6,
+    grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 6,
     title: '나무 이름 찾기', place: '부천무릉도원수목원', region: '경기 부천',
     placeType: '수목원', cost: '무료~저가 · 방문 전 요금 확인', fit: "과학 '식물' 영역과 연결 가능",
     story: '나무와 꽃 이름표를 찾아 나만의 식물 도감을 만들어요.',
     missions: ['이름표가 있는 나무 3그루 찾기', '잎 모양이 가장 특이한 식물 고르기', '가족과 가장 좋았던 장소 정하기'],
     badge: '🌳 식물 도감가',
     subject: '과학 · 식물의 생활',
+    subject12: '통합교과(슬기로운 생활) · 계절과 식물', fit12: "통합교과 '슬기로운 생활(계절·식물)'과 연결 가능",
     parent: '식물을 직접 보고 이름을 알아가는 관찰 활동입니다. 개방 시간은 방문 전 확인해 주세요.',
     nearby: [{ name: '물멍밥상 부천물멍타임점', kind: '식당', note: '수족관 콘셉트 식당' }, { name: 'TOV BEAN', kind: '카페', note: '베이커리 카페' }]
   },
   {
-    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 4,
+    grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 4,
     title: '호수 위 식물 탐험', place: '호수식물원 수피아', region: '경기 부천',
     placeType: '식물원', cost: '무료~저가 · 방문 전 요금 확인', fit: "과학 '식물' 영역과 연결 가능",
     story: '호수와 식물이 어우러진 정원에서 나만의 식물 관찰 일기를 써 봐요.',
     missions: ['처음 보는 식물 이름표 2개 찾기', '물가 식물과 땅 식물의 차이 말하기', '가장 마음에 든 풍경 사진 한 장 남기기'],
     badge: '🌺 식물 탐험가',
     subject: '과학 · 식물의 생활',
+    subject12: '통합교과(슬기로운 생활) · 계절과 식물', fit12: "통합교과 '슬기로운 생활(계절·식물)'과 연결 가능",
     parent: '식물을 직접 보고 기록하는 관찰 활동입니다. 운영 시간·요금은 방문 전 공식 안내를 확인해 주세요.',
     nearby: [{ name: '옥길장터식당', kind: '식당', note: '한식·찌개류' }, { name: '커피101스트릿 부천옥길점', kind: '카페', note: '베이커리 카페' }]
   },
@@ -139,13 +144,14 @@ const experiences = [
     nearby: []
   },
   {
-    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 5,
+    grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 5,
     title: '한옥에서 옛 생활 체험', place: '부천한옥체험마을', region: '경기 부천',
     placeType: '전통문화 체험 공간', cost: '입장 무료·체험 유료(비공식 정보) · 방문 전 공식 확인 필수', fit: '사회 \'옛 생활과 풍습\' 영역과 연결 가능',
     story: '한옥을 둘러보며 옛 사람들의 집과 생활을 오늘과 견주어 봐요.',
     missions: ['한옥에서 우리 집과 다른 점 2개 찾기', '옛날 방식의 체험 1가지 해 보기', '한옥 앞에서 가족 사진 찍기'],
     badge: '🏯 한옥 탐험가',
     subject: '사회 · 옛 생활과 풍습',
+    subject12: '통합교과(슬기로운·즐거운 생활) · 우리나라의 문화', fit12: "통합교과 '우리나라의 문화'와 연결 가능",
     parent: '전통 가옥과 옛 생활 모습을 가볍게 접해 보는 경험입니다. 체험 종류·요금·휴관일은 방문 전 공식 안내를 꼭 확인해 주세요.',
     nearby: []
   },
@@ -161,13 +167,14 @@ const experiences = [
     nearby: []
   },
   {
-    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 5,
+    grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 5,
     title: '다름을 존중하는 하루', place: '부천펄벅기념관', region: '경기 부천',
     placeType: '기념관', cost: '방문 전 요금·운영 확인', fit: '사회 \'인권과 다문화\' 영역과 연결 가능',
     story: '전시 속 사람들의 이야기를 따라가며 서로 다름을 존중한다는 것을 생각해 봐요.',
     missions: ['전시에서 마음에 남는 사람 이야기 1개 찾기', '다름을 존중하는 말 한 가지 적어 보기', '오늘 배운 점을 한 줄로 쓰기'],
     badge: '🤝 존중 탐험가',
     subject: '사회 · 인권과 다문화',
+    subject12: '통합교과(바른 생활) · 다름을 존중하기', fit12: "통합교과 '바른 생활(다름 존중)'과 연결 가능",
     parent: '인권과 다양한 문화를 존중하는 태도를 이야기해 보는 경험입니다. 전시·운영 정보는 방문 전 공식 안내를 확인해 주세요.',
     nearby: []
   },
@@ -212,10 +219,10 @@ function cardTemplate(item) {
         <span class="chip${golden ? ' hot' : ''}">${golden ? '🔥 곧 연결되는 내용(예시)' : `📅 약 ${item.monthsAhead}개월 뒤 학습과 연결(예시)`}</span>
         <span class="badge">${item.badge}</span>
       </div>
-      <p class="subject">${item.subject}</p>
+      <p class="subject">${(Number(gradeSelect.value) <= 2 && item.subject12) || item.subject}</p>
       <h3>${item.title}</h3>
       <p class="place">📍 ${item.place} · ${item.region}</p>
-      <p class="why">📌 ${item.placeType} · ${item.cost} · 왜 이곳? ${item.fit}</p>
+      <p class="why">📌 ${item.placeType} · ${item.cost} · 왜 이곳? ${(Number(gradeSelect.value) <= 2 && item.fit12) || item.fit}</p>
       <p class="story">${item.story}</p>
       <div class="mission-box quest" data-id="${item.title}">
         <div class="quest-head">
@@ -324,7 +331,7 @@ let lastMatch = { n: 0, relax: 'none' };
 function pick(grade, semester, interest, subj, useInterest, useSubj) {
   return experiences.filter(x => x.grades.includes(grade) && x.semesters.includes(semester)
     && (!useInterest || interest === 'all' || x.interest === interest)
-    && (!useSubj || subj === 'all' || x.subject.includes(subj)));
+    && (!useSubj || subj === 'all' || ((grade <= 2 && x.subject12) || x.subject).includes(subj)));
 }
 const INTEREST_KO = { history: '역사·문화·책', science: '과학·자연', nature: '야외·생태' };
 function render() {
