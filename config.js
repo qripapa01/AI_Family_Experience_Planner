@@ -3,4 +3,4 @@
 // 개인정보 안내문에 표시되는 값입니다. 첫 사용자에게 공개하기 전에 반드시 채워 주세요.
 window.GYOGWAON_PRIVACY = { destroyDate: "2027년 6월 30일", contact: "" }; // contact 예) "문의: 이메일주소"
 window.GYOGWAON_ENDPOINT = "https://script.google.com/macros/s/AKfycbw3uaZr8k2OXZMc1WLLCE1OaPQaqFJEb3zKH1E9_VjT8qcsaznydEU6hy9ssfOYSoR3QQ/exec";
-window.GYOGWAON_VER = "v30";
+window.GYOGWAON_VER = "v31";

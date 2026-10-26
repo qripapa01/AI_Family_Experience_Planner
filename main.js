@@ -181,6 +181,17 @@ const experiences = [
     subject: '국어 · 시와 감상',
     parent: '시와 문학 작품의 표현을 살펴보고 나의 말로 바꿔 써 보는 경험입니다. 전시·프로그램은 방문 전 공식 안내를 확인해 주세요.',
     nearby: []
+  },
+  {
+    grades: [1, 2], semesters: [1, 2], interest: 'nature', monthsAhead: 2,
+    title: '식물원 관찰 그림일기', place: '부천식물원(부천자연생태공원)', region: '경기 부천',
+    placeType: '식물원', cost: '무료 · 월요일 휴관(공식 안내 확인)', fit: "국어 '겪은 일 쓰기·그림 표현'과 연결 가능",
+    story: '식물원에서 마음에 든 꽃이나 잎을 하나 골라, 그림과 한 줄 글로 오늘의 일기를 써 봐요.',
+    missions: ['마음에 드는 잎이나 꽃 1개 고르기', '색과 모양을 그림으로 그리기', '오늘 느낀 점을 한 문장으로 쓰기'],
+    badge: '🌿 그림일기 작가',
+    subject: '국어 · 겪은 일 쓰기와 그림 표현',
+    parent: '식물을 보고 그림과 글로 기록하는 활동입니다. 1~2학년 통합교과 연결은 별책 확인 전이라 표시하지 않았고, 국어 영역과의 연결은 예시입니다. 운영 시간은 방문 전 부천시 공식 안내를 확인해 주세요.',
+    nearby: []
   }
 ];
 
@@ -504,7 +515,7 @@ function setDl() {
     const r = matchNotice(text);
     track('notice_match', { len: Math.min(Math.floor(text.length / 100) * 100, 800), matched: r.length, top: r[0] ? r[0].title : '' });
     if (!r.length) {
-      out.innerHTML = '<p class="muted">입력하신 내용과 연결되는 부천 체험을 찾지 못했어요. 지금은 부천 체험 16곳과 관련된 단어만 알아봐요(다른 지역 장소는 아직 없어요). 아래에서 교과를 골라 바로 볼 수 있어요.</p><div class="chips notice-chips">' + ['과학', '사회', '국어', '실과'].map((s) => '<button type="button" class="chip-btn" data-subj="' + s + '">' + s + ' 체험 보기</button>').join('') + '</div><p class="muted"><small>입력하신 내용은 저장하거나 보내지 않아요. 어떤 단어를 찾으면 좋을지 아래 의견란에 남겨 주셔도 좋아요.</small></p>';
+      out.innerHTML = '<p class="muted">입력하신 내용과 연결되는 부천 체험을 찾지 못했어요. 지금은 부천 체험 17곳과 관련된 단어만 알아봐요(다른 지역 장소는 아직 없어요). 아래에서 교과를 골라 바로 볼 수 있어요.</p><div class="chips notice-chips">' + ['과학', '사회', '국어', '실과'].map((s) => '<button type="button" class="chip-btn" data-subj="' + s + '">' + s + ' 체험 보기</button>').join('') + '</div><p class="muted"><small>입력하신 내용은 저장하거나 보내지 않아요. 어떤 단어를 찾으면 좋을지 아래 의견란에 남겨 주셔도 좋아요.</small></p>';
       return;
     }
     out.innerHTML = r.map((x) => {
