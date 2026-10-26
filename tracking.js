@@ -33,12 +33,42 @@
       utm_campaign: utm.utm_campaign || '', utm_content: utm.utm_content || '', utm_term: utm.utm_term || '',
       data: data || {}
     };
+    payload.eid = rid() + rid(); payload.av = window.GYOGWAON_VER || '';
+    // 중요 기록(신청·설문)은 즉시 결과를 돌려주고, 실패하면 저장해 두었다가 다시 보냅니다(서버는 eid로 중복을 걸러냄).
+    var critical = (type === 'signup' || type === 'survey');
+    if (critical) {
+      return post(payload).then(function () { return true; }, function (err) { enqueue(payload); throw err; });
+    }
+    enqueue(payload);
+    return Promise.resolve(true);
+  }
+  function post(payload) {
     return fetch(ENDPOINT, {
       method: 'POST', mode: 'no-cors', keepalive: true,
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
-    }).then(function () { return true; });
+    });
   }
+  // 보내지 못한 기록 대기열(브라우저에 저장, 최대 100건). 한 번에 하나씩 순서대로 보내 서버 부하를 줄입니다.
+  var flushing = false, fails = 0;
+  function loadQ() { try { return JSON.parse(ls('go_q') || '[]'); } catch (e) { return []; } }
+  function saveQ(q) { ls('go_q', JSON.stringify(q.slice(-100))); }
+  function enqueue(payload) { var q = loadQ(); q.push(payload); saveQ(q); flush(); }
+  function flush() {
+    if (flushing || !ENDPOINT) return;
+    var q = loadQ(); if (!q.length) return;
+    flushing = true;
+    post(q[0]).then(function () {
+      var cur = loadQ(); cur.shift(); saveQ(cur); fails = 0; flushing = false;
+      setTimeout(flush, 80);
+    }, function () {
+      flushing = false; fails++;
+      setTimeout(flush, Math.min(60000, 3000 * fails));
+    });
+  }
+  window.addEventListener('online', flush);
+  window.addEventListener('pageshow', flush);
   window.GO = { send: send, enabled: !!ENDPOINT, vid: vid };
   send('pageview', {}).catch(function () {});
+  flush();
 })();
