@@ -179,7 +179,7 @@ summary{cursor:pointer;font-weight:800;color:var(--teal)}
 .pguide p{margin:6px 0}
 @media print{.hero,.steps,#controls,.signup,.survey,.local-box,footer{display:none!important}details{display:block}details>*{display:block}}
 .pguide .std{margin:4px 0 4px 1.1rem}.pguide .std li{margin-bottom:4px}
-.resource .dl{display:inline-block;text-decoration:none;text-align:center}.parent-note .src{font-size:.85rem;color:#556;margin-top:6px}
+.resource .dl{display:inline-block;text-decoration:none;text-align:center;margin:0 8px 16px 0}.parent-note .src{font-size:.85rem;color:#556;margin-top:6px}
 .notice textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid #bcc7d6;border-radius:10px;font:inherit;margin:8px 0}.notice-out{margin-top:10px}.notice-item{padding:8px 10px;margin-bottom:8px;background:#f6f9ff;border-radius:10px}.pguide .grp{margin:6px 0 0}
 
 .diary{margin:10px 0;padding:10px;background:#fffaf0;border-radius:10px}.diary-row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.diary-row input{padding:8px;border:1px solid #bcc7d6;border-radius:8px;font:inherit}.d-text{flex:1;min-width:140px}.d-save,.print-card{padding:8px 12px;border:1px solid #bcc7d6;border-radius:8px;background:#fff;font:inherit;cursor:pointer}.print-card{margin-top:8px}
