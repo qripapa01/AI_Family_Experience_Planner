@@ -82,10 +82,9 @@ function guideHTML(item) {
   const g = GUIDES[item.title]; if (!g) return '';
   const li = (a) => a.map((x) => `<li>${x}</li>`).join('');
   return `<div class="pguide">
-    <p><b>🔗 연결 교과 영역</b> ${g.area}</p>
+    <p><b>🔗 연결 교과 · 영역</b> ${linksOf(item.title).map((l) => `${BAND_LABEL[l.band]} ${l.subj} · ${l.area}`).join(' / ') || g.area}</p>
     ${g.std12 && g.std12.length ? `<p class="grp"><b>1~2학년군</b></p><ul class="std">${g.std12.map((c) => `<li><b>[${c}]</b> ${STD[c]}</li>`).join('')}</ul>` : ''}
-    ${g.area12 ? `<p><b>🔗 1~2학년 통합교과</b> ${g.area12}</p>` : ''}
-    ${g.std.length ? `<p class="grp"><b>3~4학년군</b></p><ul class="std">${g.std.map((c) => `<li><b>[${c}]</b> ${STD[c]}</li>`).join('')}</ul>` : ''}
+        ${g.std.length ? `<p class="grp"><b>3~4학년군</b></p><ul class="std">${g.std.map((c) => `<li><b>[${c}]</b> ${STD[c]}</li>`).join('')}</ul>` : ''}
     ${g.std56 && g.std56.length ? `<p class="grp"><b>5~6학년군</b></p><ul class="std">${g.std56.map((c) => `<li><b>[${c}]</b> ${STD[c]}</li>`).join('')}</ul>` : ''}
     <p class="mute"><small>※ 2022 개정 교육과정 성취기준(교육부 고시 제2022-33호). 장소와의 연결은 교과ON의 예시이며, 학기·단원 배치는 학교 교과서에 따라 달라요.</small></p>
     <p><b>👀 함께 볼 포인트</b></p><ul>${li(g.points)}</ul>
@@ -152,4 +151,43 @@ function matchNotice(text) {
   const wk = Object.values(weak);
   wk.sort((a, b) => b.w - a.w);
   return wk.slice(0, 3);
+}
+
+// ===== 교육과정 교과·영역 표 (학년 → 학기 → 교과 → 영역 선택용) =====
+// 출처: 교육부 고시 제2022-33호(2022 개정 교육과정) 별책 2·5·7·9의 교과별 성취기준 영역·단원 이름.
+// 수학은 영역 이름만 사용(별책 8 원문 대조 전). 학기별 단원 배치는 교과서마다 달라 이 표에 넣지 않았습니다.
+const BAND_LABEL = { '12': '1~2학년', '34': '3~4학년', '56': '5~6학년' };
+const SUBJECTS_BY_BAND = { '12': ['국어', '수학', '통합'], '34': ['국어', '사회', '수학', '과학'], '56': ['국어', '사회', '수학', '과학'] };
+const KO_AREAS = ['듣기·말하기', '읽기', '쓰기', '문법', '문학', '매체'];
+const MATH_AREAS = ['수와 연산', '변화와 관계', '도형과 측정', '자료와 가능성'];
+const INTEG_AREAS = ['우리는 누구로 살아갈까', '우리는 어디서 살아갈까', '우리는 지금 어떻게 살아갈까', '우리는 무엇을 하며 살아갈까'];
+const SOC34 = ['우리가 사는 곳', '일상에서 만나는 과거', '사회 변화와 다양한 문화', '옛날과 오늘날의 생활 모습', '지도로 만나는 우리 지역', '우리 지역의 문화유산', '경제활동과 지역 간 교류', '민주주의와 자치', '지역문제를 해결하고 지역을 알리는 노력', '다양한 환경과 삶의 모습'];
+const SOC56 = ['우리나라 국토 여행', '우리나라 지리 탐구', '법과 인권의 보장', '유적과 유물로 살펴본 옛 사람들의 생활', '달라지는 시대, 변화하는 생활 모습', '식민 통치와 저항, 전쟁이 바꾼 사회와 생활', '평화 통일을 위한 노력, 민주화와 산업화', '민주주의와 시민 참여', '지구, 대륙 그리고 국가들', '세계의 자연환경', '시장경제와 국가 간 거래', '지구촌 사람들'];
+const SCI34 = ['힘과 우리 생활', '동물의 생활', '식물의 생활', '생물의 한살이', '물체와 물질', '지구와 바다', '소리의 성질', '감염병과 건강한 생활', '자석의 이용', '물의 상태 변화', '땅의 변화', '다양한 생물과 우리 생활', '밤하늘 관찰', '생물과 환경', '여러 가지 기체', '기후변화와 우리 생활'];
+const SCI56 = ['지층과 화석', '빛의 성질', '용해와 용액', '우리 몸의 구조와 기능', '혼합물의 분리', '날씨와 우리 생활', '열과 우리 생활', '자원과 에너지', '산과 염기', '물체의 운동', '식물의 구조와 기능', '지구의 운동', '계절의 변화', '물질의 연소', '전기의 이용', '과학과 나의 진로'];
+function areasOf(band, subj) {
+  if (subj === '국어') return KO_AREAS;
+  if (subj === '수학') return MATH_AREAS;
+  if (subj === '통합') return INTEG_AREAS;
+  if (subj === '사회') return band === '34' ? SOC34 : band === '56' ? SOC56 : [];
+  if (subj === '과학') return band === '34' ? SCI34 : band === '56' ? SCI56 : [];
+  return [];
+}
+// 성취기준 코드 → 교과·영역. 예) '4과13-01' = 3~4학년군 과학 13번째 영역(밤하늘 관찰)
+const CODE_SUBJ = { '국': '국어', '수': '수학', '사': '사회', '과': '과학', '바': '통합', '슬': '통합', '즐': '통합' };
+const CODE_BAND = { '2': '12', '4': '34', '6': '56' };
+function linkOfCode(c) {
+  const m = /^(\d)([가-힣]+)(\d\d)-\d\d$/.exec(c); if (!m) return null;
+  const band = CODE_BAND[m[1]], subj = CODE_SUBJ[m[2]]; if (!band || !subj) return null; // 실과 등 선택 목록에 없는 교과는 제외
+  const area = areasOf(band, subj)[Number(m[3]) - 1]; if (!area) return null;
+  return { band, subj, area };
+}
+// 성취기준 코드로 잡히지 않는 연결(실과 코드뿐인 곳 등)은 사람이 확인해 직접 추가
+const EXTRA_LINKS = { '로봇 탐정단': [{ band: '56', subj: '과학', area: '과학과 나의 진로' }] };
+function linksOf(title) {
+  const g = GUIDES[title] || {}; const seen = {}; const out = [];
+  const add = (l) => { if (!l) return; const k = l.band + l.subj + l.area; if (!seen[k]) { seen[k] = 1; out.push(l); } };
+  ['std12', 'std', 'std56'].forEach((k) => (g[k] || []).forEach((c) => add(linkOfCode(c))));
+  (EXTRA_LINKS[title] || []).forEach(add);
+  return out;
 }

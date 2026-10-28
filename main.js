@@ -1,9 +1,9 @@
 // 시험용: 주소 뒤에 ?reset=1 을 붙이면 이 기기에 저장된 진행·신청 표시를 지웁니다(서버 데이터는 그대로).
 try { if (/[?&]reset=1/.test(location.search)) { ['gyogwaon_quest_v1', 'gyogwaon_diary_v1', 'gyogwaon_signed', 'gyogwaon_survey_done'].forEach((k) => localStorage.removeItem(k)); history.replaceState(null, '', location.pathname + location.hash); } } catch (e) {}
 // 교과ON — 모두의 창업 2기 지원용 MVP
-// 추천 방식(규칙 기반, AI 아님): 학년·학기·교과·관심사를 모두 만족하는 장소를 고르고(AND),
-// 없으면 '관심사 → 교과' 순으로 조건을 풀어 가까운 대안을 보여 주며 그 사실을 화면에 알립니다(학년·학기는 항상 지킴).
-// 정렬은 교과ON이 잡은 예시 시점(monthsAhead) 순이며, 실제 학교 진도와는 다를 수 있습니다.
+// 추천 방식(규칙 기반, AI 아님): 학년(학년군) → 교과 → 영역(2022 개정 성취기준 단원) 순으로 고른 조건에 연결된 장소를 보여 줍니다.
+// 없으면 '영역 → 교과' 순으로 조건을 풀어 가까운 대안을 보여 주며 그 사실을 화면에 알립니다(학년군은 항상 지킴).
+// 학기별 단원 배치는 교과서마다 달라 교육과정 원문(학년군 기준)만으로는 나눌 수 없어, 학기는 아직 추천 조건에 넣지 않았습니다.
 
 const experiences = [
   {
@@ -202,27 +202,43 @@ const experiences = [
   }
 ];
 
-const GOLDEN_MAX_MONTHS = 3; // 이 개월 수 이내면 '지금이 좋은 시점'으로 강조
+// 장소별 교과·영역 연결(guides.js의 성취기준 코드에서 계산). 교과 이름 문자열은 알림장 추천·보고서에서 쓴다.
+experiences.forEach((e) => {
+  e.links = linksOf(e.title);
+  e.subject = [...new Set(e.links.map((l) => l.subj))].join('·') || e.subject;
+});
 
 const gradeSelect = document.getElementById('gradeSelect');
 const semesterSelect = document.getElementById('semesterSelect');
-const interestSelect = document.getElementById('interestSelect');
+const subjectSelect = document.getElementById('subjectSelect');
+const areaSelect = document.getElementById('areaSelect');
+const bandOf = (g) => (g <= 2 ? '12' : g <= 4 ? '34' : '56');
 const recommendBtn = document.getElementById('recommendBtn');
 const cards = document.getElementById('cards');
 const summaryText = document.getElementById('summaryText');
 
+// 선택한 학년군에서 이 장소와 연결된 교과·영역 (고른 교과·영역과 맞는 것을 앞에)
+function linksForView(item) {
+  const band = bandOf(Number(gradeSelect.value));
+  const subj = subjectSelect.value, area = areaSelect.value;
+  const ls = item.links.filter((l) => l.band === band);
+  const hit = (l) => (subj === 'all' || l.subj === subj) && (area === 'all' || l.area === area);
+  return ls.slice().sort((a, b) => (hit(b) ? 1 : 0) - (hit(a) ? 1 : 0));
+}
 function cardTemplate(item) {
-  const golden = item.monthsAhead <= GOLDEN_MAX_MONTHS;
+  const band = bandOf(Number(gradeSelect.value));
+  const ls = linksForView(item); const p = ls[0];
+  const linkTxt = p ? `${p.subj} · ${p.area}` : '';
   return `
-    <article class="experience-card${golden ? ' golden' : ''}">
+    <article class="experience-card">
       <div class="card-topline">
-        <span class="chip${golden ? ' hot' : ''}">${golden ? '🔥 곧 연결되는 내용(예시)' : `📅 약 ${item.monthsAhead}개월 뒤 학습과 연결(예시)`}</span>
+        <span class="chip">${p ? `📚 ${BAND_LABEL[band]} ${linkTxt}` : '📚 교과 연결(예시)'}</span>
         <span class="badge">${item.badge}</span>
       </div>
-      <p class="subject">${(Number(gradeSelect.value) <= 2 && item.subject12) || item.subject}</p>
+      <p class="subject">${ls.map((l) => `${l.subj} · ${l.area}`).join(' / ')}</p>
       <h3>${item.title}</h3>
       <p class="place">📍 ${item.place} · ${item.region}</p>
-      <p class="why">📌 ${item.placeType} · ${item.cost} · 왜 이곳? ${(Number(gradeSelect.value) <= 2 && item.fit12) || item.fit}</p>
+      <p class="why">📌 ${item.placeType} · ${item.cost} · 왜 이곳? ${p ? `${p.subj} '${p.area}' 성취기준과 연결 가능(예시)` : item.fit}</p>
       <p class="story">${item.story}</p>
       <div class="mission-box quest" data-id="${item.title}">
         <div class="quest-head">
@@ -239,10 +255,10 @@ function cardTemplate(item) {
         <div class="diary-row"><input type="date" class="d-date" aria-label="방문일"><input type="text" class="d-text" maxlength="80" placeholder="오늘 가장 기억에 남은 건?" aria-label="한 줄 소감"><button type="button" class="d-save">저장</button></div>
         <small class="mute d-msg">이 기기에만 저장돼요(서버로 보내지 않아요).</small>
       </div>
-      <details>
-        <summary>부모용 가이드 · 교과 연결 & 질문</summary>
-        <p><b>예상 학습 시기(예시):</b> 앞으로 약 ${item.monthsAhead}개월 이내 · 학교 진도에 따라 달라요</p>
-        <p><b>장소 선정 기준:</b> ${item.placeType} 유형 · ${item.fit}</p>
+      <details class="pg-details">
+        <summary><span class="pg-ico">👨‍👩‍👧</span><span class="pg-txt"><b>부모용 가이드</b><small>교과 연결 · 아이에게 할 질문 · 집에서 이어하기</small></span><span class="pg-open">펼쳐 보기 ▾</span></summary>
+        <p><b>학기별 단원 배치:</b> 교과서와 학교 진도에 따라 달라요. 지금은 학년군(${BAND_LABEL[band]}) 교육과정 기준으로 연결했어요.</p>
+        <p><b>장소 선정 기준:</b> ${item.placeType} 유형 · ${p ? `${p.subj} '${p.area}' 영역과 연결 가능(예시)` : item.fit}</p>
         <p>${item.parent}</p>
         ${guideHTML(item)}
         <div class="pguide check"><p><b>✅ 가기 전 확인</b></p><ul class="chk"><li><label><input type="checkbox"> 운영시간·요금·휴관일을 시설 공식 안내로 확인했어요</label></li><li><label><input type="checkbox"> 이동 방법과 주차·대중교통을 확인했어요</label></li><li><label><input type="checkbox"> 물·간식·편한 신발 등 준비물을 챙겼어요</label></li><li><label><input type="checkbox"> 아이와 안전 약속(손 잡기, 흩어지지 않기)을 정했어요</label></li></ul></div>
@@ -328,61 +344,71 @@ cards.addEventListener('click', (e) => {
 
 const matchNote = document.getElementById('matchNote');
 let lastMatch = { n: 0, relax: 'none' };
-function pick(grade, semester, interest, subj, useInterest, useSubj) {
-  return experiences.filter(x => x.grades.includes(grade) && x.semesters.includes(semester)
-    && (!useInterest || interest === 'all' || x.interest === interest)
-    && (!useSubj || subj === 'all' || ((grade <= 2 && x.subject12) || x.subject).includes(subj)));
+function countFor(band, subj, area) {
+  return experiences.filter((x) => x.links.some((l) => l.band === band && l.subj === subj && (!area || l.area === area))).length;
 }
-const INTEREST_KO = { history: '역사·문화·책', science: '과학·자연', nature: '야외·생태' };
+// 학년 → 교과 목록(학년군별) → 영역 목록(교과별)
+let gradeTouched = false;
+function buildSubjects() {
+  const band = bandOf(Number(gradeSelect.value)); const cur = subjectSelect.value;
+  const list = SUBJECTS_BY_BAND[band];
+  subjectSelect.innerHTML = '<option value="all">전체 교과</option>' + list.map((sj) => `<option value="${sj}">${sj}</option>`).join('');
+  subjectSelect.value = list.includes(cur) ? cur : 'all';
+  buildAreas();
+}
+function buildAreas() {
+  const band = bandOf(Number(gradeSelect.value)); const subj = subjectSelect.value; const cur = areaSelect.value;
+  if (subj === 'all') { areaSelect.innerHTML = '<option value="all">교과를 먼저 골라 주세요</option>'; areaSelect.disabled = true; return; }
+  areaSelect.disabled = false;
+  const ar = areasOf(band, subj);
+  areaSelect.innerHTML = '<option value="all">전체 영역</option>' + ar.map((a) => { const n = countFor(band, subj, a); return `<option value="${a}">${a} ${n ? `(${n}곳)` : '(준비 중)'}</option>`; }).join('');
+  areaSelect.value = ar.includes(cur) ? cur : 'all';
+}
+function pick(band, subj, area) {
+  return experiences.filter((x) => x.links.some((l) => l.band === band && (subj === 'all' || l.subj === subj) && (area === 'all' || l.area === area)));
+}
 function render() {
   const grade = Number(gradeSelect.value);
-  const semester = Number(semesterSelect.value);
-  const interest = interestSelect.value;
-  const subjEl = document.getElementById('subjectSelect');
-  const subj = subjEl ? subjEl.value : 'all';
+  const band = bandOf(grade);
+  const subj = subjectSelect.value, area = areaSelect.value;
 
-  // 1) 모든 조건 일치 → 2) 관심사 풀기 → 3) 교과 풀기 → 4) 둘 다 풀기 (학년·학기는 항상 지킴)
+  // 1) 학년군·교과·영역 모두 일치 → 2) 영역 풀기 → 3) 교과 풀기 (학년군은 항상 지킴)
   let relax = 'none';
-  let filtered = pick(grade, semester, interest, subj, true, true);
-  if (!filtered.length) { filtered = pick(grade, semester, interest, subj, false, true); relax = 'interest'; }
-  if (!filtered.length) { filtered = pick(grade, semester, interest, subj, true, false); relax = 'subject'; }
-  if (!filtered.length) { filtered = pick(grade, semester, interest, subj, false, false); relax = 'both'; }
+  let filtered = pick(band, subj, area);
+  if (!filtered.length && area !== 'all') { filtered = pick(band, subj, 'all'); relax = 'area'; }
+  if (!filtered.length && subj !== 'all') { filtered = pick(band, 'all', 'all'); relax = 'subject'; }
   lastMatch = { n: filtered.length, relax };
 
-  filtered = filtered.slice().sort((a, b) => a.monthsAhead - b.monthsAhead);
-
   if (matchNote) {
-    const sj = subj === 'all' ? '' : ` 교과 "${subj}"`;
-    const it = interest === 'all' ? '' : ` 관심사 "${INTEREST_KO[interest] || interest}"`;
+    const sj = subj === 'all' ? '' : ` ${subj}`;
+    const ar = area === 'all' ? '' : ` "${area}"`;
     const msgs = {
-      interest: `${grade}학년${sj}${it}에 딱 맞는 곳은 아직 없어요. 관심사를 넓혀서 ${grade}학년${sj}에 맞는 곳을 보여 드려요.`,
-      subject: `${grade}학년${sj}${it}에 딱 맞는 곳은 아직 없어요. 교과를 넓혀서 ${grade}학년${it}에 맞는 곳을 보여 드려요.`,
-      both: `${grade}학년${sj}${it}에 딱 맞는 곳은 아직 없어요. 교과·관심사를 넓혀서 ${grade}학년 ${semester}학기에 갈 수 있는 곳을 보여 드려요.`
+      area: `${grade}학년${sj}${ar}와 직접 연결된 곳은 아직 없어요(준비 중). 영역을 넓혀서 ${grade}학년${sj}에 맞는 곳을 보여 드려요.`,
+      subject: `${grade}학년${sj}${ar}와 연결된 곳은 아직 없어요(준비 중). 교과를 넓혀서 ${grade}학년에 맞는 곳을 보여 드려요.`
     };
     matchNote.hidden = relax === 'none';
     matchNote.textContent = msgs[relax] || '';
   }
 
-  const goldenCount = filtered.filter(x => x.monthsAhead <= GOLDEN_MAX_MONTHS).length;
   cards.innerHTML = filtered.map(cardTemplate).join('');
   cards.querySelectorAll('.quest').forEach(refreshQuest);
   cards.querySelectorAll('.diary').forEach(fillDiary);
   renderHud(false);
-  summaryText.textContent = `${grade}학년 ${semester}학기 · 연결 코스 ${filtered.length}개 (시점은 예시)`
-    + (goldenCount ? ` · 그중 ${goldenCount}개는 곧 연결되는 내용 🔥` : '');
+  summaryText.textContent = `${grade}학년 · 연결 코스 ${filtered.length}개 (교과 연결은 예시)`;
 }
 
 let recTimer = null;
 function trackRecommend(src) {
-  window.__recommended = true; if (window.__showSurvey) window.__showSurvey();
-  track('recommend', { src, grade: gradeSelect.value, semester: semesterSelect.value, subject: (document.getElementById('subjectSelect') || {}).value || 'all', interest: interestSelect.value, n: lastMatch.n, relax: lastMatch.relax });
+  if (!window.__recommended && window.__popupAfterRecommend) window.__popupAfterRecommend(); window.__recommended = true; if (window.__showSurvey) window.__showSurvey();
+  track('recommend', { src, grade: gradeSelect.value, semester: semesterSelect.value, subject: subjectSelect.value, area: areaSelect.value, n: lastMatch.n, relax: lastMatch.relax });
 }
 function onSelectChange() { render(); clearTimeout(recTimer); recTimer = setTimeout(() => trackRecommend('select'), 800); }
 recommendBtn.addEventListener('click', () => { render(); trackRecommend('button'); const c = document.getElementById('cards'); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-gradeSelect.addEventListener('change', onSelectChange);
+gradeSelect.addEventListener('change', () => { gradeTouched = true; buildSubjects(); onSelectChange(); });
 semesterSelect.addEventListener('change', onSelectChange);
-interestSelect.addEventListener('change', onSelectChange);
-const _ss = document.getElementById('subjectSelect'); if (_ss) _ss.addEventListener('change', onSelectChange);
+subjectSelect.addEventListener('change', () => { buildAreas(); onSelectChange(); });
+areaSelect.addEventListener('change', onSelectChange);
+buildSubjects();
 render();
 
 // ===== 측정 도우미 =====
@@ -404,7 +430,49 @@ cards.addEventListener('toggle', (e) => {
   track('parent_detail_open', { card: q ? q.dataset.id : '' });
 }, true);
 
-// ===== 사전신청: 구글 시트로 전송 (config.js의 주소가 있을 때만) =====
+// ===== 출시 알림 신청(사전신청): 팝업/버튼으로 열고 구글 시트로 전송 (config.js의 주소가 있을 때만) =====
+const modal = document.getElementById('signupModal');
+const POP_KEY = 'gyogwaon_popup_hide';
+let popupSrc = 'button';
+function openSignup(src) {
+  if (!modal) return;
+  popupSrc = src || 'button';
+  // 학년 칸 미리 채우기: 사용자가 위쪽 학년을 직접 바꿨을 때만(기본값 4학년이 쌓이는 것 방지)
+  const boxes = [...modal.querySelectorAll('input[name=grade]')];
+  if (typeof gradeTouched !== 'undefined' && gradeTouched && !boxes.some((x) => x.checked)) { const b = boxes.find((x) => x.value === String(gradeSelect.value)); if (b) b.checked = true; }
+  modal.hidden = false; document.body.classList.add('modal-open');
+  try { sessionStorage.setItem('gyogwaon_popup_shown', '1'); } catch (e) {}
+  track('popup_show', { src: popupSrc });
+  const em = document.getElementById('signupEmail'); if (em && !('ontouchstart' in window)) em.focus();
+}
+function closeSignup(how) {
+  if (!modal || modal.hidden) return;
+  modal.hidden = true; document.body.classList.remove('modal-open');
+  try { localStorage.setItem(POP_KEY, String(Date.now())); } catch (e) {} // 닫으면 3일 동안 자동 팝업을 다시 띄우지 않음
+  track('popup_close', { src: popupSrc, how: how || 'x' });
+}
+function popupAllowed() {
+  if (isSigned()) return false;
+  try { if (sessionStorage.getItem('gyogwaon_popup_shown')) return false; } catch (e) {}
+  try { const t = Number(localStorage.getItem(POP_KEY) || 0); if (t && Date.now() - t < 3 * 86400000) return false; } catch (e) {}
+  return true;
+}
+// 방문 직후가 아니라, 추천을 한 번 본 뒤 6초 또는 방문 25초 뒤에 한 번만 보여 줌(광고 방문자가 바로 닫지 않도록)
+function schedulePopup(ms, src) { setTimeout(() => { if (popupAllowed() && modal && modal.hidden) openSignup(src); }, ms); }
+schedulePopup(25000, 'timer');
+window.__popupAfterRecommend = () => schedulePopup(6000, 'after_recommend');
+if (modal) {
+  document.getElementById('signupClose').addEventListener('click', () => closeSignup('x'));
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeSignup('backdrop'); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSignup('esc'); });
+  const ob = document.getElementById('openSignup'); if (ob) ob.addEventListener('click', () => openSignup('button'));
+  const cs = document.getElementById('ctaSignup'); if (cs) cs.addEventListener('click', (e) => { e.preventDefault(); openSignup('hero'); });
+  document.getElementById('doneClose').addEventListener('click', () => { modal.hidden = true; document.body.classList.remove('modal-open'); });
+  document.getElementById('goSurvey').addEventListener('click', () => {
+    modal.hidden = true; document.body.classList.remove('modal-open');
+    const sv = document.getElementById('surveyForm'); if (sv) { sv.hidden = false; sv.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  });
+}
 (function () {
   const form = document.getElementById('signupForm');
   if (!form) return;
@@ -417,7 +485,6 @@ cards.addEventListener('toggle', (e) => {
     const email = document.getElementById('signupEmail').value.trim();
     const grades = [...form.querySelectorAll('input[name=grade]:checked')].map(x => x.value);
     const consent = document.getElementById('signupConsent').checked;
-    const interview = document.getElementById('signupInterview').checked;
     let err = '';
     if (!grades.length) err = '자녀 학년을 하나 이상 선택해 주세요.';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) err = '이메일 주소를 확인해 주세요.';
@@ -427,9 +494,8 @@ cards.addEventListener('toggle', (e) => {
     if (err) { msg.textContent = err; track('signup_error', { reason: err.slice(0, 12) }); return; }
     if (!window.GO || !window.GO.enabled) { msg.classList.add('err'); msg.textContent = '아직 신청 접수가 연결되지 않아 저장되지 않았어요.'; return; }
     btn.disabled = true; msg.classList.remove('err'); msg.textContent = '접수 중...';
-    const region = (document.getElementById('signupRegion') || {}).value || '';
-    window.GO.send('signup', { email, grades: grades.join(','), interview, consent: true, region })
-      .then(() => { msg.textContent = '🎉 사전신청이 접수되었어요. 출시·진행 소식을 입력하신 이메일로 안내드릴게요.'; form.reset(); try { localStorage.setItem('gyogwaon_signed', '1'); } catch (e) {} setDl(); const sv = document.getElementById('surveyForm'); if (sv) { sv.dispatchEvent(new CustomEvent('survey:open')); sv.hidden = false; setTimeout(() => sv.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100); } })
+    window.GO.send('signup', { email, grades: grades.join(','), interview: false, consent: true, region: '', src: popupSrc })
+      .then(() => { msg.textContent = '🎉 출시 알림이 접수되었어요. 출시 소식을 입력하신 이메일로 전해드릴게요.'; form.reset(); try { localStorage.setItem('gyogwaon_signed', '1'); } catch (e) {} setDl(); const sv = document.getElementById('surveyForm'); if (sv) { sv.dispatchEvent(new CustomEvent('survey:open')); sv.hidden = false; } const dn = document.getElementById('signupDone'); if (dn) dn.hidden = false; btn.hidden = true; })
       .catch(() => { msg.classList.add('err'); msg.textContent = '전송에 실패했어요. 잠시 뒤 다시 시도해 주세요.'; })
       .finally(() => { btn.disabled = false; });
   });
@@ -447,18 +513,8 @@ function surveyDone() { try { return localStorage.getItem('gyogwaon_survey_done'
   const maybeShow = () => { if (!surveyDone() && (isSigned() || window.__recommended)) sv.hidden = false; };
   window.__showSurvey = maybeShow;
   maybeShow();
-  const NAMES = ['q1', 'q2', 'q3', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11'];
-  // q13: 최대 2개 선택
-  sv.querySelectorAll('input[name=q13]').forEach((c) => c.addEventListener('change', () => {
-    const on = [...sv.querySelectorAll('input[name=q13]:checked')];
-    if (c.value === 'none' && c.checked) on.forEach((x) => { if (x !== c) x.checked = false; });
-    else if (c.checked) { const n = sv.querySelector('input[name=q13][value=none]'); if (n) n.checked = false; }
-    const now = [...sv.querySelectorAll('input[name=q13]:checked')];
-    if (now.length > 2) c.checked = false;
-  }));
-  const val13 = () => [...sv.querySelectorAll('input[name=q13]:checked')].map((x) => x.value).join(',');
-  const lab13 = () => [...sv.querySelectorAll('input[name=q13]:checked')].map((x) => x.parentElement.textContent.trim()).join(' / ');
-  const legendOf = (n) => { const f = sv.querySelector('input[name=' + n + ']'); const lg = f && f.closest('fieldset') ? f.closest('fieldset').querySelector('legend') : null; return lg ? lg.textContent.replace(/\s+/g, ' ').trim() : ''; };
+  const NAMES = ['q1', 'q8', 'q9']; // 3문항으로 줄임(v35). 나머지 문항 칸은 시트에서 빈칸으로 남음
+      const legendOf = (n) => { const f = sv.querySelector('input[name=' + n + ']'); const lg = f && f.closest('fieldset') ? f.closest('fieldset').querySelector('legend') : null; return lg ? lg.textContent.replace(/\s+/g, ' ').trim() : ''; };
   const val = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.value : ''; };
   const lab = (n) => { const x = sv.querySelector('input[name=' + n + ']:checked'); return x ? x.parentElement.textContent.trim() : ''; };
   let sending = false;
@@ -467,16 +523,12 @@ function surveyDone() { try { return localStorage.getItem('gyogwaon_survey_done'
   sv.addEventListener('submit', (e) => {
     e.preventDefault();
     if (sending) return;
-    const tx = document.getElementById('surveyText');
-    const text = tx.value.trim().slice(0, 120);
+    const text = '';
     msg.hidden = false;
-    if (!NAMES.some((n) => val(n)) && !val13() && !text) { msg.classList.add('err'); msg.textContent = '하나 이상 선택하거나 적어 주세요.'; return; }
+    if (!NAMES.some((n) => val(n))) { msg.classList.add('err'); msg.textContent = '하나 이상 선택해 주세요.'; return; }
     const rg = document.getElementById('surveyRegion');
-    const data = { survey_ver: 'v28', signed: isSigned() ? 'Y' : 'N', region: rg ? rg.value : '', grade_ctx: (typeof gradeSelect !== 'undefined' && gradeSelect.value) || '' };
+    const data = { survey_ver: 'v28', signed: isSigned() ? 'Y' : 'N', region: rg ? rg.value : '', grade_ctx: (typeof gradeSelect !== 'undefined' && gradeSelect.value) || '' }; // grade_ctx = 추천 화면에서 고른 학년(가입 학년 아님)
     NAMES.forEach((n) => { data[n + '_value'] = val(n); data[n + '_question'] = legendOf(n); data[n + '_answer'] = lab(n); });
-    const f13 = sv.querySelector('#fsq13 legend');
-    data.q13_value = val13(); data.q13_question = f13 ? f13.textContent.replace(/\s+/g, ' ').trim() : ''; data.q13_answer = lab13();
-    data.q12_value = text; data.q12_question = '11. 바라는 점이나 걱정되는 점'; data.q12_answer = text;
     sending = true; btn.disabled = true;
     msg.classList.remove('err'); msg.textContent = '보내는 중...';
     track('survey', data).then((ok) => {
@@ -495,7 +547,7 @@ function isSigned() { try { return localStorage.getItem('gyogwaon_signed') === '
 function setDl() {
   document.querySelectorAll('.resource .dl').forEach((b) => {
     const base = ({ 'curriculum_1-2': '1~2학년군 PDF 받기', 'curriculum_5-6': '5~6학년군 PDF 받기' })[b.dataset.file] || '3~4학년군 PDF 받기';
-    b.textContent = isSigned() ? base : '사전신청하고 ' + base;
+    b.textContent = isSigned() ? base : '출시 알림 신청하고 ' + base;
   });
 }
 (function () {
@@ -506,8 +558,8 @@ function setDl() {
     track('download_click', { file: b.dataset.file, signed });
     if (!signed) {
       e.preventDefault();
-      const s = document.getElementById('signup'); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      const m = document.getElementById('dlMsg'); m.hidden = false; m.textContent = '아래에서 사전신청을 하시면 PDF를 받을 수 있어요.';
+      const m = document.getElementById('dlMsg'); m.hidden = false; m.textContent = '출시 알림을 신청하시면 PDF를 받을 수 있어요.';
+      openSignup('download');
     }
   }));
 })();
@@ -522,7 +574,7 @@ function setDl() {
     const r = matchNotice(text);
     track('notice_match', { len: Math.min(Math.floor(text.length / 100) * 100, 800), matched: r.length, top: r[0] ? r[0].title : '' });
     if (!r.length) {
-      out.innerHTML = '<p class="muted">입력하신 내용과 연결되는 부천 체험을 찾지 못했어요. 지금은 부천 체험 17곳과 관련된 단어만 알아봐요(다른 지역 장소는 아직 없어요). 아래에서 교과를 골라 바로 볼 수 있어요.</p><div class="chips notice-chips">' + ['과학', '사회', '국어', '실과'].map((s) => '<button type="button" class="chip-btn" data-subj="' + s + '">' + s + ' 체험 보기</button>').join('') + '</div><p class="muted"><small>입력하신 내용은 저장하거나 보내지 않아요. 어떤 단어를 찾으면 좋을지 아래 의견란에 남겨 주셔도 좋아요.</small></p>';
+      out.innerHTML = '<p class="muted">입력하신 내용과 연결되는 부천 체험을 찾지 못했어요. 지금은 부천 체험 17곳과 관련된 단어만 알아봐요(다른 지역 장소는 아직 없어요). 아래에서 교과를 골라 바로 볼 수 있어요.</p><div class="chips notice-chips">' + ['국어', '사회', '과학', '수학'].map((s) => '<button type="button" class="chip-btn" data-subj="' + s + '">' + s + ' 체험 보기</button>').join('') + '</div><p class="muted"><small>입력하신 내용은 저장하거나 보내지 않아요. 어떤 단어를 찾으면 좋을지 아래 의견란에 남겨 주셔도 좋아요.</small></p>';
       return;
     }
     out.innerHTML = r.map((x) => {
@@ -534,7 +586,7 @@ function setDl() {
 
 document.getElementById('noticeOut').addEventListener('click', (e) => {
   const b = e.target.closest('.chip-btn'); if (!b) return;
-  const sel = document.getElementById('subjectSelect'); if (sel) sel.value = b.dataset.subj;
+  const sel = document.getElementById('subjectSelect'); if (sel && [...sel.options].some((o) => o.value === b.dataset.subj)) { sel.value = b.dataset.subj; buildAreas(); }
   track('notice_fallback', { subj: b.dataset.subj });
   const rb = document.getElementById('recommendBtn'); if (rb) rb.click();
   const c = document.getElementById('controls'); if (c) c.scrollIntoView({ behavior: 'smooth' });
@@ -658,7 +710,7 @@ function renderStamps() {
     const it = box.querySelector('#fbIntent input:checked');
     sent = true; send.disabled = true;
     track('feedback', { helpful, reasons: reasons.join(','), go_intent: it ? it.value : '', text: document.getElementById('fbText').value.trim().slice(0, 120),
-      grade: gradeSelect.value, semester: semesterSelect.value, subject: (document.getElementById('subjectSelect') || {}).value || 'all', interest: interestSelect.value, n: lastMatch.n, relax: lastMatch.relax })
+      grade: gradeSelect.value, semester: semesterSelect.value, subject: subjectSelect.value + (areaSelect.value !== 'all' ? '/' + areaSelect.value : ''), interest: '', n: lastMatch.n, relax: lastMatch.relax })
       .then(() => { msg.hidden = false; msg.classList.remove('err'); msg.textContent = '의견 고마워요! 추천을 고치는 데 쓸게요. 🙌'; });
   });
 })();

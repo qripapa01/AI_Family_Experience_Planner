@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=34" />
+  <link rel="stylesheet" href="style.css?v=35" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"교과ON","description":"앞으로 배울 초등 교과 내용과 연결되는 부천 체험학습 장소를 학년별로 추천하는 서비스(시범)","applicationCategory":"EducationalApplication","operatingSystem":"Web","inLanguage":"ko","url":"https://qripapa-ai-family-20260817.web.app/","areaServed":{"@type":"City","name":"부천시"}}</script>
 </head>
 <body>
@@ -53,7 +53,7 @@
     <section class="steps" aria-label="이용 방법">
       <h2>이렇게 써요 <small>30초면 충분해요</small></h2>
       <div class="step-grid">
-        <div class="step"><b>1</b><strong>학년·학기 고르기</strong><span>아이 관심사까지 고르면 더 잘 맞아요</span></div>
+        <div class="step"><b>1</b><strong>학년·교과·영역 고르기</strong><span>교과와 영역(교육과정 단원)까지 고르면 더 잘 맞아요</span></div>
         <div class="step"><b>2</b><strong>이번 주말 코스 받기</strong><span>장소·연결 교과·근처 식당·카페를 한눈에</span></div>
         <div class="step"><b>3</b><strong>미션하고 칭찬하기</strong><span>아이는 미션 놀이, 부모는 질문 가이드</span></div>
       </div>
@@ -78,19 +78,12 @@
       </label>
       <label>교과
         <select id="subjectSelect">
-          <option value="all">전체</option>
-          <option value="과학">과학</option>
-          <option value="사회">사회</option>
-          <option value="국어">국어</option>
-          <option value="실과">실과</option>
+          <option value="all">전체 교과</option>
         </select>
       </label>
-      <label>아이 관심사
-        <select id="interestSelect">
-          <option value="all">전체</option>
-          <option value="history">역사·문화·책</option>
-          <option value="science">과학·자연</option>
-          <option value="nature">야외·생태</option>
+      <label>영역 <small class="lab-sub">(교육과정 단원)</small>
+        <select id="areaSelect" disabled>
+          <option value="all">교과를 먼저 골라 주세요</option>
         </select>
       </label>
       <button id="recommendBtn" type="button">이번 주말 코스 보기</button>
@@ -100,7 +93,8 @@
       <div>
         <p class="eyebrow">부모님께</p>
         <h2>왜 이 장소를 추천하나요?</h2>
-        <p>학년·학기·교과·관심사에 맞춰 학교에서 배울 내용과 이어질 만한 곳을 골랐어요. 곧 만나게 될 내용은 <span class="hot">🔥 곧 연결되는 내용</span>으로 표시하는데, 시점은 교과ON이 잡은 예시이며 학교 진도와 다를 수 있어요. 아이에게는 공부가 아니라 <b>재미있는 주말 모험</b>으로 보여요.</p>
+        <p>학년과 교과, 영역(교육과정 단원)에 맞춰 학교에서 배울 내용과 이어질 만한 곳을 골랐어요. 학기별 단원 배치는 교과서와 학교마다 달라서, 지금은 학년군 교육과정 기준으로 연결했어요. 아이에게는 공부가 아니라 <b>재미있는 주말 모험</b>으로 보여요.</p>
+        <p class="pg-hint">👨‍👩‍👧 각 장소 카드의 <b>‘부모용 가이드’</b>를 펼치면 교과 연결과 아이에게 할 질문이 나와요.</p>
         <p class="src">📚 교과 연결은 <b>2022 개정 교육과정 성취기준</b>(교육부 고시 제2022-33호, 국가교육과정정보센터 공개 자료)을 참고했어요. 교육부·학교의 공식·인증 서비스는 아니며, 연결은 교과ON이 정리한 예시예요.</p>
       </div>
       <span class="window">교과 연결 예시 (교사 검수 전)</span>
@@ -176,73 +170,62 @@
     <section class="panel resource" id="resource">
       <p class="eyebrow">FREE GUIDE · 무료 자료</p>
       <h2>📄 체험학습 연결표 (PDF)</h2>
-      <p class="muted">교과 성취기준과 부천 체험 장소, 아이에게 물어볼 질문을 한 장으로 정리했어요. 사전신청을 하시면 바로 받을 수 있어요. (1~2학년군은 국어 성취기준 기준이며, 통합교과 연결은 준비 중이에요.)</p>
+      <p class="muted">교과 성취기준과 부천 체험 장소, 아이에게 물어볼 질문을 한 장으로 정리했어요. 출시 알림을 신청하시면 바로 받을 수 있어요. (1~2학년군은 국어 성취기준 기준이며, 통합교과 연결은 준비 중이에요.)</p>
       <a id="dlBtn0" class="signup-btn dl" href="files/gyogwaon_curriculum_1-2.pdf" download data-file="curriculum_1-2">1~2학년군 PDF 받기</a> <a id="dlBtn" class="signup-btn dl" href="files/gyogwaon_curriculum_3-4.pdf" download data-file="curriculum_3-4">3~4학년군 PDF 받기</a> <a id="dlBtn2" class="signup-btn dl" href="files/gyogwaon_curriculum_5-6.pdf" download data-file="curriculum_5-6">5~6학년군 PDF 받기</a>
       <p id="dlMsg" class="signup-msg" hidden></p>
     </section>
 
     <section class="panel signup" id="signup">
-      <p class="eyebrow">PRE-REGISTER · 사전신청</p>
+      <p class="eyebrow">NEWS · 출시 알림</p>
       <h2>출시 소식을 가장 먼저 받아보세요</h2>
-      <p class="muted">교과 시점에 맞춘 주말 체험 추천, 곧 정식으로 만나요. 사전신청해 주신 분께 출시 소식과 짧은 의견 요청을 드립니다.</p>
-      <form id="signupForm" novalidate>
-        <fieldset>
-          <legend>자녀 학년 <small>(해당하는 학년을 모두 선택)</small></legend>
-          <div class="chips">
-            <label><input type="checkbox" name="grade" value="1"><span>1학년</span></label>
-            <label><input type="checkbox" name="grade" value="2"><span>2학년</span></label>
-            <label><input type="checkbox" name="grade" value="3"><span>3학년</span></label>
-            <label><input type="checkbox" name="grade" value="4"><span>4학년</span></label>
-            <label><input type="checkbox" name="grade" value="5"><span>5학년</span></label>
-            <label><input type="checkbox" name="grade" value="6"><span>6학년</span></label>
-          </div>
-        </fieldset>
-        <label class="field">이메일
-          <input type="email" id="signupEmail" placeholder="parent@example.com" autocomplete="email">
-        </label>
-        <label class="field">사는 지역 <small>(선택)</small>
-          <select id="signupRegion"><option value="">선택 안 함</option><option value="부천">부천</option><option value="경기 다른 지역">경기 다른 지역</option><option value="서울">서울</option><option value="인천">인천</option><option value="기타">기타</option></select>
-        </label>
-        <label class="check"><input type="checkbox" id="signupInterview"><span>10분 인터뷰에 참여할 수 있어요 (선택)</span></label>
-        <label class="check"><input type="checkbox" id="signupConsent"><span>출시 안내와 의견 요청을 위한 개인정보(이메일) 수집·이용에 동의합니다. (보호자가 작성해 주세요)</span></label>
-        <details class="privacy" open><summary>개인정보 수집·이용 안내</summary><p id="privacyText">수집 항목: 이메일, 자녀 학년, 사는 지역(선택), 인터뷰 참여 의향(선택). 이용 목적: 출시·진행 소식 안내, 짧은 의견 요청. 보관·파기: <span id="privDestroy">2027년 6월 30일</span>까지 보관 후 파기합니다. 동의를 거부하셔도 추천 기능 이용에는 불이익이 없으며, 사전신청과 PDF 자료 받기만 이용하실 수 없습니다. 자녀의 이름·사진 등은 받지 않습니다. <span id="privContact"></span></p></details>
-        <button type="submit" class="signup-btn">사전신청하기</button>
-        <p id="signupMsg" class="signup-msg" hidden></p>
-      </form>
+      <p class="muted">곧 출시되면 출시 소식을 이메일로 전달드려요.</p>
+      <button type="button" id="openSignup" class="signup-btn">출시 알림 받기</button>
       <form id="surveyForm" class="survey" hidden novalidate>
-        <h3>🙏 1~2분만 의견을 들려주세요 <small>(선택 · 개인정보는 적지 마세요)</small></h3>
-        <p class="muted"><small>사전신청 없이도 참여할 수 있어요. 추천을 한 번 보신 뒤 답해 주시면 더 정확해요.</small></p>
-        <label class="field">사는 지역 <small>(선택)</small> <select id="surveyRegion"><option value="">선택 안 함</option><option value="부천">부천</option><option value="경기 다른 지역">경기 다른 지역</option><option value="서울">서울</option><option value="인천">인천</option><option value="기타">기타</option></select></label>
+        <h3>🙏 30초만 의견을 들려주세요 <small>(선택 · 개인정보는 적지 마세요)</small></h3>
+        <p class="muted"><small>출시 알림을 신청하지 않으셔도 참여할 수 있어요.</small></p>
         <fieldset><legend>1. 주말에 아이와 갈 곳을 고르는 일이 얼마나 어려우신가요?</legend>
           <div class="chips"><label><input type="radio" name="q1" value="1"><span>1 전혀</span></label><label><input type="radio" name="q1" value="2"><span>2</span></label><label><input type="radio" name="q1" value="3"><span>3</span></label><label><input type="radio" name="q1" value="4"><span>4</span></label><label><input type="radio" name="q1" value="5"><span>5 매우</span></label></div></fieldset>
-        <fieldset><legend>2. 아이와 갈 곳을 보통 어떻게 찾으세요?</legend>
-          <div class="chips"><label><input type="radio" name="q2" value="search"><span>검색·블로그</span></label><label><input type="radio" name="q2" value="sns"><span>SNS·맘카페</span></label><label><input type="radio" name="q2" value="school"><span>학교 안내·가정통신문</span></label><label><input type="radio" name="q2" value="peer"><span>지인 추천</span></label><label><input type="radio" name="q2" value="app"><span>앱·서비스</span></label><label><input type="radio" name="q2" value="fixed"><span>가던 곳만 감</span></label></div></fieldset>
-        <fieldset><legend>3. 요즘 한 달에 평균 몇 번 아이와 체험학습·체험 나들이를 가시나요?</legend>
-          <div class="chips"><label><input type="radio" name="q3" value="0"><span>거의 안 감</span></label><label><input type="radio" name="q3" value="1"><span>월 1번</span></label><label><input type="radio" name="q3" value="2"><span>월 2번</span></label><label><input type="radio" name="q3" value="3"><span>월 3~4번</span></label><label><input type="radio" name="q3" value="5"><span>월 5번 이상</span></label></div></fieldset>
-        <fieldset><legend>4. 아이와 체험학습 1회에 보통 얼마를 쓰시나요? <small>(입장료·체험비, 식비·교통비 제외)</small></legend>
-          <div class="chips"><label><input type="radio" name="q5" value="0"><span>거의 안 씀</span></label><label><input type="radio" name="q5" value="1"><span>1만원 미만</span></label><label><input type="radio" name="q5" value="2"><span>1~3만원</span></label><label><input type="radio" name="q5" value="3"><span>3~5만원</span></label><label><input type="radio" name="q5" value="4"><span>5만원 이상</span></label></div></fieldset>
-        <fieldset><legend>5. 비용이 부담돼서 체험학습을 포기하거나 줄인 적이 있나요?</legend>
-          <div class="chips"><label><input type="radio" name="q6" value="never"><span>없음</span></label><label><input type="radio" name="q6" value="sometimes"><span>가끔</span></label><label><input type="radio" name="q6" value="often"><span>자주</span></label></div></fieldset>
-        <fieldset><legend>6. 체험 비용이 지금보다 낮아진다면 체험학습을 더 자주 가실 것 같나요?</legend>
-          <div class="chips"><label><input type="radio" name="q7" value="1"><span>1 전혀</span></label><label><input type="radio" name="q7" value="2"><span>2</span></label><label><input type="radio" name="q7" value="3"><span>3</span></label><label><input type="radio" name="q7" value="4"><span>4</span></label><label><input type="radio" name="q7" value="5"><span>5 매우</span></label></div></fieldset>
-        <fieldset><legend>7. 가장 도움이 될 것 같은 기능은?</legend>
+        <fieldset><legend>2. 가장 도움이 될 것 같은 기능은?</legend>
           <div class="chips"><label><input type="radio" name="q8" value="curriculum"><span>교과·단원별 추천</span></label><label><input type="radio" name="q8" value="price"><span>저렴한 가격·할인 정보</span></label><label><input type="radio" name="q8" value="alert"><span>주말 추천 알림</span></label><label><input type="radio" name="q8" value="paperwork"><span>체험학습 신청서·결과보고서 자동 작성</span></label><label><input type="radio" name="q8" value="guide"><span>부모용 가이드</span></label><label><input type="radio" name="q8" value="quest"><span>아이 미션·배지</span></label><label><input type="radio" name="q8" value="local"><span>근처 식당·카페</span></label><label><input type="radio" name="q8" value="record"><span>기록·성장 리포트</span></label></div></fieldset>
-        <fieldset id="fsq13"><legend>8. 나중에 유료로 생겨도 쓸 만하다고 생각하는 기능은 무엇인가요? <small>(최대 2개 · 아직 없는 기능에 대한 가정 질문이에요)</small></legend>
-          <div class="chips"><label><input type="checkbox" name="q13" value="curriculum"><span>교과·단원별 추천</span></label><label><input type="checkbox" name="q13" value="price"><span>저렴한 가격·할인 정보</span></label><label><input type="checkbox" name="q13" value="alert"><span>주말 추천 알림</span></label><label><input type="checkbox" name="q13" value="paperwork"><span>체험학습 신청서·결과보고서 자동 작성</span></label><label><input type="checkbox" name="q13" value="guide"><span>부모용 가이드</span></label><label><input type="checkbox" name="q13" value="quest"><span>아이 미션·배지</span></label><label><input type="checkbox" name="q13" value="local"><span>근처 식당·카페</span></label><label><input type="checkbox" name="q13" value="record"><span>기록·성장 리포트</span></label><label><input type="checkbox" name="q13" value="none"><span>유료로 낼 기능은 없음</span></label></div></fieldset>
-        <fieldset><legend>9. 기본 기능은 무료이고, 아이 기록 모아보기 같은 추가 기능이 나중에 유료로 생긴다면 월 얼마까지 괜찮으세요? <small>(아직 없는 기능에 대한 가정 질문이에요)</small></legend>
+        <fieldset><legend>3. 기본 기능은 무료이고, 아이 기록 모아보기 같은 추가 기능이 나중에 유료로 생긴다면 월 얼마까지 괜찮으세요? <small>(아직 없는 기능에 대한 가정 질문이에요)</small></legend>
           <div class="chips"><label><input type="radio" name="q9" value="0"><span>내지 않음</span></label><label><input type="radio" name="q9" value="3000"><span>3,000원 이하</span></label><label><input type="radio" name="q9" value="5000"><span>5,000원 이하</span></label><label><input type="radio" name="q9" value="10000"><span>1만원 이하</span></label><label><input type="radio" name="q9" value="10001"><span>1만원 초과</span></label></div></fieldset>
-        <fieldset><legend>10. 우리 아이의 학년·관심사에 맞춘 체험 코스를 주 1회 제안해 주는 추가 기능이 나중에 유료로 생긴다면 월 얼마까지 괜찮으세요? <small>(아직 없는 기능에 대한 가정 질문이에요)</small></legend>
-          <div class="chips"><label><input type="radio" name="q10" value="0"><span>내지 않음</span></label><label><input type="radio" name="q10" value="3000"><span>3,000원 이하</span></label><label><input type="radio" name="q10" value="5000"><span>5,000원 이하</span></label><label><input type="radio" name="q10" value="10000"><span>1만원 이하</span></label><label><input type="radio" name="q10" value="10001"><span>1만원 초과</span></label></div></fieldset>
-        <fieldset><legend>11. 교과 연결 체험 가이드(미션지 포함)를 한 번 구매한다면 얼마까지 괜찮으세요? <small>(아직 판매하지 않는 상품에 대한 가정 질문이에요)</small></legend>
-          <div class="chips"><label><input type="radio" name="q11" value="0"><span>구매하지 않음</span></label><label><input type="radio" name="q11" value="3000"><span>3,000원 이하</span></label><label><input type="radio" name="q11" value="5000"><span>5,000원 이하</span></label><label><input type="radio" name="q11" value="10000"><span>1만원 이하</span></label><label><input type="radio" name="q11" value="10001"><span>1만원 초과</span></label></div></fieldset>
-        <label class="field">12. 바라는 점이나 걱정되는 점 <small>(선택)</small>
-          <input type="text" id="surveyText" maxlength="120" placeholder="한 줄이면 충분해요">
-        </label>
         <button type="submit" class="signup-btn">의견 보내기</button>
         <p id="surveyMsg" class="signup-msg" hidden></p>
       </form>
       <p class="signup-note">※ 방문·클릭 횟수는 서비스 개선을 위해 익명으로 기록합니다.</p>
     </section>
+
+    <div id="signupModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="signupTitle" hidden>
+      <div class="modal-box">
+        <button type="button" class="modal-x" id="signupClose" aria-label="닫기">×</button>
+        <h2 id="signupTitle">출시되면 이메일로 알려드릴게요</h2>
+        <p class="muted">곧 출시되면 출시 소식을 이메일로 전달드립니다.</p>
+        <form id="signupForm" novalidate>
+          <fieldset>
+            <legend>자녀 학년 <small>(해당하는 학년을 모두 선택)</small></legend>
+            <div class="chips">
+              <label><input type="checkbox" name="grade" value="1"><span>1학년</span></label>
+              <label><input type="checkbox" name="grade" value="2"><span>2학년</span></label>
+              <label><input type="checkbox" name="grade" value="3"><span>3학년</span></label>
+              <label><input type="checkbox" name="grade" value="4"><span>4학년</span></label>
+              <label><input type="checkbox" name="grade" value="5"><span>5학년</span></label>
+              <label><input type="checkbox" name="grade" value="6"><span>6학년</span></label>
+            </div>
+          </fieldset>
+          <label class="field">이메일
+            <input type="email" id="signupEmail" placeholder="parent@example.com" autocomplete="email">
+          </label>
+          <label class="check"><input type="checkbox" id="signupConsent"><span>출시 안내를 위한 개인정보(이메일) 수집·이용에 동의합니다. (보호자가 작성해 주세요)</span></label>
+          <details class="privacy"><summary>개인정보 수집·이용 안내</summary><p id="privacyText">수집 항목: 이메일, 자녀 학년. 이용 목적: 출시·진행 소식 안내. 보관·파기: <span id="privDestroy">2027년 6월 30일</span>까지 보관 후 파기합니다. 동의를 거부하셔도 추천 기능 이용에는 불이익이 없으며, 출시 알림 신청과 PDF 자료 받기만 이용하실 수 없습니다. 자녀의 이름·사진 등은 받지 않습니다. <span id="privContact"></span></p></details>
+          <button type="submit" class="signup-btn">출시 알림 받기</button>
+          <p id="signupMsg" class="signup-msg" hidden></p>
+        </form>
+        <div id="signupDone" hidden>
+          <button type="button" class="signup-btn" id="goSurvey">30초 의견 남기기</button>
+          <button type="button" class="signup-btn ghost" id="doneClose">닫기</button>
+        </div>
+      </div>
+    </div>
 
     <section class="panel philosophy">
       <h2>교과ON의 원칙</h2>
@@ -258,13 +241,13 @@
 
     <footer class="site-foot">
       <span class="foot-mark">교과<span class="on">ON</span></span>
-      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 2022 개정 교육과정 성취기준을 참고한 예시이며 교사 검수 전입니다. <span class="ver">앱 버전 v34</span></p>
+      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 2022 개정 교육과정 성취기준을 참고한 예시이며 교사 검수 전입니다. <span class="ver">앱 버전 v35</span></p>
     </footer>
   </main>
 
-  <script src="config.js?v=34"></script>
-  <script src="tracking.js?v=34"></script>
-  <script src="guides.js?v=34"></script>
-  <script src="main.js?v=34"></script>
+  <script src="config.js?v=35"></script>
+  <script src="tracking.js?v=35"></script>
+  <script src="guides.js?v=35"></script>
+  <script src="main.js?v=35"></script>
 </body>
 </html>
