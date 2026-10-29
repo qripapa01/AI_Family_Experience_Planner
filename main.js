@@ -235,6 +235,7 @@ function cardTemplate(item) {
   const linkTxt = p ? `${p.subj} · ${p.area}` : '';
   return `
     <article class="experience-card">
+      ${typeof thumbHTML === 'function' ? thumbHTML(item) : ''}
       <div class="card-topline">
         <span class="chip">${p ? `📚 ${BAND_LABEL[band]} ${linkTxt}` : '📚 교과 연결(예시)'}</span>
         <span class="badge">${item.badge}</span>
@@ -389,6 +390,8 @@ if (unitBox) unitBox.addEventListener('click', (e) => {
   const opt = [...areaSelect.options].find((o) => o.value === b.dataset.area);
   if (opt) { areaSelect.value = opt.value; track('unit_tap', { grade: gradeSelect.value, semester: semesterSelect.value, area: opt.value }); onSelectChange(); }
 });
+const searchInput = document.getElementById('searchInput');
+if (searchInput) { searchInput.addEventListener('input', () => render()); searchInput.addEventListener('change', () => track('search', { q: searchInput.value.trim().slice(0, 20) })); }
 function render() {
   renderUnits();
   const grade = Number(gradeSelect.value);
@@ -413,7 +416,9 @@ function render() {
     matchNote.textContent = msgs[relax] || '';
   }
 
-  cards.innerHTML = filtered.map(cardTemplate).join('');
+  const q = (searchInput && searchInput.value || '').trim();
+  if (q) filtered = filtered.filter((x) => (x.title + x.place + x.story + x.placeType).includes(q));
+  cards.innerHTML = filtered.length ? filtered.map(cardTemplate).join('') : '<p class="empty-note">검색어와 맞는 장소가 없어요. 다른 단어로 찾아보거나 검색어를 지워 보세요.</p>';
   cards.querySelectorAll('.quest').forEach(refreshQuest);
   cards.querySelectorAll('.diary').forEach(fillDiary);
   renderHud(false);

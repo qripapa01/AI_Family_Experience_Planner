@@ -299,3 +299,29 @@ body.modal-open{overflow:hidden}
 .prog-box.pending{background:#FAF7F2;border-color:#E6DDCF}
 .prog-link.ghost{background:#fff;color:#0E5A54;border:1.5px solid #0E5A54}
 @media print{.unit-box{display:none!important}}
+/* v39: 상용 서비스 느낌의 화면 개편 (교과서 표지색 코딩 + 썸네일 카드) */
+body{background:#F6F8F7}
+.hero{background:#0B4F4A;color:#fff;box-shadow:0 14px 36px rgba(11,79,74,.28);display:grid;grid-template-columns:minmax(0,1fr) 340px;align-items:center;gap:20px;overflow:hidden;padding:44px}
+.hero .wordmark{color:#fff}.hero .wordmark .on{color:#FF8A4C}
+.hero .brand-tag{color:#BFE3DD}
+.hero h1{color:#fff;max-width:none}.hero h1 em{color:#FFD3B5}
+.hero .subtitle{color:rgba(255,255,255,.88)}.hero .subtitle b{color:#fff}
+.hero .cta.primary{background:#F26B21;color:#fff;border-color:#F26B21}
+.hero .cta.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.7)}
+.hero .trust li{background:rgba(255,255,255,.12);color:#fff}
+.hero-art{display:block}.hero-art svg{width:100%;height:auto;display:block}
+@media(max-width:860px){.hero{grid-template-columns:1fr;padding:28px 22px}.hero-art{max-width:260px;margin:0 auto;order:-1}}
+.steps h2{letter-spacing:-.01em}
+.searchbar{margin:14px 0 4px}
+.searchbar input{width:100%;font:inherit;font-size:16px;padding:15px 18px 15px 48px;border:1.5px solid #D5E2DE;border-radius:16px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%230B4F4A' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E") 16px center no-repeat}
+.searchbar input:focus{outline:none;border-color:#0B4F4A;box-shadow:0 0 0 3px rgba(11,79,74,.15)}
+.empty-note{grid-column:1/-1;padding:28px;text-align:center;color:#6f6c78;background:#fff;border-radius:18px}
+.experience-card{overflow:hidden;border-color:#E3EAE7}
+.experience-card .thumb{position:relative;margin:-24px -24px 18px;aspect-ratio:16/9;background:linear-gradient(140deg,var(--c1),var(--c2));overflow:hidden}
+.experience-card .thumb svg,.experience-card .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.thumb-subj{position:absolute;left:14px;top:14px;padding:6px 12px;border-radius:999px;background:#fff;color:var(--c2);font-weight:900;font-size:13px}
+.thumb-price{position:absolute;right:12px;bottom:12px;padding:7px 12px;border-radius:10px;background:rgba(20,28,26,.82);color:#fff;font-weight:800;font-size:14px}
+.thumb-tag{position:absolute;left:12px;bottom:12px;font-size:11px;color:rgba(255,255,255,.9);text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.experience-card h3{font-size:22px}
+@media print{.hero-art,.searchbar{display:none!important}.thumb{display:none!important}}
+@media(max-width:600px){.hero-art{display:none}}
