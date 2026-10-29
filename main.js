@@ -225,6 +225,10 @@ function linksForView(item) {
   const hit = (l) => (subj === 'all' || l.subj === subj) && (area === 'all' || l.area === area);
   return ls.slice().sort((a, b) => (hit(b) ? 1 : 0) - (hit(a) ? 1 : 0));
 }
+document.addEventListener('click', (e) => {
+  const a = e.target.closest && e.target.closest('a[data-prog]');
+  if (a) track('program_link_click', { place: a.dataset.prog });
+});
 function cardTemplate(item) {
   const band = bandOf(Number(gradeSelect.value));
   const ls = linksForView(item); const p = ls[0];
@@ -240,6 +244,7 @@ function cardTemplate(item) {
       <p class="place">📍 ${item.place} · ${item.region}</p>
       <p class="why">📌 ${item.placeType} · ${item.cost} · 왜 이곳? ${p ? `${p.subj} '${p.area}' 성취기준과 연결 가능(예시)` : item.fit}</p>
       <p class="story">${item.story}</p>
+      ${typeof programHTML === 'function' ? programHTML(item) : ''}
       <div class="mission-box quest" data-id="${item.title}">
         <div class="quest-head">
           <strong>🎮 오늘의 탐험 퀘스트</strong>
@@ -367,7 +372,25 @@ function buildAreas() {
 function pick(band, subj, area) {
   return experiences.filter((x) => x.links.some((l) => l.band === band && (subj === 'all' || l.subj === subj) && (area === 'all' || l.area === area)));
 }
+const unitBox = document.getElementById('unitBox');
+function renderUnits() {
+  if (!unitBox) return;
+  const list = UNITS[gradeSelect.value + '-' + semesterSelect.value + '|' + subjectSelect.value];
+  if (!list) { unitBox.hidden = true; unitBox.innerHTML = ''; return; }
+  unitBox.hidden = false;
+  unitBox.innerHTML = '<p class="unit-h">📖 이 학기 교과서 단원 <small>(' + gradeSelect.value + '학년 ' + semesterSelect.value + '학기 ' + subjectSelect.value + ')</small></p><div class="unit-chips">'
+    + list.map((u) => u.area
+      ? '<button type="button" class="unit-chip' + (areaSelect.value === u.area ? ' on' : '') + '" data-area="' + u.area + '"><b>' + u.n + '</b> ' + u.t + '<i>' + u.area + '</i></button>'
+      : '<span class="unit-chip off"><b>' + u.n + '</b> ' + u.t + '<i>연결 준비 중</i></span>').join('')
+    + '</div><small class="unit-note">단원을 누르면 연결된 영역의 장소를 보여 줘요. 단원과 영역 연결은 예시예요.</small>';
+}
+if (unitBox) unitBox.addEventListener('click', (e) => {
+  const b = e.target.closest('.unit-chip[data-area]'); if (!b) return;
+  const opt = [...areaSelect.options].find((o) => o.value === b.dataset.area);
+  if (opt) { areaSelect.value = opt.value; track('unit_tap', { grade: gradeSelect.value, semester: semesterSelect.value, area: opt.value }); onSelectChange(); }
+});
 function render() {
+  renderUnits();
   const grade = Number(gradeSelect.value);
   const band = bandOf(grade);
   const subj = subjectSelect.value, area = areaSelect.value;

@@ -276,3 +276,26 @@ body.modal-open{overflow:hidden}
 .mb-msg{margin:0;padding:10px 12px;border-radius:10px;background:#0E5A54;color:#fff;font-weight:700;font-size:.9rem}
 .mb-msg.err{background:#B3261E}
 #signupDone{margin-top:6px}
+/* v37 체험 프로그램 */
+.prog-box{margin:12px 0;padding:14px;border-radius:14px;background:#F2FAF8;border:1.5px solid #BFE3DD}
+.prog-h{margin:0 0 8px;font-weight:900;color:#0E5A54}
+.prog-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.prog-list li{display:grid;gap:2px;padding:10px 12px;background:#fff;border-radius:10px;font-size:.92rem}
+.prog-list li b{font-size:.98rem}
+.prog-list small{color:#6b6575}
+.prog-how{margin:10px 0 6px;font-size:.9rem}
+.prog-link{display:inline-block;padding:9px 14px;border-radius:10px;background:#0E5A54;color:#fff;font-weight:800;text-decoration:none;font-size:.9rem}
+.prog-src{margin:8px 0 0;font-size:.78rem;color:#6b6575;line-height:1.5}
+@media print{.prog-link{display:none}}
+/* v38 */
+.unit-box{padding:12px;border-radius:14px;background:#F2FAF8;border:1.5px solid #BFE3DD;display:grid;gap:8px}
+.unit-h{margin:0;font-weight:900;color:#0E5A54}.unit-h small{font-weight:500;color:#6b6575}
+.unit-chips{display:flex;flex-wrap:wrap;gap:8px}
+#unitBox .unit-chip{font:inherit;box-shadow:none;width:auto;margin:0;font-weight:500;font-size:.88rem;text-align:left;padding:8px 10px;border-radius:12px;border:1.5px solid #BFE3DD;background:#fff;color:#222;display:inline-flex;flex-direction:column;gap:2px;cursor:pointer}
+#unitBox .unit-chip b{color:#0E5A54}#unitBox .unit-chip i{font-style:normal;font-size:.75rem;color:#6b6575}
+#unitBox .unit-chip.on{background:#0E5A54;color:#fff;border-color:#0E5A54}#unitBox .unit-chip.on b,#unitBox .unit-chip.on i{color:#fff}
+#unitBox .unit-chip.off{cursor:default;background:#f6f3ee;border-style:dashed;color:#8a8494}
+.unit-note{color:#6b6575;font-size:.78rem}
+.prog-box.pending{background:#FAF7F2;border-color:#E6DDCF}
+.prog-link.ghost{background:#fff;color:#0E5A54;border:1.5px solid #0E5A54}
+@media print{.unit-box{display:none!important}}

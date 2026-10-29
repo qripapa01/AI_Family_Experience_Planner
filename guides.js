@@ -191,3 +191,61 @@ function linksOf(title) {
   (EXTRA_LINKS[title] || []).forEach(add);
   return out;
 }
+
+// ===== 체험 프로그램 정보 (v37) =====
+// 공식 안내/관광정보 포털에서 확인한 내용만 기재. checked = 확인한 날짜. 값이 바뀔 수 있어 방문 전 공식 확인 문구를 함께 표시.
+const PROGRAMS = {
+  '별자리 탐험대': {
+    items: [
+      { name: '천체투영관 프로그램', who: '유아(5~7세)·아동청소년(8~19세)', fee: '8~19세 2,000원 · 5~7세 1,000원 (부천시민 어린이·유아 무료)', note: '유아는 나이 확인 서류 필요 · 현장 결제는 카드만 가능' },
+      { name: '체험 프로그램', who: '방문객', fee: '개인 성인 2,000원 (아동 요금은 공식 안내 확인)', note: '' }
+    ],
+    how: '네이버 예약(공식 홈페이지 연결)', url: 'https://astrobucheon.or.kr/sub/sub0203.php',
+    src: '부천천문과학관 공식 홈페이지', checked: '2026-10-29'
+  },
+  '로봇 탐정단': {
+    items: [
+      { name: '인터랙티브 체험존 (변신·마술·댄싱 로봇)', who: '어린이·가족', fee: '어린이(만 36개월~초등) 3,000원 · 부천시민 어린이·학생 무료', note: '회차제 운영 10:00 / 12:30 / 15:00 · 월요일 휴관' },
+      { name: '3D 영상관 · 오케스트라 로봇', who: '어린이·가족', fee: '위 입장료에 포함(공식 확인 필요)', note: '' }
+    ],
+    how: '공식 홈페이지 예약 · 전화 032-716-6442', url: 'https://www.robopark.org',
+    src: 'K-TRIP TIPS(관광정보 포털) 기재 내용, 공식 홈페이지 재확인 필요', checked: '2026-10-29'
+  },
+  '만화로 남기는 하루': {
+    items: [
+      { name: '4층 만화체험 전시관 · 체험교육실', who: '어린이·가족', fee: '일반권 5,000원 · 가족권 3인 12,000원 / 4인 16,000원', note: '교육·체험 프로그램은 전화 사전 예약 · 20인 이상 단체는 3일 전 인터넷 예약' }
+    ],
+    how: '전화 032-310-3090', url: 'https://www.komacon.kr/comicsmuseum',
+    src: 'K-TRIP TIPS(관광정보 포털) 기재 내용(2025-10 갱신), 공식 홈페이지 재확인 필요', checked: '2026-10-29'
+  }
+};
+function programHTML(item) {
+  const p = PROGRAMS[item.title];
+  if (!p) {
+    const q = encodeURIComponent('부천 ' + item.place + ' 체험 프로그램 요금 예약');
+    return `<div class="prog-box pending"><p class="prog-h">🎟 체험 프로그램 · 요금</p>
+    <p class="prog-how">이 장소의 프로그램·요금 정보를 확인하는 중이에요. 방문 전 공식 안내를 꼭 확인해 주세요.</p>
+    <a class="prog-link ghost" href="https://search.naver.com/search.naver?query=${q}" target="_blank" rel="noopener" data-prog="${item.title}">공식 정보 찾아보기 ↗</a></div>`;
+  }
+  return `<div class="prog-box"><p class="prog-h">🎟 체험 프로그램 · 요금</p>
+    <ul class="prog-list">${p.items.map((x) => `<li><b>${x.name}</b><span>대상 ${x.who}</span><span>요금 ${x.fee}</span>${x.note ? `<small>${x.note}</small>` : ''}</li>`).join('')}</ul>
+    <p class="prog-how">예약·문의: ${p.how}</p>
+    <a class="prog-link" href="${p.url}" target="_blank" rel="noopener" data-prog="${item.title}">공식 안내 보기 ↗</a>
+    <p class="prog-src">출처: ${p.src} · 확인일 ${p.checked} · 요금과 운영은 바뀔 수 있어 방문 전 공식 안내를 확인해 주세요.</p></div>`;
+}
+
+// ===== 학기별 교과서 단원 (v38) =====
+// 진출자가 확인한 교과서 차례 화면 기준. area는 단원 제목과 2022 개정 성취기준(4국01~06)을 대조해 연결한 것으로,
+// 제목만으로 영역을 정하기 어려운 단원은 area를 비워 두고 "연결 준비 중"으로 표시한다.
+const UNITS = {
+  '4-2|국어': [
+    { n: '독서', t: '생각을 나누며 책을 읽어요', area: '읽기' },
+    { n: '1', t: '비교하며 읽어요', area: '읽기' },
+    { n: '2', t: '우리말 우리글', area: '문법' },
+    { n: '3', t: '의견을 모아서', area: '듣기·말하기' },
+    { n: '매체', t: '자료를 활용하여 발표해요', area: '매체' },
+    { n: '4', t: '책 속의 길을 따라', area: '' },
+    { n: '5', t: '오가는 마음', area: '' },
+    { n: '6', t: '상상의 날개', area: '문학' }
+  ]
+};
