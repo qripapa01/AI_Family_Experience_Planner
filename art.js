@@ -4,7 +4,23 @@ const SUBJ_COLOR = {
   '국어': ['#F07A62', '#D9503A'], '사회': ['#E7B23E', '#C98A1B'], '수학': ['#5B95E6', '#3667B8'],
   '과학': ['#2FB3A3', '#127C70'], '통합': ['#93C257', '#5E902A']
 };
-const PHOTOS = {}; // 예: { '별자리 탐험대': { src: 'img/starry.jpg', credit: '출처: …(공공누리 1유형)' } }
+// AI 생성 이미지는 실제 시설 사진이 아니므로 반드시 안내 문구(credit)를 함께 표시한다. 실제 사진으로 바꿀 때는 출처·이용 조건을 credit에 적는다.
+const AI_CREDIT = 'AI 생성 이미지 · 실제 시설 모습과 다를 수 있습니다.';
+const PHOTOS = {
+  '별자리 탐험대': { src: 'img/starry.webp', credit: AI_CREDIT, ai: true },
+  '로봇 탐정단': { src: 'img/robot.webp', credit: AI_CREDIT, ai: true },
+  '만화로 남기는 하루': { src: 'img/comic_photo.webp', ai: false, place: '한국만화박물관',
+    who: 'Motoko C. K.', lic: 'CC BY 4.0', licUrl: 'https://creativecommons.org/licenses/by/4.0/deed.ko',
+    srcUrl: 'https://commons.wikimedia.org/wiki/File:Korea_Manhwa_Museum_20251122_1.jpg', srcName: '위키미디어 커먼즈', edit: '잘라내기·크기 조정' },
+  '곤충 관찰 대작전': { src: 'img/ecopark.webp', credit: AI_CREDIT, ai: true },
+  '식물원 관찰 그림일기': { src: 'img/botanic_photo.webp', ai: false, place: '부천식물원',
+    who: '경기도', lic: '공공누리 제1유형', licUrl: 'https://www.kogl.or.kr/info/licenseType1.do',
+    srcUrl: 'https://www.kogl.or.kr/recommend/recommendDivView.do?division=img&recommendIdx=37028', srcName: '공공누리', edit: '잘라내기·크기 조정' },
+  '호수공원 소리 지도': { src: 'img/lake.webp', credit: AI_CREDIT, ai: true },
+  '호수 위 식물 탐험': { src: 'img/supia.webp', credit: AI_CREDIT, ai: true },
+  '나무 이름 찾기': { src: 'img/arboretum.webp', credit: AI_CREDIT, ai: true },
+  '한옥에서 옛 생활 체험': { src: 'img/hanok.webp', credit: AI_CREDIT, ai: true }
+};
 const W = 'fill="#fff"';
 const MOTIFS = {
   sky: `<circle cx="236" cy="62" r="30" ${W} opacity=".95"/><circle cx="248" cy="54" r="26" fill="var(--c1)"/>
@@ -40,6 +56,15 @@ const MOTIF_OF = {
   '다름을 존중하는 하루': 'hands', '시인의 말 수집가': 'poem', '식물원 관찰 그림일기': 'sprout'
 };
 const PRICE_BADGE = { '별자리 탐험대': '1,000원부터', '로봇 탐정단': '어린이 3,000원', '만화로 남기는 하루': '일반 5,000원' };
+function creditHTML(ph) {
+  if (ph.ai) return ph.credit;
+  const a = (u, t) => `<a href="${u}" target="_blank" rel="noopener noreferrer">${t}</a>`;
+  return `사진: ${ph.who} · ${a(ph.licUrl, ph.lic)} · ${a(ph.srcUrl, '원본')} · 수정: ${ph.edit}`;
+}
+function creditListHTML() {
+  const rows = Object.entries(PHOTOS).filter(([, p]) => !p.ai).map(([t, p]) => `<li><b>${p.place}</b> — ${creditHTML(p)}</li>`).join('');
+  return `<h2>이미지 안내</h2><p class="muted">카드의 이미지는 실제 시설 사진이거나 AI로 만든 예시 이미지이며, 각 이미지 아래에 구분해 표시했어요. 일러스트·AI 이미지는 실제 시설 모습과 다를 수 있어요.</p><ul class="credit-list">${rows}</ul>`;
+}
 function subjOf(item) {
   const s = String(item.subject || '');
   for (const k of ['국어', '사회', '수학', '과학', '통합']) if (s.includes(k)) return k;
@@ -50,7 +75,7 @@ function thumbHTML(item) {
   const ph = PHOTOS[item.title];
   const price = PRICE_BADGE[item.title] || '요금 확인 중';
   const body = ph
-    ? `<img src="${ph.src}" alt="${item.place}" loading="lazy">`
+    ? `<img src="${ph.src}" alt="${ph.ai ? item.place + ' (AI 생성 이미지)' : (ph.place || item.place)}" loading="lazy">`
     : `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="40" cy="30" r="64" fill="#fff" opacity=".12"/><circle cx="300" cy="170" r="80" fill="#fff" opacity=".1"/>${MOTIFS[MOTIF_OF[item.title]] || MOTIFS.tree}</svg>`;
-  return `<div class="thumb" style="--c1:${c1};--c2:${c2}">${body}<span class="thumb-subj">${sj}</span><span class="thumb-price">${price}</span><span class="thumb-tag">${ph ? ph.credit : '일러스트 · 예시 이미지'}</span></div>`;
+  return `<div class="thumb" style="--c1:${c1};--c2:${c2}">${body}<span class="thumb-subj">${sj}</span><span class="thumb-price">${price}</span><span class="thumb-tag">${ph ? creditHTML(ph) : '일러스트 · 예시 이미지'}</span></div>`;
 }

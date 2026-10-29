@@ -742,3 +742,5 @@ function renderStamps() {
       .then(() => { msg.hidden = false; msg.classList.remove('err'); msg.textContent = '의견 고마워요! 추천을 고치는 데 쓸게요. 🙌'; });
   });
 })();
+
+;(function(){ const c = document.getElementById('imgCredits'); if (c && typeof creditListHTML === 'function') c.innerHTML = creditListHTML(); })();

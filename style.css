@@ -325,3 +325,10 @@ body{background:#F6F8F7}
 .experience-card h3{font-size:22px}
 @media print{.hero-art,.searchbar{display:none!important}.thumb{display:none!important}}
 @media(max-width:600px){.hero-art{display:none}}
+/* v40: 이미지 표시 문구를 하단 띠로, 가격 배지는 오른쪽 위로 */
+.thumb-price{right:12px;top:12px;bottom:auto}
+.thumb-tag{left:0;right:0;bottom:0;padding:18px 12px 8px;font-size:11.5px;line-height:1.3;color:#fff;background:linear-gradient(to top,rgba(10,20,18,.72),rgba(10,20,18,0));text-shadow:none}
+.thumb-tag a{color:#fff;text-decoration:underline;text-underline-offset:2px}
+.img-credits h2{font-size:1.05rem;margin:0 0 6px}.img-credits .credit-list{margin:8px 0 0;padding-left:18px;font-size:.88rem;line-height:1.7}
+.img-credits a{color:#0B4F4A}
+@media print{.img-credits{display:none}}
