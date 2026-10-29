@@ -477,7 +477,7 @@ if (modal) {
   const form = document.getElementById('signupForm');
   if (!form) return;
   const msg = document.getElementById('signupMsg');
-  const btn = form.querySelector('.signup-btn');
+  const btn = form.querySelector('.mb-btn');
   let started = false;
   form.addEventListener('focusin', () => { if (!started) { started = true; track('signup_start', {}); } });
   form.addEventListener('submit', (e) => {
@@ -495,7 +495,7 @@ if (modal) {
     if (!window.GO || !window.GO.enabled) { msg.classList.add('err'); msg.textContent = '아직 신청 접수가 연결되지 않아 저장되지 않았어요.'; return; }
     btn.disabled = true; msg.classList.remove('err'); msg.textContent = '접수 중...';
     window.GO.send('signup', { email, grades: grades.join(','), interview: false, consent: true, region: '', src: popupSrc })
-      .then(() => { msg.textContent = '🎉 출시 알림이 접수되었어요. 출시 소식을 입력하신 이메일로 전해드릴게요.'; form.reset(); try { localStorage.setItem('gyogwaon_signed', '1'); } catch (e) {} setDl(); const sv = document.getElementById('surveyForm'); if (sv) { sv.dispatchEvent(new CustomEvent('survey:open')); sv.hidden = false; } const dn = document.getElementById('signupDone'); if (dn) dn.hidden = false; btn.hidden = true; })
+      .then(() => { msg.textContent = '🎉 출시 알림이 접수되었어요. 출시 소식을 입력하신 이메일로 전해드릴게요.'; form.reset(); try { localStorage.setItem('gyogwaon_signed', '1'); } catch (e) {} setDl(); const sv = document.getElementById('surveyForm'); if (sv) { sv.dispatchEvent(new CustomEvent('survey:open')); sv.hidden = false; } const dn = document.getElementById('signupDone'); if (dn) dn.hidden = false; form.querySelectorAll(':scope > *:not(#signupMsg)').forEach((x) => { x.hidden = true; }); const tt = document.getElementById('signupTitle'); if (tt) tt.textContent = '신청이 완료됐어요'; })
       .catch(() => { msg.classList.add('err'); msg.textContent = '전송에 실패했어요. 잠시 뒤 다시 시도해 주세요.'; })
       .finally(() => { btn.disabled = false; });
   });

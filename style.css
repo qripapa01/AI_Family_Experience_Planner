@@ -246,3 +246,33 @@ details.pg-details>*:not(summary){margin-top:10px}
 .modal-x{position:absolute;top:10px;right:12px;width:34px;height:34px;border:0;background:#f3efe8;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
 body.modal-open{overflow:hidden}
 @media print{.modal{display:none!important}}
+/* v36 팝업 단순화 */
+.modal-box{max-width:380px;text-align:center;padding:26px 22px 20px}
+.mb-ico{width:52px;height:52px;margin:0 auto 8px;border-radius:50%;background:#FFF1E0;display:flex;align-items:center;justify-content:center;font-size:26px}
+.modal-box h2{margin:0 0 4px;font-size:1.2rem;line-height:1.35;word-break:keep-all}
+.mb-sub{margin:0 0 16px;color:#6b6575;font-size:.95rem}
+.modal-box form{display:grid;gap:12px;text-align:left}
+.mb-lab{font-weight:800;font-size:.92rem}
+.mb-lab small{font-weight:500;color:#8a8494}
+.mb-chips{display:flex;align-items:center;gap:6px}
+.mb-chips label{cursor:pointer;flex:0 0 auto}
+.mb-chips input{position:absolute;opacity:0}
+.mb-chips span{display:flex;width:40px;height:40px;align-items:center;justify-content:center;border-radius:50%;background:#F5F1EA;border:2px solid transparent;font-weight:800;color:#444}
+.mb-chips input:checked+span{background:var(--brand,#F26B21);color:#fff}
+.mb-chips input:focus-visible+span{outline:3px solid #0E5A54}
+.mb-chips em{font-style:normal;font-size:.85rem;color:#8a8494;margin-left:2px}
+.mb-input{font:inherit;width:100%;box-sizing:border-box;padding:14px;border:1.5px solid #ddd6cb;border-radius:12px;background:#fff}
+.mb-input:focus{outline:none;border-color:#0E5A54;box-shadow:0 0 0 3px rgba(14,90,84,.15)}
+.mb-check{display:flex;gap:8px;align-items:center;font-size:.88rem;line-height:1.4;cursor:pointer}
+.mb-check input{width:18px;height:18px;flex:0 0 auto;accent-color:#F26B21;margin:0}
+.mb-check i{font-style:normal;color:#8a8494}
+.mb-priv{font-size:.8rem;color:#6b6575;margin-top:-6px}
+.mb-priv summary{cursor:pointer;display:inline-block;color:#0E5A54;text-decoration:underline;list-style:none}
+.mb-priv summary::-webkit-details-marker{display:none}
+.mb-priv p{margin:6px 0 0;line-height:1.5}
+.mb-btn{font:inherit;font-weight:900;font-size:1.05rem;width:100%;padding:15px;border:0;border-radius:14px;background:#F26B21;color:#fff;cursor:pointer;margin-top:2px}
+.mb-btn:active{transform:translateY(1px)}
+.mb-btn.ghost{background:#fff;color:#0E5A54;border:1.5px solid #0E5A54;margin-top:8px}
+.mb-msg{margin:0;padding:10px 12px;border-radius:10px;background:#0E5A54;color:#fff;font-weight:700;font-size:.9rem}
+.mb-msg.err{background:#B3261E}
+#signupDone{margin-top:6px}

@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=35" />
+  <link rel="stylesheet" href="style.css?v=36" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"교과ON","description":"앞으로 배울 초등 교과 내용과 연결되는 부천 체험학습 장소를 학년별로 추천하는 서비스(시범)","applicationCategory":"EducationalApplication","operatingSystem":"Web","inLanguage":"ko","url":"https://qripapa-ai-family-20260817.web.app/","areaServed":{"@type":"City","name":"부천시"}}</script>
 </head>
 <body>
@@ -198,31 +198,29 @@
     <div id="signupModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="signupTitle" hidden>
       <div class="modal-box">
         <button type="button" class="modal-x" id="signupClose" aria-label="닫기">×</button>
-        <h2 id="signupTitle">출시되면 이메일로 알려드릴게요</h2>
-        <p class="muted">곧 출시되면 출시 소식을 이메일로 전달드립니다.</p>
+        <div class="mb-ico" aria-hidden="true">🔔</div>
+        <h2 id="signupTitle">출시 소식을 가장 먼저 받아보세요</h2>
+        <p class="mb-sub">곧 출시되면 이메일로 알려드려요.</p>
         <form id="signupForm" novalidate>
-          <fieldset>
-            <legend>자녀 학년 <small>(해당하는 학년을 모두 선택)</small></legend>
-            <div class="chips">
-              <label><input type="checkbox" name="grade" value="1"><span>1학년</span></label>
-              <label><input type="checkbox" name="grade" value="2"><span>2학년</span></label>
-              <label><input type="checkbox" name="grade" value="3"><span>3학년</span></label>
-              <label><input type="checkbox" name="grade" value="4"><span>4학년</span></label>
-              <label><input type="checkbox" name="grade" value="5"><span>5학년</span></label>
-              <label><input type="checkbox" name="grade" value="6"><span>6학년</span></label>
-            </div>
-          </fieldset>
-          <label class="field">이메일
-            <input type="email" id="signupEmail" placeholder="parent@example.com" autocomplete="email">
-          </label>
-          <label class="check"><input type="checkbox" id="signupConsent"><span>출시 안내를 위한 개인정보(이메일) 수집·이용에 동의합니다. (보호자가 작성해 주세요)</span></label>
-          <details class="privacy"><summary>개인정보 수집·이용 안내</summary><p id="privacyText">수집 항목: 이메일, 자녀 학년. 이용 목적: 출시·진행 소식 안내. 보관·파기: <span id="privDestroy">2027년 6월 30일</span>까지 보관 후 파기합니다. 동의를 거부하셔도 추천 기능 이용에는 불이익이 없으며, 출시 알림 신청과 PDF 자료 받기만 이용하실 수 없습니다. 자녀의 이름·사진 등은 받지 않습니다. <span id="privContact"></span></p></details>
-          <button type="submit" class="signup-btn">출시 알림 받기</button>
-          <p id="signupMsg" class="signup-msg" hidden></p>
+          <div class="mb-lab">자녀 학년 <small>(여러 개 선택 가능)</small></div>
+          <div class="mb-chips">
+            <label><input type="checkbox" name="grade" value="1"><span>1</span></label>
+            <label><input type="checkbox" name="grade" value="2"><span>2</span></label>
+            <label><input type="checkbox" name="grade" value="3"><span>3</span></label>
+            <label><input type="checkbox" name="grade" value="4"><span>4</span></label>
+            <label><input type="checkbox" name="grade" value="5"><span>5</span></label>
+            <label><input type="checkbox" name="grade" value="6"><span>6</span></label>
+            <em>학년</em>
+          </div>
+          <input type="email" id="signupEmail" class="mb-input" placeholder="이메일 주소" autocomplete="email" aria-label="이메일 주소">
+          <label class="mb-check"><input type="checkbox" id="signupConsent"><span>개인정보(이메일) 수집·이용에 동의해요 <i>(보호자 작성)</i></span></label>
+          <details class="mb-priv"><summary>자세히 보기</summary><p id="privacyText">수집 항목: 이메일, 자녀 학년. 이용 목적: 출시·진행 소식 안내. 보관·파기: <span id="privDestroy">2027년 6월 30일</span>까지 보관 후 파기합니다. 동의를 거부하셔도 추천 기능 이용에는 불이익이 없으며, 출시 알림 신청과 PDF 자료 받기만 이용하실 수 없습니다. 자녀의 이름·사진 등은 받지 않습니다. <span id="privContact"></span></p></details>
+          <button type="submit" class="mb-btn">출시 알림 받기</button>
+          <p id="signupMsg" class="mb-msg" hidden></p>
         </form>
         <div id="signupDone" hidden>
-          <button type="button" class="signup-btn" id="goSurvey">30초 의견 남기기</button>
-          <button type="button" class="signup-btn ghost" id="doneClose">닫기</button>
+          <button type="button" class="mb-btn" id="goSurvey">30초 의견 남기기</button>
+          <button type="button" class="mb-btn ghost" id="doneClose">닫기</button>
         </div>
       </div>
     </div>
@@ -241,13 +239,13 @@
 
     <footer class="site-foot">
       <span class="foot-mark">교과<span class="on">ON</span></span>
-      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 2022 개정 교육과정 성취기준을 참고한 예시이며 교사 검수 전입니다. <span class="ver">앱 버전 v35</span></p>
+      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 2022 개정 교육과정 성취기준을 참고한 예시이며 교사 검수 전입니다. <span class="ver">앱 버전 v36</span></p>
     </footer>
   </main>
 
-  <script src="config.js?v=35"></script>
-  <script src="tracking.js?v=35"></script>
-  <script src="guides.js?v=35"></script>
-  <script src="main.js?v=35"></script>
+  <script src="config.js?v=36"></script>
+  <script src="tracking.js?v=36"></script>
+  <script src="guides.js?v=36"></script>
+  <script src="main.js?v=36"></script>
 </body>
 </html>
