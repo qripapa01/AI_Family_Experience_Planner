@@ -332,3 +332,32 @@ body{background:#F6F8F7}
 .img-credits h2{font-size:1.05rem;margin:0 0 6px}.img-credits .credit-list{margin:8px 0 0;padding-left:18px;font-size:.88rem;line-height:1.7}
 .img-credits a{color:#0B4F4A}
 @media print{.img-credits{display:none}}
+
+/* v42 체험학습 상품 카드(가로 스크롤) + 스스로 체험 접기 */
+.prod-wrap{margin:14px 0}
+.prod-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
+.prod-head b{font-size:1.05rem;color:#0E5A54}.prod-head small{color:#6b6575;font-size:.8rem}
+.prod-row{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:2px 2px 12px;scrollbar-width:thin}
+.prod{position:relative;flex:0 0 218px;scroll-snap-align:start;background:#fff;border:1.5px solid #E3EAE7;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 3px 10px rgba(0,0,0,.05)}
+.prod.ex{border-style:dashed;border-color:#E2B88F;background:#FFFCF8}
+.prod-img{position:relative;aspect-ratio:16/10;background:linear-gradient(140deg,var(--c1),var(--c2));overflow:hidden}
+.prod-img svg,.prod-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.prod-subj{position:absolute;left:10px;top:10px;padding:4px 10px;border-radius:999px;background:#fff;color:var(--c2);font-weight:900;font-size:12px}
+.prod-cap{position:absolute;right:8px;bottom:6px;font-size:10.5px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.prod-badge{position:absolute;right:10px;top:10px;padding:4px 9px;border-radius:8px;font-size:11.5px;font-weight:800}
+.prod-badge.real{background:#0E5A54;color:#fff}.prod-badge.ex{background:#8A3F0D;color:#fff}
+.prod-body{padding:12px 12px 14px;display:flex;flex-direction:column;gap:3px;flex:1}
+.prod-sub{margin:0;font-size:.78rem;color:#6b6575}
+.prod-body h4{margin:0;font-size:1rem;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.7em}
+.prod-who{margin:0;font-size:.8rem;color:#4b4655}
+.prod-price{margin:6px 0 8px;font-size:1.15rem;font-weight:900;color:#0E5A54}.prod-price small{font-size:.75rem;font-weight:500;color:#8A3F0D}
+.prod-btn{margin-top:auto;display:block;text-align:center;padding:9px 10px;border-radius:10px;border:1.5px solid #0E5A54;color:#0E5A54;font-weight:800;font-size:.88rem;text-decoration:none;background:#fff}
+.prod-btn.off{border-color:#E2B88F;color:#8A3F0D;background:transparent;font-weight:500}
+.prod-src{margin:6px 0 0;font-size:.76rem;color:#6b6575;line-height:1.5}
+.selfdo-btn{width:100%;margin-top:16px;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1.5px solid #BFE3DD;background:#F2FAF8;color:#0E5A54;cursor:pointer;font:inherit;text-align:left}
+.selfdo-btn .sd-ico{font-size:26px;line-height:1}.selfdo-btn .sd-txt{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.selfdo-btn .sd-txt b{font-size:1.05rem;font-weight:900}.selfdo-btn .sd-txt small{font-size:.8rem;color:#4b6b66;font-weight:500}
+.selfdo-btn .sd-open{flex:none;font-size:.82rem;font-weight:800;background:#fff;padding:6px 10px;border-radius:999px;white-space:nowrap}
+.selfdo-btn.on{background:#E3F4F0}
+.selfdo-body[hidden]{display:none}
+@media print{.selfdo-btn,.prod-head small{display:none}}

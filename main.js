@@ -230,6 +230,7 @@ document.addEventListener('click', (e) => {
   if (a) track('program_link_click', { place: a.dataset.prog });
 });
 function cardTemplate(item) {
+  const PM = typeof PROD_ON !== 'undefined' && PROD_ON;
   const band = bandOf(Number(gradeSelect.value));
   const ls = linksForView(item); const p = ls[0];
   const linkTxt = p ? `${p.subj} · ${p.area}` : '';
@@ -245,7 +246,8 @@ function cardTemplate(item) {
       <p class="place">📍 ${item.place} · ${item.region}</p>
       <p class="why">📌 ${item.placeType} · ${item.cost} · 왜 이곳? ${p ? `${p.subj} '${p.area}' 성취기준과 연결 가능(예시)` : item.fit}</p>
       <p class="story">${item.story}</p>
-      ${typeof programHTML === 'function' ? programHTML(item) : ''}
+      ${PM ? productsHTML(item) : (typeof programHTML === 'function' ? programHTML(item) : '')}
+      ${PM ? selfdoOpen(item) : ''}
       <div class="mission-box quest" data-id="${item.title}">
         <div class="quest-head">
           <strong>🎮 오늘의 탐험 퀘스트</strong>
@@ -270,6 +272,7 @@ function cardTemplate(item) {
         <div class="pguide check"><p><b>✅ 가기 전 확인</b></p><ul class="chk"><li><label><input type="checkbox"> 운영시간·요금·휴관일을 시설 공식 안내로 확인했어요</label></li><li><label><input type="checkbox"> 이동 방법과 주차·대중교통을 확인했어요</label></li><li><label><input type="checkbox"> 물·간식·편한 신발 등 준비물을 챙겼어요</label></li><li><label><input type="checkbox"> 아이와 안전 약속(손 잡기, 흩어지지 않기)을 정했어요</label></li></ul></div>
         <button type="button" class="print-card">🖨️ 미션지 인쇄</button>
       </details>
+      ${PM ? '</div>' : ''}
       ${item.nearby && item.nearby.length ? `<div class="local-box">🏪 <strong>근처 코스 후보</strong> <span class="mute">참고용 · 제휴 아님 · 영업 여부는 방문 전 확인</span>
         <ul class="nearby">${item.nearby.map(n => `<li><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('부천 ' + n.name)}" target="_blank" rel="noopener" data-place="${item.title}" data-store="${n.name}" data-kind="${n.kind}">${n.kind === '식당' ? '🍚' : '☕'} <b>${n.name}</b> <small>${n.note}</small></a></li>`).join('')}</ul></div>` : ''}
     </article>`;
@@ -644,7 +647,7 @@ cards.addEventListener('click', (e) => {
 });
 cards.addEventListener('click', (e) => {
   const b = e.target.closest('.print-card'); if (!b) return;
-  const art = b.closest('article'); const det = b.closest('details'); if (det) det.open = true;
+  const art = b.closest('article'); const det = b.closest('details'); if (det) det.open = true; const sdb = art.querySelector('.selfdo-body'); if (sdb) sdb.hidden = false;
   art.classList.add('pr-target'); document.body.classList.add('pr-card');
   track('card_print', { card: (art.querySelector('[data-id]') || {}).dataset.id || '' });
   setTimeout(() => { window.print(); document.body.classList.remove('pr-card'); art.classList.remove('pr-target'); }, 50);

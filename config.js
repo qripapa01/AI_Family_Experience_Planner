@@ -3,4 +3,6 @@
 // 개인정보 안내문에 표시되는 값입니다. 첫 사용자에게 공개하기 전에 반드시 채워 주세요.
 window.GYOGWAON_PRIVACY = { destroyDate: "2027년 6월 30일", contact: "문의: qripapa@naver.com" }; // contact 예) "문의: 이메일주소"
 window.GYOGWAON_ENDPOINT = "https://script.google.com/macros/s/AKfycbw3uaZr8k2OXZMc1WLLCE1OaPQaqFJEb3zKH1E9_VjT8qcsaznydEU6hy9ssfOYSoR3QQ/exec";
-window.GYOGWAON_VER = "v41";
+window.GYOGWAON_VER = "v42";
+// 체험학습 상품 카드·스스로 체험 접기(시안). 기본은 꺼짐(false). 켜려면 true, 미리 보려면 주소 끝에 ?products=1
+window.GYOGWAON_PRODUCTS = false;
