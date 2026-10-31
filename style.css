@@ -361,3 +361,10 @@ body{background:#F6F8F7}
 .selfdo-btn.on{background:#E3F4F0}
 .selfdo-body[hidden]{display:none}
 @media print{.selfdo-btn,.prod-head small{display:none}}
+
+.card-lite{margin:10px 0 2px;font-size:.85rem;color:#4b6b66;font-weight:700}
+.tabs2{display:flex;gap:8px;margin:14px 0 10px}
+.tab2{flex:1;display:flex;flex-direction:column;gap:2px;padding:10px 8px;border-radius:12px;border:1.5px solid #D5E3DF;background:#fff;color:#4b6b66;font:inherit;cursor:pointer;text-align:center}
+.tab2 b{font-size:.98rem}.tab2 small{font-size:.74rem;font-weight:500}
+.tab2.on{background:#0E5A54;border-color:#0E5A54;color:#fff}
+.pane[hidden]{display:none}

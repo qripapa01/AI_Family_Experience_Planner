@@ -48,16 +48,13 @@ function productsHTML(item) {
     <div class="prod-row" role="list">${real.concat(ex).join('')}</div>
     <p class="prod-src">‘예시’ 카드는 화면 구성을 보여 주는 가상 정보예요. 교과ON은 상품을 직접 판매하거나 예약·결제를 받지 않아요.</p>${foot}</section>`;
 }
-function selfdoOpen(item) {
-  return `<button type="button" class="selfdo-btn" aria-expanded="false" data-selfdo="${item.title}">
-      <span class="sd-ico">🏡</span><span class="sd-txt"><b>스스로 체험</b><small>미션 · 한 줄 기록 · 부모용 가이드</small></span><span class="sd-open">펼쳐 보기 ▾</span></button>
-    <div class="selfdo-body" hidden>`;
+function tabsHTML(item) {
+  return `<div class="tabs2" role="tablist"><button type="button" class="tab2 on" role="tab" aria-selected="true" data-tab="prod" data-t="${item.title}"><b>🎟 체험학습</b><small>프로그램 · 요금</small></button><button type="button" class="tab2" role="tab" aria-selected="false" data-tab="self" data-t="${item.title}"><b>🏡 스스로 체험</b><small>미션 · 기록 · 부모 가이드</small></button></div>`;
 }
 document.addEventListener('click', (e) => {
-  const b = e.target.closest && e.target.closest('.selfdo-btn'); if (!b) return;
-  const body = b.nextElementSibling; if (!body) return;
-  const open = body.hidden; body.hidden = !open; b.setAttribute('aria-expanded', open ? 'true' : 'false');
-  b.classList.toggle('on', open);
-  const t = b.querySelector('.sd-open'); if (t) t.textContent = open ? '접기 ▴' : '펼쳐 보기 ▾';
-  if (open && typeof track === 'function') track('selfdo_open', { place: b.dataset.selfdo });
+  const b = e.target.closest && e.target.closest('.tab2'); if (!b) return;
+  const art = b.closest('article'), self = b.dataset.tab === 'self';
+  art.querySelectorAll('.tab2').forEach((t) => { const on = t === b; t.classList.toggle('on', on); t.setAttribute('aria-selected', on); });
+  art.querySelector('.prod-pane').hidden = self; art.querySelector('.selfdo-body').hidden = !self;
+  if (self && typeof track === 'function') track('selfdo_open', { place: b.dataset.t });
 });
