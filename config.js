@@ -5,4 +5,4 @@ window.GYOGWAON_PRIVACY = { destroyDate: "2027년 6월 30일", contact: "문의:
 window.GYOGWAON_ENDPOINT = "https://script.google.com/macros/s/AKfycbw3uaZr8k2OXZMc1WLLCE1OaPQaqFJEb3zKH1E9_VjT8qcsaznydEU6hy9ssfOYSoR3QQ/exec";
 window.GYOGWAON_VER = "v42";
 // 체험학습 상품 카드·스스로 체험 접기(시안). 기본은 꺼짐(false). 켜려면 true, 미리 보려면 주소 끝에 ?products=1
-window.GYOGWAON_PRODUCTS = false;
+window.GYOGWAON_PRODUCTS = true;
