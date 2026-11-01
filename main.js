@@ -275,6 +275,7 @@ function cardTemplate(item) {
         <div class="pguide check"><p><b>✅ 가기 전 확인</b></p><ul class="chk"><li><label><input type="checkbox"> 운영시간·요금·휴관일을 시설 공식 안내로 확인했어요</label></li><li><label><input type="checkbox"> 이동 방법과 주차·대중교통을 확인했어요</label></li><li><label><input type="checkbox"> 물·간식·편한 신발 등 준비물을 챙겼어요</label></li><li><label><input type="checkbox"> 아이와 안전 약속(손 잡기, 흩어지지 않기)을 정했어요</label></li></ul></div>
         <button type="button" class="print-card">🖨️ 미션지 인쇄</button>
       </details>
+      ${PM ? guideBuyHTML(item) : ''}
       ${item.nearby && item.nearby.length ? `<div class="local-box">🏪 <strong>근처 코스 후보</strong> <span class="mute">참고용 · 제휴 아님 · 영업 여부는 방문 전 확인</span>
         <ul class="nearby">${item.nearby.map(n => `<li><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('부천 ' + n.name)}" target="_blank" rel="noopener" data-place="${item.title}" data-store="${n.name}" data-kind="${n.kind}">${n.kind === '식당' ? '🍚' : '☕'} <b>${n.name}</b> <small>${n.note}</small></a></li>`).join('')}</ul></div>` : ''}
       ${PM ? '</div>' : ''}

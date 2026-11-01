@@ -30,6 +30,11 @@ function prodImg(item, motif, subj, real, ref) {
   else { inner = `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="40" cy="30" r="64" fill="#fff" opacity=".12"/><circle cx="300" cy="170" r="80" fill="#fff" opacity=".1"/>${MOTIFS[motif] || MOTIFS.tree}</svg>`; cap = '일러스트'; }
   return `<div class="prod-img" style="--c1:${c1};--c2:${c2}">${inner}<span class="prod-subj">${subj}</span><span class="prod-cap">${cap}</span></div>`;
 }
+const LINK_SAMPLES = [
+  { motif: 'drop', subj: '과학', name: '갯벌 생태 체험', op: '체험마을 업체(예시)', price: '25,000원', who: '초등 전 학년 · 가족', note: '반나절' },
+  { motif: 'pot', subj: '사회', name: '도자기 손빚기', op: '개인 공방 강사(예시)', price: '20,000원', who: '초등 2~6학년', note: '오후 2시간' },
+  { motif: 'tree', subj: '과학', name: '숲 해설 체험', op: '공공기관 프로그램(예시)', price: '5,000원', who: '초등 전 학년 · 가족', note: '오전 90분' }
+];
 function productsHTML(item) {
   const sj = subjOf(item), P = PROGRAMS[item.title];
   const real = (P ? P.items : []).map((x) => `<article class="prod" role="listitem">
@@ -37,18 +42,45 @@ function productsHTML(item) {
       <div class="prod-body"><p class="prod-sub">📍 ${item.place}</p><h4>${x.name}</h4><p class="prod-who">대상 ${x.who}</p>
       <p class="prod-price">${REAL_SHORT[x.name] || '요금 확인'}</p>
       <a class="prod-btn" href="${P.url}" target="_blank" rel="noopener" data-prog="${item.title}">공식 안내 ↗</a></div></article>`);
-  const ex = pickSamples(item).map((s) => `<article class="prod ex" role="listitem">
-      ${prodImg(item, s.motif, s.subj, false, s.photo)}<span class="prod-badge ex">직접 기획 예시</span>
-      <div class="prod-body"><p class="prod-sub">가상 운영처</p><h4>${s.name} (예시)</h4><p class="prod-who">${s.who} · ${s.note}</p>
-      <p class="prod-price">${s.price} <small>(예시)</small></p><button type="button" class="prod-btn interest" data-pi="${s.name}" data-pl="${item.title}">👍 이런 상품 관심 있어요</button><p class="pi-msg" hidden>아직 준비 중인 예시 상품이에요. 관심을 남겨 주셔서 고마워요. 상품을 만들 때 참고할게요.</p></div></article>`);
+  const lk = LINK_SAMPLES.map((s) => `<article class="prod ex" role="listitem">
+      ${prodImg(item, s.motif, s.subj, false, null)}<span class="prod-badge ex">입점 예시</span>
+      <div class="prod-body"><p class="prod-sub">${s.op}</p><h4>${s.name} (예시)</h4><p class="prod-who">${s.who} · ${s.note}</p>
+      <p class="prod-price">${s.price} <small>(예시)</small></p><button type="button" class="prod-btn interest" data-pk="link" data-pi="${s.name}" data-pl="${item.title}">👍 이런 체험이 있으면 관심 있어요</button><p class="pi-msg" hidden>아직 준비 중인 예시예요. 관심을 남겨 주셔서 고마워요. 입점 체험을 고를 때 참고할게요.</p></div></article>`);
+  const own = pickSamples(item).map((s) => `<article class="prod ex own" role="listitem">
+      ${prodImg(item, s.motif, s.subj, false, s.photo)}<span class="prod-badge own">교과ON 기획 예시</span>
+      <div class="prod-body"><p class="prod-sub">교과ON이 만드는 체험(예시)</p><h4>${s.name} (예시)</h4><p class="prod-who">${s.who} · ${s.note}</p>
+      <p class="prod-price">${s.price} <small>(예시)</small></p><button type="button" class="prod-btn interest" data-pk="own" data-pi="${s.name}" data-pl="${item.title}">👍 이런 체험 관심 있어요</button><p class="pi-msg" hidden>아직 준비 중인 예시예요. 관심을 남겨 주셔서 고마워요. 체험을 만들 때 참고할게요.</p></div></article>`);
   const foot = P
     ? `<p class="prod-src">예약·문의: ${P.how} · 출처: ${P.src} · 확인일 ${P.checked} · 요금과 운영은 바뀔 수 있어 방문 전 공식 안내를 확인해 주세요.</p>`
     : `<p class="prod-src">이 장소의 프로그램·요금은 확인하는 중이에요. <a href="https://search.naver.com/search.naver?query=${encodeURIComponent('부천 ' + item.place + ' 체험 프로그램 요금 예약')}" target="_blank" rel="noopener" data-prog="${item.title}">공식 정보 찾아보기 ↗</a></p>`;
+  const n1 = real.length + lk.length;
   return `<section class="prod-wrap" aria-label="체험학습">
-    <div class="prod-head"><b>🎟 체험학습</b><small>옆으로 밀어 보세요 →</small></div>
-    <div class="prod-row" role="list">${real.concat(ex).join('')}</div>
-    <p class="prod-src">‘기존 상품·공식 안내’는 시설이 이미 운영하는 프로그램을 소개한 거고, ‘직접 기획 예시’는 교과ON이 앞으로 만들 수 있는 상품을 보여 주는 가상 정보예요(실제 상품 아님). 교과ON은 상품을 직접 판매하거나 예약·결제를 받지 않아요. ‘참고 사진’은 주제에 맞는 참고 이미지이며 실제 시설·프로그램 모습이 아니에요.</p>${foot}</section>`;
+    <div class="ptype" role="tablist"><button type="button" class="pt on" data-pt="link" data-pl="${item.title}"><b>🛒 입점 체험 상품</b><small>시설·개인·기관이 올림 (${n1})</small></button><button type="button" class="pt" data-pt="own" data-pl="${item.title}"><b>✏️ 교과ON 기획</b><small>교과ON이 직접 만듦 · 준비 중 (2)</small></button></div>
+    <p class="ptype-desc" data-pd="link">시설 업체, 개인 강사, 공공기관이 올린 체험을 한곳에서 볼 수 있어요. 지금은 안내와 공식 예약 연결만 하고, 교과ON에서 바로 예약·결제하는 기능은 준비 중이에요.</p>
+    <p class="ptype-desc" data-pd="own" hidden>우리 아이 학년·교과에 맞춰 교과ON이 직접 기획하는 체험이에요. 아직 준비 중이라 아래는 모두 예시예요.</p>
+    <div class="prod-row" role="list" data-pr="link">${real.concat(lk).join('')}</div>
+    <div class="prod-row" role="list" data-pr="own" hidden>${own.join('')}</div>
+    ${foot}</section>`;
 }
+function guideBuyHTML(item) {
+  return `<div class="gbuy"><b>📘 장소 가이드 한 권 <small>(준비 중 · 예시)</small></b>
+    <p>${item.place} 미션지 + 아이에게 할 질문 + 집에서 이어하기를 정리한 가이드예요. 가격은 예시이며 지금은 판매하지 않아요.</p>
+    <div class="gbuy-row"><button type="button" class="gb" data-gk="single" data-pl="${item.title}">1권 구매 관심<small>4,900원 (예시)</small></button><button type="button" class="gb" data-gk="sub" data-pl="${item.title}">월 구독 관심<small>월 3,900원 (예시)</small></button><button type="button" class="gb" data-gk="none" data-pl="${item.title}">관심 없어요</button></div>
+    <p class="gb-msg" hidden>의견 고마워요. 가이드를 만들 때 참고할게요.</p></div>`;
+}
+document.addEventListener('click', (e) => {
+  const g = e.target.closest && e.target.closest('.gb'); if (g) {
+    const w = g.closest('.gbuy'); w.querySelectorAll('.gb').forEach((x) => { x.disabled = true; }); g.classList.add('on');
+    const m = w.querySelector('.gb-msg'); if (m) m.hidden = false;
+    if (typeof track === 'function') track('guide_interest', { place: g.dataset.pl, kind: g.dataset.gk }); return;
+  }
+  const t = e.target.closest && e.target.closest('.pt'); if (!t) return;
+  const w = t.closest('.prod-wrap'), k = t.dataset.pt;
+  w.querySelectorAll('.pt').forEach((x) => x.classList.toggle('on', x === t));
+  w.querySelectorAll('[data-pr]').forEach((x) => { x.hidden = x.dataset.pr !== k; });
+  w.querySelectorAll('[data-pd]').forEach((x) => { x.hidden = x.dataset.pd !== k; });
+  if (typeof track === 'function') track('prod_type_view', { place: t.dataset.pl, type: k });
+});
 function tabsHTML(item) {
   return `<div class="tabs2" role="tablist"><button type="button" class="tab2 on" role="tab" aria-selected="true" data-tab="prod" data-t="${item.title}"><b>🎟 체험학습</b><small>프로그램 · 요금</small></button><button type="button" class="tab2" role="tab" aria-selected="false" data-tab="self" data-t="${item.title}"><b>🏡 스스로 체험</b><small>미션 · 기록 · 부모 가이드</small></button></div>`;
 }
@@ -64,5 +96,5 @@ document.addEventListener('click', (e) => {
   const b = e.target.closest && e.target.closest('.prod-btn.interest'); if (!b || b.disabled) return;
   b.disabled = true; b.classList.add('done'); b.textContent = '✓ 관심을 남겼어요';
   const m = b.parentNode.querySelector('.pi-msg'); if (m) m.hidden = false;
-  if (typeof track === 'function') track('product_interest', { place: b.dataset.pl, product: b.dataset.pi, kind: 'sample' });
+  if (typeof track === 'function') track('product_interest', { place: b.dataset.pl, product: b.dataset.pi, kind: b.dataset.pk || 'sample' });
 });
