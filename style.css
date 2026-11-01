@@ -401,3 +401,8 @@ button.prod-btn.interest.done{background:#EEE;border-color:#CCC;color:#666;curso
 .prod-wrap{padding-left:10px;border-left:3px solid #CFE0DB}
 .tabs2{margin-bottom:12px}.tab2{padding:12px 8px;border-width:2px}.tab2 b{font-size:1.02rem}
 .pt{flex-direction:row!important;white-space:nowrap}
+.fab-signup{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:40;font:inherit;font-weight:900;font-size:15px;padding:12px 20px;border:0;border-radius:999px;background:var(--brand);color:#fff;box-shadow:0 4px 0 var(--brand-d),0 6px 16px rgba(0,0,0,.25);cursor:pointer;white-space:nowrap}
+.fab-signup:active{transform:translateX(-50%) translateY(2px)}
+body.modal-open .fab-signup,.fab-signup[hidden]{display:none}
+body{padding-bottom:70px}
+@media print{.fab-signup{display:none!important}}

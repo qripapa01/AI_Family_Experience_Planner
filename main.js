@@ -751,3 +751,11 @@ function renderStamps() {
 })();
 
 ;(function(){ const c = document.getElementById('imgCredits'); if (c && typeof creditListHTML === 'function') c.innerHTML = creditListHTML(); })();
+
+// ===== 화면 아래 고정 '출시 알림 받기' 버튼 (신청 전에만 보임) =====
+(function () {
+  const fab = document.getElementById('fabSignup'); if (!fab) return;
+  const upd = () => { fab.hidden = !modal || isSigned(); };
+  fab.addEventListener('click', () => { track('fab_click', {}); openSignup('fab'); });
+  setTimeout(upd, 3000); setInterval(upd, 2000);
+})();
