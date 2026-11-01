@@ -33,21 +33,21 @@ function prodImg(item, motif, subj, real, ref) {
 function productsHTML(item) {
   const sj = subjOf(item), P = PROGRAMS[item.title];
   const real = (P ? P.items : []).map((x) => `<article class="prod" role="listitem">
-      ${prodImg(item, MOTIF_OF[item.title], sj, true, REF_PHOTO[x.name])}<span class="prod-badge real">공식 안내 기준</span>
+      ${prodImg(item, MOTIF_OF[item.title], sj, true, REF_PHOTO[x.name])}<span class="prod-badge real">기존 상품 · 공식 안내</span>
       <div class="prod-body"><p class="prod-sub">📍 ${item.place}</p><h4>${x.name}</h4><p class="prod-who">대상 ${x.who}</p>
       <p class="prod-price">${REAL_SHORT[x.name] || '요금 확인'}</p>
       <a class="prod-btn" href="${P.url}" target="_blank" rel="noopener" data-prog="${item.title}">공식 안내 ↗</a></div></article>`);
   const ex = pickSamples(item).map((s) => `<article class="prod ex" role="listitem">
-      ${prodImg(item, s.motif, s.subj, false, s.photo)}<span class="prod-badge ex">예시 · 실제 상품 아님</span>
+      ${prodImg(item, s.motif, s.subj, false, s.photo)}<span class="prod-badge ex">직접 기획 예시</span>
       <div class="prod-body"><p class="prod-sub">가상 운영처</p><h4>${s.name} (예시)</h4><p class="prod-who">${s.who} · ${s.note}</p>
-      <p class="prod-price">${s.price} <small>(예시)</small></p><span class="prod-btn off">화면 예시</span></div></article>`);
+      <p class="prod-price">${s.price} <small>(예시)</small></p><button type="button" class="prod-btn interest" data-pi="${s.name}" data-pl="${item.title}">👍 이런 상품 관심 있어요</button><p class="pi-msg" hidden>아직 준비 중인 예시 상품이에요. 관심을 남겨 주셔서 고마워요. 상품을 만들 때 참고할게요.</p></div></article>`);
   const foot = P
     ? `<p class="prod-src">예약·문의: ${P.how} · 출처: ${P.src} · 확인일 ${P.checked} · 요금과 운영은 바뀔 수 있어 방문 전 공식 안내를 확인해 주세요.</p>`
     : `<p class="prod-src">이 장소의 프로그램·요금은 확인하는 중이에요. <a href="https://search.naver.com/search.naver?query=${encodeURIComponent('부천 ' + item.place + ' 체험 프로그램 요금 예약')}" target="_blank" rel="noopener" data-prog="${item.title}">공식 정보 찾아보기 ↗</a></p>`;
   return `<section class="prod-wrap" aria-label="체험학습">
     <div class="prod-head"><b>🎟 체험학습</b><small>옆으로 밀어 보세요 →</small></div>
     <div class="prod-row" role="list">${real.concat(ex).join('')}</div>
-    <p class="prod-src">‘예시’ 카드는 화면 구성을 보여 주는 가상 정보예요. 교과ON은 상품을 직접 판매하거나 예약·결제를 받지 않아요. ‘참고 사진’은 주제에 맞는 참고 이미지이며 실제 시설·프로그램 모습이 아니에요.</p>${foot}</section>`;
+    <p class="prod-src">‘기존 상품·공식 안내’는 시설이 이미 운영하는 프로그램을 소개한 거고, ‘직접 기획 예시’는 교과ON이 앞으로 만들 수 있는 상품을 보여 주는 가상 정보예요(실제 상품 아님). 교과ON은 상품을 직접 판매하거나 예약·결제를 받지 않아요. ‘참고 사진’은 주제에 맞는 참고 이미지이며 실제 시설·프로그램 모습이 아니에요.</p>${foot}</section>`;
 }
 function tabsHTML(item) {
   return `<div class="tabs2" role="tablist"><button type="button" class="tab2 on" role="tab" aria-selected="true" data-tab="prod" data-t="${item.title}"><b>🎟 체험학습</b><small>프로그램 · 요금</small></button><button type="button" class="tab2" role="tab" aria-selected="false" data-tab="self" data-t="${item.title}"><b>🏡 스스로 체험</b><small>미션 · 기록 · 부모 가이드</small></button></div>`;
@@ -58,4 +58,11 @@ document.addEventListener('click', (e) => {
   art.querySelectorAll('.tab2').forEach((t) => { const on = t === b; t.classList.toggle('on', on); t.setAttribute('aria-selected', on); });
   art.querySelector('.prod-pane').hidden = self; art.querySelector('.selfdo-body').hidden = !self;
   if (self && typeof track === 'function') track('selfdo_open', { place: b.dataset.t });
+});
+
+document.addEventListener('click', (e) => {
+  const b = e.target.closest && e.target.closest('.prod-btn.interest'); if (!b || b.disabled) return;
+  b.disabled = true; b.classList.add('done'); b.textContent = '✓ 관심을 남겼어요';
+  const m = b.parentNode.querySelector('.pi-msg'); if (m) m.hidden = false;
+  if (typeof track === 'function') track('product_interest', { place: b.dataset.pl, product: b.dataset.pi, kind: 'sample' });
 });

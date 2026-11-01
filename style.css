@@ -368,3 +368,7 @@ body{background:#F6F8F7}
 .tab2 b{font-size:.98rem}.tab2 small{font-size:.74rem;font-weight:500}
 .tab2.on{background:#0E5A54;border-color:#0E5A54;color:#fff}
 .pane[hidden]{display:none}
+
+button.prod-btn.interest{font:inherit;font-weight:800;font-size:.88rem;cursor:pointer;border-color:#C9772F;color:#8A3F0D;background:#FFF3E6}
+button.prod-btn.interest.done{background:#EEE;border-color:#CCC;color:#666;cursor:default}
+.pi-msg{margin:6px 0 0;font-size:.74rem;color:#8A3F0D;line-height:1.4}
