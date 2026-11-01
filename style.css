@@ -391,3 +391,13 @@ button.prod-btn.interest.done{background:#EEE;border-color:#CCC;color:#666;curso
 .gb:disabled{opacity:.55;cursor:default}.gb.on{opacity:1;background:#FFF3E6}
 .gb-msg{color:#8A3F0D!important}
 @media print{.gbuy{display:none}}
+
+/* v46 계층 정리: 위 큰 탭 2개 / 아래 작은 알약 2개 */
+.ptype{display:flex;align-items:center;gap:6px;margin:0 0 8px;padding:0}
+.ptype-lbl{font-size:.76rem;color:#6b6575;margin-right:2px}
+.pt{flex:none;display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:999px;border:1px solid #CFE0DB;background:#fff;color:#4b6b66;font:inherit;font-size:.8rem;font-weight:700;cursor:pointer}
+.pt i{font-style:normal;font-size:.72rem;background:#EEF4F2;border-radius:999px;padding:1px 6px}
+.pt.on{background:#0E5A54;border-color:#0E5A54;color:#fff}.pt.on i{background:rgba(255,255,255,.25);color:#fff}
+.prod-wrap{padding-left:10px;border-left:3px solid #CFE0DB}
+.tabs2{margin-bottom:12px}.tab2{padding:12px 8px;border-width:2px}.tab2 b{font-size:1.02rem}
+.pt{flex-direction:row!important;white-space:nowrap}

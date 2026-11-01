@@ -55,7 +55,7 @@ function productsHTML(item) {
     : `<p class="prod-src">이 장소의 프로그램·요금은 확인하는 중이에요. <a href="https://search.naver.com/search.naver?query=${encodeURIComponent('부천 ' + item.place + ' 체험 프로그램 요금 예약')}" target="_blank" rel="noopener" data-prog="${item.title}">공식 정보 찾아보기 ↗</a></p>`;
   const n1 = real.length + lk.length;
   return `<section class="prod-wrap" aria-label="체험학습">
-    <div class="ptype" role="tablist"><button type="button" class="pt on" data-pt="link" data-pl="${item.title}"><b>🛒 입점 체험 상품</b><small>시설·개인·기관이 올림 (${n1})</small></button><button type="button" class="pt" data-pt="own" data-pl="${item.title}"><b>✏️ 교과ON 기획</b><small>교과ON이 직접 만듦 · 준비 중 (2)</small></button></div>
+    <div class="ptype" role="tablist"><span class="ptype-lbl">종류</span><button type="button" class="pt on" data-pt="link" data-pl="${item.title}">🛒 입점 체험 <i>${n1}</i></button><button type="button" class="pt" data-pt="own" data-pl="${item.title}">✏️ 교과ON 기획 <i>2</i></button></div>
     <p class="ptype-desc" data-pd="link">시설 업체, 개인 강사, 공공기관이 올린 체험을 한곳에서 볼 수 있어요. 지금은 안내와 공식 예약 연결만 하고, 교과ON에서 바로 예약·결제하는 기능은 준비 중이에요.</p>
     <p class="ptype-desc" data-pd="own" hidden>우리 아이 학년·교과에 맞춰 교과ON이 직접 기획하는 체험이에요. 아직 준비 중이라 아래는 모두 예시예요.</p>
     <div class="prod-row" role="list" data-pr="link">${real.concat(lk).join('')}</div>
