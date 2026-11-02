@@ -10,7 +10,7 @@ const REAL_SHORT = {
 const REF_PHOTO = { '천체투영관 프로그램': 'dome', '인터랙티브 체험존 (변신·마술·댄싱 로봇)': 'robotkid', '4층 만화체험 전시관 · 체험교육실': 'manga' };
 const SAMPLE_PRODUCTS = [
   { photo: 'sky', motif: 'sky', subj: '과학', name: '밤하늘 별자리 관측 교실', price: '12,000원', who: '초등 3~6학년 · 가족 동반', note: '저녁 2시간' },
-  { photo: 'bug', motif: 'bug', subj: '과학', name: '도심 숲 곤충 관찰 교실', price: '10,000원', who: '초등 1~4학년 · 가족 동반', note: '오전 90분' },
+  { motif: 'bug', subj: '과학', name: '도심 숲 곤충 관찰 교실', price: '10,000원', who: '초등 1~4학년 · 가족 동반', note: '오전 90분' },
   { photo: 'pot', motif: 'pot', subj: '사회', name: '옛 생활 도구 만들기', price: '15,000원', who: '초등 3~6학년', note: '오후 2시간' },
   { photo: 'draw', motif: 'comic', subj: '국어', name: '나만의 이야기책 만들기', price: '9,000원', who: '초등 2~5학년', note: '오전 2시간' },
   { photo: 'robotcar', motif: 'robot', subj: '과학', name: '코딩 로봇 첫걸음', price: '18,000원', who: '초등 4~6학년', note: '오후 2시간' }
