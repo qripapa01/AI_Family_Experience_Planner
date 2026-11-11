@@ -9,7 +9,7 @@ const experiences = [
   {
     grades: [5, 6], semesters: [1, 2], interest: 'science', monthsAhead: 4,
     title: '로봇 탐정단', place: '부천로보파크', region: '경기 부천',
-    placeType: '로봇 전시관', cost: '무료~저가 · 방문 전 요금 확인', fit: "실과·과학 '로봇·소프트웨어' 영역과 연결 가능",
+    placeType: '로봇 전시관', cost: '유료(입장료 5,000원, 부천시 공식 안내) · 월요일 휴관 · 방문 전 확인', fit: "실과·과학 '로봇·소프트웨어' 영역과 연결 가능",
     story: '움직이는 로봇을 보며 “어떻게 알고 움직일까?”를 찾아보는 탐정 놀이예요.',
     missions: ['로봇의 센서(눈·귀 역할)를 1개 찾기', '로봇이 하는 일을 가족에게 설명하기', '가장 마음에 든 로봇 앞에서 사진 찍기'],
     badge: '🤖 로봇 탐정',
@@ -43,7 +43,7 @@ const experiences = [
   {
     grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 3,
     title: '만화로 남기는 하루', place: '한국만화박물관', region: '경기 부천',
-    placeType: '박물관', cost: '무료~저가 · 방문 전 요금 확인', fit: "국어·미술 '이야기 표현' 영역과 연결 가능",
+    placeType: '박물관', cost: '유료(관람료 5,000원, 부천시 공식 안내) · 월요일 휴관 · 방문 전 확인', fit: "국어·미술 '이야기 표현' 영역과 연결 가능",
     story: '오늘 본 것을 4컷 만화로 표현해 보는 창작 나들이예요.',
     missions: ['가장 재미있던 전시 1개 고르기', '오늘 있었던 일을 4컷 만화로 상상해 말하기', '좋아하는 캐릭터 앞에서 사진 찍기'],
     badge: '🎨 이야기꾼',
@@ -75,29 +75,6 @@ const experiences = [
     nearby: [{ name: '호식당', kind: '식당', note: '한식 고깃집' }, { name: '카페동네 부천역점', kind: '카페', note: '동네 카페' }]
   },
   {
-    grades: [3, 4, 5, 6], semesters: [1, 2], interest: 'science', monthsAhead: 5,
-    title: '우리 집 탄소 줄이기', place: '부천기후변화체험관', region: '경기 부천',
-    placeType: '체험관', cost: '무료~저가 · 방문 전 요금 확인', fit: "사회·과학 '환경·자원' 영역과 연결 가능",
-    story: '기후 이야기를 체험으로 만나고 우리 집에서 할 약속을 정해 봐요.',
-    missions: ['기후 변화로 달라지는 점 1개 찾기', '우리 집에서 줄일 수 있는 것 한 가지 말하기', '가족 약속 한 줄 만들기'],
-    badge: '🌍 지구 지킴이',
-    subject: '사회·과학 · 환경과 자원',
-    parent: '환경 문제를 체험으로 접해 보는 활동입니다. 운영 여부와 프로그램은 방문 전 공식 안내 확인이 필요합니다.',
-    nearby: [{ name: '소사정육식당', kind: '식당', note: '고기 요리' }, { name: '투썸플레이스 부천소새울역점', kind: '카페', note: '카페·디저트' }]
-  },
-  {
-    grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 5,
-    title: '호수공원 소리 지도', place: '상동호수공원', region: '경기 부천',
-    placeType: '공원', cost: '무료~저가 · 방문 전 요금 확인', fit: "과학 '생물과 환경' 영역과 연결 가능",
-    story: '호수 둘레를 걸으며 소리와 냄새로 나만의 지도를 만들어요.',
-    missions: ['들리는 소리 3가지 찾기', '물가에서 사는 생물 1개 관찰하기', '오늘의 호수 사진 한 장 남기기'],
-    badge: '🌊 호수 탐험가',
-    subject: '과학 · 생물과 환경',
-    subject12: '통합교과(즐거운 생활) · 자연 감상', fit12: "통합교과 '즐거운 생활(자연 감상)'과 연결 가능",
-    parent: '가까운 공원에서 가볍게 시작하는 야외 관찰 활동입니다.',
-    nearby: [{ name: '한옥집숯불갈비 부천직영점', kind: '식당', note: '갈비·냉면' }, { name: '커피늘보', kind: '카페', note: '상동도서관 앞 카페' }]
-  },
-  {
     grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'nature', monthsAhead: 6,
     title: '나무 이름 찾기', place: '부천무릉도원수목원', region: '경기 부천',
     placeType: '수목원', cost: '무료~저가 · 방문 전 요금 확인', fit: "과학 '식물' 영역과 연결 가능",
@@ -122,17 +99,6 @@ const experiences = [
     nearby: [{ name: '옥길장터식당', kind: '식당', note: '한식·찌개류' }, { name: '커피101스트릿 부천옥길점', kind: '카페', note: '베이커리 카페' }]
   },
   {
-    grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 3,
-    title: '도서관 보물 찾기', place: '부천 상동도서관', region: '경기 부천',
-    placeType: '도서관', cost: '무료 · 이용 시간은 방문 전 확인', fit: "국어 '읽기·표현' 영역과 연결 가능",
-    story: '서가를 탐험하며 오늘의 보물 책 한 권을 찾아 소개해 봐요.',
-    missions: ['표지가 마음에 드는 책 1권 고르기', '고른 이유를 가족에게 한 문장으로 말하기', '오늘의 한 줄 독서 기록 남기기'],
-    badge: '📚 책 탐험가',
-    subject: '국어 · 읽기와 표현',
-    parent: '도서관에서 책을 고르고 소개하는 활동으로, 읽기·표현 영역과의 연결은 예시입니다.',
-    nearby: [{ name: '목향 상동본점', kind: '식당', note: '고깃집' }, { name: '이디야커피 부천벚꽃마을점', kind: '카페', note: '커피·베이커리' }]
-  },
-  {
     grades: [3, 4], semesters: [1, 2], interest: 'science', monthsAhead: 3,
     title: '물의 여행 따라가기', place: '부천물박물관', region: '경기 부천',
     placeType: '박물관', cost: '무료(공공예약 안내 기준, 평일 운영) · 방문 전 예약·휴관일 확인', fit: '과학 \'물의 상태 변화\' 영역과 연결 가능',
@@ -146,7 +112,7 @@ const experiences = [
   {
     grades: [1, 2, 3, 4, 5, 6], semesters: [1, 2], interest: 'history', monthsAhead: 5,
     title: '한옥에서 옛 생활 체험', place: '부천한옥체험마을', region: '경기 부천',
-    placeType: '전통문화 체험 공간', cost: '입장 무료·체험 유료(비공식 정보) · 방문 전 공식 확인 필수', fit: '사회 \'옛 생활과 풍습\' 영역과 연결 가능',
+    placeType: '전통문화 체험 공간', cost: '입장 무료(부천시 공식 안내) · 월·수요일 휴관 · 체험 요금은 방문 전 확인', fit: '사회 \'옛 생활과 풍습\' 영역과 연결 가능',
     story: '한옥을 둘러보며 옛 사람들의 집과 생활을 오늘과 견주어 봐요.',
     missions: ['한옥에서 우리 집과 다른 점 2개 찾기', '옛날 방식의 체험 1가지 해 보기', '한옥 앞에서 가족 사진 찍기'],
     badge: '🏯 한옥 탐험가',
@@ -192,7 +158,7 @@ const experiences = [
   {
     grades: [1, 2], semesters: [1, 2], interest: 'nature', monthsAhead: 2,
     title: '식물원 관찰 그림일기', place: '부천식물원(부천자연생태공원)', region: '경기 부천',
-    placeType: '식물원', cost: '무료 · 월요일 휴관(공식 안내 확인)', fit: "국어 '겪은 일 쓰기·그림 표현'과 연결 가능",
+    placeType: '식물원', cost: '요금은 방문 전 확인 · 월요일 휴관(부천시 공식 안내)', fit: "국어 '겪은 일 쓰기·그림 표현'과 연결 가능",
     story: '식물원에서 마음에 든 꽃이나 잎을 하나 골라, 그림과 한 줄 글로 오늘의 일기를 써 봐요.',
     missions: ['마음에 드는 잎이나 꽃 1개 고르기', '색과 모양을 그림으로 그리기', '오늘 느낀 점을 한 문장으로 쓰기'],
     badge: '🌿 그림일기 작가',
@@ -237,19 +203,20 @@ function cardTemplate(item) {
   return `
     <article class="experience-card">
       ${typeof thumbHTML === 'function' ? thumbHTML(item) : ''}
-      ${PM ? `<p class="card-lite">📚 ${p ? BAND_LABEL[band] + ' ' + linkTxt : '교과 연결(예시)'} · ${item.placeType} · ${item.cost}</p>
+      ${PM ? `<p class="card-lite">${p ? BAND_LABEL[band] + ' ' + linkTxt : '교과 연결(예시)'} · ${item.placeType} · ${item.cost}</p>
+      <p class="place">${item.place} · ${item.region}</p>
       <h3>${item.title}</h3>
-      <p class="place">📍 ${item.place} · ${item.region}</p>
       <p class="story">${item.story}</p>` : `      <div class="card-topline">
-        <span class="chip">${p ? `📚 ${BAND_LABEL[band]} ${linkTxt}` : '📚 교과 연결(예시)'}</span>
+        <span class="chip">${p ? `${BAND_LABEL[band]} ${linkTxt}` : '교과 연결(예시)'}</span>
         <span class="badge">${item.badge}</span>
       </div>
       <p class="subject">${ls.map((l) => `${l.subj} · ${l.area}`).join(' / ')}</p>
       <h3>${item.title}</h3>
-      <p class="place">📍 ${item.place} · ${item.region}</p>
-      <p class="why">📌 ${item.placeType} · ${item.cost} · 왜 이곳? ${p ? `${p.subj} '${p.area}' 성취기준과 연결 가능(예시)` : item.fit}</p>
+      <p class="place">${item.place} · ${item.region}</p>
+      <p class="why">${item.placeType} · ${item.cost} · 왜 이곳? ${p ? `${p.subj} '${p.area}' 성취기준과 연결 가능(예시)` : item.fit}</p>
       <p class="story">${item.story}</p>
 `}
+      <button type="button" class="card-more" aria-expanded="false">자세히 보기</button>
       ${PM ? tabsHTML(item) + '<div class="pane prod-pane">' + productsHTML(item) + '</div><div class="pane selfdo-body" hidden>' : (typeof programHTML === 'function' ? programHTML(item) : '')}
       <div class="mission-box quest" data-id="${item.title}">
         <div class="quest-head">
@@ -267,16 +234,16 @@ function cardTemplate(item) {
         <small class="mute d-msg">이 기기에만 저장돼요(서버로 보내지 않아요).</small>
       </div>
       <details class="pg-details">
-        <summary><span class="pg-ico">👨‍👩‍👧</span><span class="pg-txt"><b>부모용 가이드</b><small>교과 연결 · 아이에게 할 질문 · 집에서 이어하기</small></span><span class="pg-open">펼쳐 보기 ▾</span></summary>
+        <summary><span class="pg-ico">가이드</span><span class="pg-txt"><b>부모용 가이드</b><small>교과 연결 · 아이에게 할 질문 · 집에서 이어하기</small></span><span class="pg-open">펼쳐 보기 ▾</span></summary>
         <p><b>학기별 단원 배치:</b> 교과서와 학교 진도에 따라 달라요. 지금은 학년군(${BAND_LABEL[band]}) 교육과정 기준으로 연결했어요.</p>
         <p><b>장소 선정 기준:</b> ${item.placeType} 유형 · ${p ? `${p.subj} '${p.area}' 영역과 연결 가능(예시)` : item.fit}</p>
         <p>${item.parent}</p>
         ${guideHTML(item)}
-        <div class="pguide check"><p><b>✅ 가기 전 확인</b></p><ul class="chk"><li><label><input type="checkbox"> 운영시간·요금·휴관일을 시설 공식 안내로 확인했어요</label></li><li><label><input type="checkbox"> 이동 방법과 주차·대중교통을 확인했어요</label></li><li><label><input type="checkbox"> 물·간식·편한 신발 등 준비물을 챙겼어요</label></li><li><label><input type="checkbox"> 아이와 안전 약속(손 잡기, 흩어지지 않기)을 정했어요</label></li></ul></div>
+        <div class="pguide check"><p><b>가기 전 확인</b></p><ul class="chk"><li><label><input type="checkbox"> 운영시간·요금·휴관일을 시설 공식 안내로 확인했어요</label></li><li><label><input type="checkbox"> 이동 방법과 주차·대중교통을 확인했어요</label></li><li><label><input type="checkbox"> 물·간식·편한 신발 등 준비물을 챙겼어요</label></li><li><label><input type="checkbox"> 아이와 안전 약속(손 잡기, 흩어지지 않기)을 정했어요</label></li></ul></div>
         <button type="button" class="print-card">🖨️ 미션지 인쇄</button>
       </details>
       ${PM ? guideBuyHTML(item) : ''}
-      ${item.nearby && item.nearby.length ? `<div class="local-box">🏪 <strong>근처 코스 후보</strong> <span class="mute">참고용 · 제휴 아님 · 영업 여부는 방문 전 확인</span>
+      ${item.nearby && item.nearby.length ? `<div class="local-box"><strong>근처 코스 후보</strong> <span class="mute">참고용 · 제휴 아님 · 영업 여부는 방문 전 확인</span>
         <ul class="nearby">${item.nearby.map(n => `<li><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('부천 ' + n.name)}" target="_blank" rel="noopener" data-place="${item.title}" data-store="${n.name}" data-kind="${n.kind}">${n.kind === '식당' ? '🍚' : '☕'} <b>${n.name}</b> <small>${n.note}</small></a></li>`).join('')}</ul></div>` : ''}
       ${PM ? '</div>' : ''}
     </article>`;
@@ -609,7 +576,7 @@ function setDl() {
     const r = matchNotice(text);
     track('notice_match', { len: Math.min(Math.floor(text.length / 100) * 100, 800), matched: r.length, top: r[0] ? r[0].title : '' });
     if (!r.length) {
-      out.innerHTML = '<p class="muted">입력하신 내용과 연결되는 부천 체험을 찾지 못했어요. 지금은 부천 체험 17곳과 관련된 단어만 알아봐요(다른 지역 장소는 아직 없어요). 아래에서 교과를 골라 바로 볼 수 있어요.</p><div class="chips notice-chips">' + ['국어', '사회', '과학', '수학'].map((s) => '<button type="button" class="chip-btn" data-subj="' + s + '">' + s + ' 체험 보기</button>').join('') + '</div><p class="muted"><small>입력하신 내용은 저장하거나 보내지 않아요. 어떤 단어를 찾으면 좋을지 아래 의견란에 남겨 주셔도 좋아요.</small></p>';
+      out.innerHTML = '<p class="muted">입력하신 내용과 연결되는 부천 체험을 찾지 못했어요. 지금은 부천 체험 14곳과 관련된 단어만 알아봐요(다른 지역 장소는 아직 없어요). 아래에서 교과를 골라 바로 볼 수 있어요.</p><div class="chips notice-chips">' + ['국어', '사회', '과학', '수학'].map((s) => '<button type="button" class="chip-btn" data-subj="' + s + '">' + s + ' 체험 보기</button>').join('') + '</div><p class="muted"><small>입력하신 내용은 저장하거나 보내지 않아요. 어떤 단어를 찾으면 좋을지 아래 의견란에 남겨 주셔도 좋아요.</small></p>';
       return;
     }
     out.innerHTML = r.map((x) => {
@@ -623,6 +590,7 @@ document.getElementById('noticeOut').addEventListener('click', (e) => {
   const b = e.target.closest('.chip-btn'); if (!b) return;
   const sel = document.getElementById('subjectSelect'); if (sel && [...sel.options].some((o) => o.value === b.dataset.subj)) { sel.value = b.dataset.subj; buildAreas(); }
   track('notice_fallback', { subj: b.dataset.subj });
+  if (window.GOView) window.GOView('find', { push: true });
   const rb = document.getElementById('recommendBtn'); if (rb) rb.click();
   const c = document.getElementById('controls'); if (c) c.scrollIntoView({ behavior: 'smooth' });
 });
@@ -758,4 +726,81 @@ function renderStamps() {
   const upd = () => { fab.hidden = !modal || isSigned(); };
   fab.addEventListener('click', () => { track('fab_click', {}); openSignup('fab'); });
   setTimeout(upd, 3000); setInterval(upd, 2000);
+})();
+
+
+// ===== v50: 카드 펼치기 · 교과 칩 =====
+document.addEventListener('click', (e) => {
+  const b = e.target.closest && e.target.closest('.card-more'); if (!b) return;
+  const card = b.closest('.experience-card'); const open = card.classList.toggle('open');
+  b.setAttribute('aria-expanded', String(open)); b.textContent = open ? '접기' : '자세히 보기';
+  try { const t = card.querySelector('h3'); track('card_toggle', { place: t ? t.textContent : '', open: open }); } catch (err) { /* 기록 실패 무시 */ }
+});
+
+(function v51ui() {
+  const IC = {
+    all: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+    '국어': '<path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/>',
+    '사회': '<path d="M3 21h18M5 21V10M9 21V10M15 21V10M19 21V10M2 10l10-6 10 6z"/>',
+    '수학': '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>',
+    '과학': '<path d="M9 3h6M10 3v6L4 19a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-6-10V3"/>',
+    '체육': '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    '음악': '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+    '미술': '<circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="7" r="1"/><circle cx="16" cy="10" r="1"/>',
+    '영어': '<path d="M4 5h16v11H9l-5 4z"/>',
+    '도덕': '<path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/>',
+    dflt: '<path d="M12 22V12M12 12C12 8 9 6 5 6c0 4 3 6 7 6zM12 14c0-3 2-5 6-5 0 3-2 5-6 5z"/>'
+  };
+  const icon = (n) => '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (IC[n] || IC.dflt) + '</svg>';
+  const gs = document.getElementById('gradeSelect'), ss = document.getElementById('semesterSelect'), sel = document.getElementById('subjectSelect');
+  const gt = document.getElementById('gradeTabs'), st = document.getElementById('semToggle'), box = document.getElementById('subjChips');
+  const fire = (el) => el.dispatchEvent(new Event('change', { bubbles: true }));
+  const drawG = () => { gt.innerHTML = [...gs.options].map((o) => `<button type="button" role="tab" class="gt${o.value === gs.value ? ' on' : ''}" aria-selected="${o.value === gs.value}" data-v="${o.value}">${o.text}</button>`).join(''); };
+  const drawS = () => { st.innerHTML = [...ss.options].map((o) => `<button type="button" class="sm${o.value === ss.value ? ' on' : ''}" data-v="${o.value}">${o.text}</button>`).join(''); };
+  const drawC = () => { box.innerHTML = [...sel.options].map((o) => { const n = o.value === 'all' ? 'all' : o.text; return `<button type="button" class="sc${o.value === sel.value ? ' on' : ''}" data-v="${o.value}"><span class="si">${icon(n)}</span><span class="sl">${o.value === 'all' ? '전체' : o.text}</span></button>`; }).join(''); };
+  gt.addEventListener('click', (e) => { const b = e.target.closest('.gt'); if (!b) return; gs.value = b.dataset.v; fire(gs); });
+  st.addEventListener('click', (e) => { const b = e.target.closest('.sm'); if (!b) return; ss.value = b.dataset.v; fire(ss); });
+  box.addEventListener('click', (e) => { const b = e.target.closest('.sc'); if (!b) return; sel.value = b.dataset.v; fire(sel); });
+  gs.addEventListener('change', () => { drawG(); drawC(); }); ss.addEventListener('change', drawS); sel.addEventListener('change', drawC);
+  new MutationObserver(drawC).observe(sel, { childList: true });
+  drawG(); drawS(); drawC();
+  const ns = document.getElementById('navSearch'), si = document.getElementById('searchInput');
+  if (ns && si) ns.addEventListener('click', () => { si.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => si.focus(), 350); });
+  [gs, ss, sel].forEach((el) => { const l = el.closest('label'); if (l) l.classList.add('hid'); });
+  const ar = document.getElementById('areaSelect'), arl = ar && ar.closest('label');
+  const syncA = () => { if (arl) arl.classList.toggle('off', ar.disabled || sel.value === 'all'); };
+  sel.addEventListener('change', () => setTimeout(syncA, 0)); syncA();
+})();
+
+// ===== v51: 사진 로테이션(실제 사진만: AI·일러스트 제외) =====
+(function photoRail() {
+  const track = document.getElementById('prTrack'), cnt = document.getElementById('prCount'); if (!track) return;
+  const cc = (k) => (typeof creditHTML === 'function' && typeof PHOTOS !== 'undefined' && PHOTOS[k]) ? creditHTML(PHOTOS[k]) : '';
+  const REF = '참고 사진 · 실제 시설 아님';
+  const S = [
+    { src: 'img/comic_photo.webp', t: '한국만화박물관', s: '만화로 남기는 하루', c: cc('만화로 남기는 하루') },
+    { src: 'img/botanic_photo.webp', t: '부천식물원', s: '식물원 관찰 그림일기', c: cc('식물원 관찰 그림일기') },
+    { src: 'img/prod/dome.webp', t: '천체투영관 프로그램', s: '밤하늘과 별자리', c: REF },
+    { src: 'img/prod/robotkid.webp', t: '인터랙티브 로봇 체험', s: '로봇과 만나는 하루', c: REF },
+    { src: 'img/prod/manga.webp', t: '만화 체험교육', s: '내 손으로 그려 보기', c: REF },
+    { src: 'img/prod/pot.webp', t: '전통 도자기 체험', s: '손으로 빚는 옛 생활', c: REF },
+    { src: 'img/prod/bug.webp', t: '숲 관찰', s: '곤충과 식물 살펴보기', c: REF }
+  ];
+  const esc = (x) => String(x).replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+  track.innerHTML = S.map((x, i) => `<figure class="pr-slide" role="group" aria-label="${i + 1} / ${S.length}"><img src="${x.src}" alt="${esc(x.t)}" ${i ? 'loading="lazy"' : ''}><figcaption><b>${esc(x.t)}</b><span>${esc(x.s)}</span><small>${x.c}</small></figcaption></figure>`).join('');
+  let idx = 0, timer = null, userT = 0;
+  const upd = () => { cnt.textContent = (idx + 1) + ' / ' + S.length; };
+  const go = (i) => { idx = (i + S.length) % S.length; track.scrollTo({ left: idx * track.clientWidth, behavior: 'smooth' }); upd(); };
+  track.addEventListener('scroll', () => { const i = Math.round(track.scrollLeft / Math.max(1, track.clientWidth)); if (i !== idx) { idx = i; upd(); } }, { passive: true });
+  ['touchstart', 'mousedown', 'wheel'].forEach((ev) => track.addEventListener(ev, () => { userT = Date.now(); }, { passive: true }));
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) timer = setInterval(() => { if (document.hidden || Date.now() - userT < 8000) return; go(idx + 1); }, 4000);
+  upd();
+})();
+
+// v52: 사진 위 출시 알림 신청 카드
+(() => {
+  const b = document.getElementById('prSignupBtn'), card = document.getElementById('prSignup'); if (!b || !card) return;
+  try { if (isSigned()) card.hidden = true; } catch (e) {}
+  b.addEventListener('click', () => { track('cta_click', { id: 'heroCard' }); openSignup('hero_card'); });
 })();

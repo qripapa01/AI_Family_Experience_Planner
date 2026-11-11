@@ -26,58 +26,28 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=49" />
+  <link rel="stylesheet" href="style.css?v=54" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"교과ON","description":"앞으로 배울 초등 교과 내용과 연결되는 부천 체험학습 장소를 학년별로 추천하는 서비스(시범)","applicationCategory":"EducationalApplication","operatingSystem":"Web","inLanguage":"ko","url":"https://qripapa-ai-family-20260817.web.app/","areaServed":{"@type":"City","name":"부천시"}}</script>
 </head>
 <body>
   <main class="app-shell">
-    <header class="hero">
-      <div class="hero-main">
-        <div class="brandline">
-          <span class="wordmark">교과<span class="on">ON</span></span>
-          <span class="toggle" aria-hidden="true"></span>
-          <span class="brand-tag">교과를 켜다</span>
-        </div>
-        <h1>이번 주말, 어디 가지?<br/><em>우리 아이 교과와 이어지는</em> 부천 나들이를 골라 드려요</h1>
-        <p class="subtitle">학년만 고르면 <b>곧 배울 내용과 연결된 체험 장소</b>와 <b>아이용 미션</b>, 근처 식당·카페까지 한 번에. 부모는 가이드대로, 아이는 미션 놀이로 즐기면 됩니다.</p>
-        <div class="hero-cta">
-          <a class="cta primary" href="#controls" id="ctaStart">내 아이 맞춤 코스 보기 →</a>
-          <a class="cta ghost" href="#signup" id="ctaSignup">출시 소식 받기</a>
-        </div>
-        <ul class="trust">
-          <li>📍 부천 체험 17곳</li><li>💰 비용 안내 포함</li><li>👨‍👩‍👧 부모용 가이드</li><li>🎮 아이 미션·배지</li>
-        </ul>
+    <nav class="topnav" aria-label="주요 메뉴">
+      <a class="nav-logo" href="#top" id="navTop"><span class="wordmark">교과<span class="on">ON</span></span></a>
+      <div class="nav-links">
+        <a href="#controls" data-nav="find">찾기</a>
+        <a href="#notice" data-nav="notice">알림장</a>
+        <a href="#stampbook" data-nav="record">내 기록</a>
+        <a href="#resource" data-nav="free">자료</a>
       </div>
-      <div class="hero-art" aria-hidden="true">
-        <svg viewBox="0 0 380 320" role="img" focusable="false">
-          <circle cx="190" cy="170" r="140" fill="#fff" opacity=".07"/>
-          <g transform="translate(70 70)">
-            <rect x="0" y="40" width="46" height="170" rx="8" fill="#F07A62" transform="rotate(-14 23 125)"/>
-            <rect x="52" y="20" width="46" height="190" rx="8" fill="#E7B23E" transform="rotate(-7 75 115)"/>
-            <rect x="104" y="10" width="46" height="200" rx="8" fill="#5B95E6"/>
-            <rect x="156" y="20" width="46" height="190" rx="8" fill="#2FB3A3" transform="rotate(7 179 115)"/>
-            <rect x="208" y="40" width="46" height="170" rx="8" fill="#93C257" transform="rotate(14 231 125)"/>
-            <g fill="#fff" opacity=".9" font-family="Pretendard,Noto Sans KR,sans-serif" font-weight="800" font-size="15">
-              <text x="12" y="108" transform="rotate(-14 23 125)">국어</text><text x="64" y="98" transform="rotate(-7 75 115)">사회</text>
-              <text x="116" y="94">수학</text><text x="168" y="98" transform="rotate(7 179 115)">과학</text><text x="220" y="108" transform="rotate(14 231 125)">통합</text>
-            </g>
-          </g>
-          <path d="M190 22c-26 0-46 19-46 44 0 33 46 74 46 74s46-41 46-74c0-25-20-44-46-44z" fill="#F26B21"/><circle cx="190" cy="66" r="16" fill="#fff"/>
-          <path d="M40 286q150-30 300 0" stroke="#fff" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round" fill="none" opacity=".5"/>
-        </svg>
-      </div>
-    </header>
+      <button type="button" class="nav-ico" id="navSearch" aria-label="검색"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <a class="nav-cta" href="#signup" id="ctaSignup"><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="nc-t"> 출시 알림</span></a>
+    </nav>
+    
 
-    <section class="steps" aria-label="이용 방법">
-      <h2>이렇게 써요 <small>30초면 충분해요</small></h2>
-      <div class="step-grid">
-        <div class="step"><b>1</b><strong>학년·교과·영역 고르기</strong><span>교과와 영역(교육과정 단원)까지 고르면 더 잘 맞아요</span></div>
-        <div class="step"><b>2</b><strong>이번 주말 코스 받기</strong><span>장소·연결 교과·근처 식당·카페를 한눈에</span></div>
-        <div class="step"><b>3</b><strong>미션하고 칭찬하기</strong><span>아이는 미션 놀이, 부모는 질문 가이드</span></div>
-      </div>
-    </section>
-
+    <section class="photo-rail" id="photoRail" aria-label="체험 사진" aria-roledescription="carousel"><div class="pr-track" id="prTrack"></div><div class="pr-over" id="top"><p class="pr-pill">부천 초등 체험 · 교과 연계</p><h1>이번 주말,<br/>우리 아이 <em>교과와 이어지는</em><br/>부천 나들이</h1><a class="pr-cta" href="#controls" id="bnCta">학년·교과로 찾기 <span aria-hidden="true">↓</span></a></div><div class="pr-signup" id="prSignup"><div class="ps-t"><b>출시 알림 신청</b><span>새 체험 장소·교과 소식과 학년별 PDF 자료를 가장 먼저</span></div><button type="button" class="ps-btn" id="prSignupBtn">신청하기</button></div><span class="pr-count" id="prCount" aria-hidden="true"></span></section>
     <section class="panel controls" id="controls">
+      <div class="gt-wrap"><div class="grade-tabs" id="gradeTabs" role="tablist" aria-label="학년"></div></div>
+      <div class="sem-toggle" id="semToggle" role="group" aria-label="학기"></div>
       <label>학년
         <select id="gradeSelect">
           <option value="1">1학년</option>
@@ -104,28 +74,9 @@
           <option value="all">교과를 먼저 골라 주세요</option>
         </select>
       </label>
+      <div class="subj-chips" id="subjChips" role="group" aria-label="교과 선택"></div>
       <div id="unitBox" class="unit-box" hidden></div>
       <button id="recommendBtn" type="button">이번 주말 코스 보기</button>
-    </section>
-
-    <section class="panel parent-note">
-      <div>
-        <p class="eyebrow">부모님께</p>
-        <h2>왜 이 장소를 추천하나요?</h2>
-        <p>학년과 교과, 영역(교육과정 단원)에 맞춰 학교에서 배울 내용과 이어질 만한 곳을 골랐어요. 학기별 단원 배치는 교과서와 학교마다 달라서, 지금은 학년군 교육과정 기준으로 연결했어요. 아이에게는 공부가 아니라 <b>재미있는 주말 모험</b>으로 보여요.</p>
-        <p class="pg-hint">👨‍👩‍👧 각 장소 카드의 <b>‘부모용 가이드’</b>를 펼치면 교과 연결과 아이에게 할 질문이 나와요.</p>
-        <p class="src">📚 교과 연결은 <b>2022 개정 교육과정 성취기준</b>(교육부 고시 제2022-33호, 국가교육과정정보센터 공개 자료)을 참고했어요. 교육부·학교의 공식·인증 서비스는 아니며, 연결은 교과ON이 정리한 예시예요.</p>
-      </div>
-      <span class="window">교과 연결 예시 (교사 검수 전)</span>
-    </section>
-
-    <section class="panel notice" id="notice">
-      <p class="eyebrow">BETA · 알림장 연결 추천</p>
-      <h2>📝 알림장 내용을 붙여 넣어 보세요</h2>
-      <p class="muted">학교 알림장이나 숙제 안내를 붙여 넣으면 관련 있는 체험 장소를 찾아 드려요. 아직은 <b>부천 체험 17곳과 연결되는 단어</b>만 찾는 베타예요(교과 이름·단원·활동 단어 위주). 입력한 내용은 <b>서버로 보내거나 저장하지 않고</b> 이 화면에서만 비교해요. 아이 이름 등 개인정보는 지우고 붙여 넣어 주세요.</p>
-      <textarea id="noticeText" rows="4" maxlength="800" placeholder="예) 다음 주 과학: 달의 모양 관찰하기, 국어: 독서록 쓰기"></textarea>
-      <button type="button" id="noticeBtn" class="signup-btn">관련 체험 찾기</button>
-      <div id="noticeOut" class="notice-out" hidden></div>
     </section>
 
     <section>
@@ -166,9 +117,18 @@
 
     </section>
 
+    <section class="panel notice" id="notice"><details id="noticeDetails"><summary>알림장 내용을 붙여 넣어 찾기 <small>(베타)</small></summary>
+      <p class="eyebrow">BETA · 알림장 연결 추천</p>
+      <h2>알림장 내용을 붙여 넣어 보세요</h2>
+      <p class="muted">학교 알림장이나 숙제 안내를 붙여 넣으면 관련 있는 체험 장소를 찾아 드려요. 아직은 <b>부천 체험 14곳과 연결되는 단어</b>만 찾는 베타예요(교과 이름·단원·활동 단어 위주). 입력한 내용은 <b>서버로 보내거나 저장하지 않고</b> 이 화면에서만 비교해요. 아이 이름 등 개인정보는 지우고 붙여 넣어 주세요.</p>
+      <textarea id="noticeText" rows="4" maxlength="800" placeholder="예) 다음 주 과학: 달의 모양 관찰하기, 국어: 독서록 쓰기"></textarea>
+      <button type="button" id="noticeBtn" class="signup-btn">관련 체험 찾기</button>
+      <div id="noticeOut" class="notice-out" hidden></div>
+    </details></section>
+
     <section class="panel stampbook" id="stampbook">
       <p class="eyebrow">STAMP BOOK · 스탬프북</p>
-      <h2>⭐ 내 스탬프북 · 체험 기록</h2>
+      <h2>내 스탬프북 · 체험 기록</h2>
       <p class="muted">미션을 모두 마치거나 한 줄 기록을 저장하면 스탬프가 찍혀요. 기록은 이 기기에만 저장되고 서버로 보내지 않아요.</p>
       <div id="stampHud" class="hud"></div>
       <p id="stampSum" class="stamp-sum"></p>
@@ -187,9 +147,29 @@
       <p id="reportMsg" class="signup-msg err" hidden>저장된 한 줄 기록이 아직 없어요. 장소 카드에서 먼저 기록해 주세요.</p>
     </section>
 
+    <section class="panel parent-note">
+      <div>
+        <p class="eyebrow">부모님께</p>
+        <h2>왜 이 장소를 추천하나요?</h2>
+        <p>학년과 교과, 영역(교육과정 단원)에 맞춰 학교에서 배울 내용과 이어질 만한 곳을 골랐어요. 학기별 단원 배치는 교과서와 학교마다 달라서, 지금은 학년군 교육과정 기준으로 연결했어요. 아이에게는 공부가 아니라 <b>재미있는 주말 모험</b>으로 보여요.</p>
+        <p class="pg-hint">👨‍👩‍👧 각 장소 카드의 <b>‘부모용 가이드’</b>를 펼치면 교과 연결과 아이에게 할 질문이 나와요.</p>
+        <p class="src">📚 교과 연결은 <b>2022 개정 교육과정 성취기준</b>(교육부 고시 제2022-33호, 국가교육과정정보센터 공개 자료)을 참고했어요. 교육부·학교의 공식·인증 서비스는 아니며, 연결은 교과ON이 정리한 예시예요.</p>
+      </div>
+      <span class="window">교과 연결 예시 (교사 검수 전)</span>
+    </section>
+
+    <section class="steps" aria-label="이용 방법">
+      <h2>이렇게 써요 <small>30초면 충분해요</small></h2>
+      <div class="step-grid">
+        <div class="step"><b>1</b><strong>학년·교과·영역 고르기</strong><span>교과와 영역(교육과정 단원)까지 고르면 더 잘 맞아요</span></div>
+        <div class="step"><b>2</b><strong>이번 주말 코스 받기</strong><span>장소·연결 교과·근처 식당·카페를 한눈에</span></div>
+        <div class="step"><b>3</b><strong>미션하고 칭찬하기</strong><span>아이는 미션 놀이, 부모는 질문 가이드</span></div>
+      </div>
+    </section>
+
     <section class="panel resource" id="resource">
       <p class="eyebrow">FREE GUIDE · 무료 자료</p>
-      <h2>📄 체험학습 연결표 (PDF)</h2>
+      <h2>체험학습 연결표 (PDF)</h2>
       <p class="muted">교과 성취기준과 부천 체험 장소, 아이에게 물어볼 질문을 한 장으로 정리했어요. 출시 알림을 신청하시면 바로 받을 수 있어요. (1~2학년군은 국어 성취기준 기준이며, 통합교과 연결은 준비 중이에요.)</p>
       <a id="dlBtn0" class="signup-btn dl" href="files/gyogwaon_curriculum_1-2.pdf" download data-file="curriculum_1-2">1~2학년군 PDF 받기</a> <a id="dlBtn" class="signup-btn dl" href="files/gyogwaon_curriculum_3-4.pdf" download data-file="curriculum_3-4">3~4학년군 PDF 받기</a> <a id="dlBtn2" class="signup-btn dl" href="files/gyogwaon_curriculum_5-6.pdf" download data-file="curriculum_5-6">5~6학년군 PDF 받기</a>
       <p id="dlMsg" class="signup-msg" hidden></p>
@@ -215,13 +195,14 @@
       <p class="signup-note">※ 방문·클릭 횟수는 서비스 개선을 위해 익명으로 기록합니다.</p>
     </section>
 
-    <button type="button" id="fabSignup" class="fab-signup" hidden>🔔 출시 알림 받기</button>
+    <button type="button" id="fabSignup" class="fab-signup" hidden>출시 알림 받기</button>
     <div id="signupModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="signupTitle" hidden>
       <div class="modal-box">
         <button type="button" class="modal-x" id="signupClose" aria-label="닫기">×</button>
         <div class="mb-ico" aria-hidden="true">🔔</div>
         <h2 id="signupTitle">출시 소식을 가장 먼저 받아보세요</h2>
-        <p class="mb-sub">곧 출시되면 이메일로 알려드려요.</p>
+        <p class="mb-sub">정식 출시되면 이메일로 알려드려요.</p>
+        <ul class="mb-ben"><li>정식 출시 소식</li><li>새 체험 장소·교과가 추가되면 알림</li><li>신청하면 학년별 체험 PDF 자료 받기</li></ul>
         <form id="signupForm" novalidate>
           <div class="mb-lab">자녀 학년 <small>(여러 개 선택 가능)</small></div>
           <div class="mb-chips">
@@ -239,6 +220,7 @@
           <button type="submit" class="mb-btn">출시 알림 받기</button>
           <p id="signupMsg" class="mb-msg" hidden></p>
         </form>
+        <div class="mb-qr"><img src="img/qr.png" width="84" height="84" alt="휴대폰으로 열기 QR 코드"><span>PC로 보고 계신가요?<br>휴대폰으로 스캔해 이어서 보세요</span></div>
         <div id="signupDone" hidden>
           <button type="button" class="mb-btn" id="goSurvey">30초 의견 남기기</button>
           <button type="button" class="mb-btn ghost" id="doneClose">닫기</button>
@@ -262,15 +244,68 @@
 
     <footer class="site-foot">
       <span class="foot-mark">교과<span class="on">ON</span></span>
-      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 2022 개정 교육과정 성취기준을 참고한 예시이며 교사 검수 전입니다. <span class="ver">앱 버전 v48</span></p>
+      <p>부천 시범 서비스 · 장소·교과 연결·시점은 서비스 개념 검증을 위한 예시입니다. 운영시간·요금·프로그램은 방문 전 각 시설의 공식 안내를 꼭 확인해 주세요. 교과 연결은 2022 개정 교육과정 성취기준을 참고한 예시이며 교사 검수 전입니다. <span class="ver">앱 버전 v49</span></p>
     </footer>
+<nav class="tabbar" aria-label="하단 메뉴">
+  <a href="#controls" data-nav="find"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>찾기</span></a>
+  <a href="#notice" data-nav="notice"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg><span>알림장</span></a>
+  <a href="#stampbook" data-nav="record"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.5 6 .9-4.4 4.2 1 6-5.3-2.8-5.3 2.8 1-6L3.3 9.4l6-.9z"/></svg><span>내 기록</span></a>
+  <a href="#resource" data-nav="free"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4M10 12h6M10 16h6"/></svg><span>자료</span></a>
+</nav>
   </main>
 
-  <script src="config.js?v=49"></script>
-  <script src="tracking.js?v=49"></script>
-  <script src="art.js?v=49"></script>
-  <script src="guides.js?v=49"></script>
-  <script src="products.js?v=49"></script>
-  <script src="main.js?v=49"></script>
+  <script src="config.js?v=54"></script>
+  <script src="tracking.js?v=54"></script>
+  <script src="art.js?v=54"></script>
+  <script src="guides.js?v=54"></script>
+  <script src="products.js?v=54"></script>
+  <script src="main.js?v=54"></script>
+  <script>
+  (function(){
+    /* 하단·상단 메뉴: 스크롤 대신 해당 기능 화면만 보여 줌 */
+    var VIEWS={find:[],notice:[],record:[],free:[]};
+    function pick(q){return document.querySelector(q);}
+    var ctr=pick('#controls');
+    VIEWS.find=[pick('#photoRail'),ctr,ctr&&ctr.nextElementSibling,pick('.parent-note'),pick('.steps')].filter(Boolean);
+    VIEWS.notice=[pick('#notice')].filter(Boolean);
+    VIEWS.record=[pick('#stampbook')].filter(Boolean);
+    VIEWS.free=[pick('#resource')].filter(Boolean);
+    var HASH={find:'#controls',notice:'#notice',record:'#stampbook',free:'#resource'};
+    var cur='';
+    function setView(v,opts){
+      if(!VIEWS[v]) v='find';
+      opts=opts||{};
+      Object.keys(VIEWS).forEach(function(k){VIEWS[k].forEach(function(el){el.classList.toggle('vhide',k!==v);});});
+      document.querySelectorAll('.topnav .nav-links a, .tabbar a').forEach(function(a){
+        var on=a.dataset.nav===({find:'find',notice:'notice',record:'record',free:'free'})[v];
+        a.classList.toggle('cur',on); if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+      });
+      if(v==='notice'){var d=document.getElementById('noticeDetails'); if(d) d.open=true;}
+      var changed=(cur!==v); cur=v;
+      if(!opts.keepScroll){ try{ window.scrollTo({top:0,left:0,behavior:'instant'}); }catch(e){ window.scrollTo(0,0); } }
+      if(opts.push&&changed){try{history.pushState({v:v},'',HASH[v]);}catch(e){}}
+    }
+    window.GOView=setView;
+    function fromHash(){
+      var h=location.hash,v='find';
+      for(var k in HASH){ if(HASH[k]===h) v=k; }
+      setView(v,{keepScroll:true});
+      if(h==='#signup'||h==='#top'){ /* 항상 보이는 영역 */ }
+    }
+    document.querySelectorAll('.topnav .nav-links a, .tabbar a').forEach(function(a){
+      a.addEventListener('click',function(e){
+        e.preventDefault();
+        setView(a.dataset.nav,{push:true});
+        try{ if(window.GO) window.GO.send('cta_click',{id:'nav_'+a.dataset.nav}); }catch(_){}
+      });
+    });
+    var logo=document.getElementById('navTop');
+    if(logo) logo.addEventListener('click',function(e){e.preventDefault(); setView('find',{push:true});});
+    /* 검색 아이콘: 찾기 화면으로 먼저 이동 */
+    document.addEventListener('click',function(e){ if(e.target.closest&&e.target.closest('#navSearch')) setView('find',{keepScroll:true}); },true);
+    window.addEventListener('popstate',fromHash);
+    fromHash();
+  })();
+  </script>
 </body>
 </html>

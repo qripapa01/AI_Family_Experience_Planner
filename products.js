@@ -1,4 +1,4 @@
-// v42: 체험학습 상품 카드(가로로 넘기는 카드) + '스스로 체험' 접기. 기본은 꺼져 있고, 켜는 방법은 두 가지입니다.
+// v42: 체험학습 상품 카드(가로로 넘기는 카드) + '학부모가이드' 접기. 기본은 꺼져 있고, 켜는 방법은 두 가지입니다.
 //   1) config.js 의 window.GYOGWAON_PRODUCTS = true   2) 주소 끝에 ?products=1 (미리 보기용)
 // 실제 프로그램·요금(PROGRAMS, guides.js)은 공식 안내에서 확인한 내용만 표시하고, '예시' 카드는 화면 구성을 보여 주는 가상 정보라 반드시 '예시'로 표시한다.
 const PROD_ON = (window.GYOGWAON_PRODUCTS === true) || /[?&]products=1/.test(location.search);
@@ -9,18 +9,15 @@ const REAL_SHORT = {
 };
 const REF_PHOTO = { '천체투영관 프로그램': 'dome', '인터랙티브 체험존 (변신·마술·댄싱 로봇)': 'robotkid', '4층 만화체험 전시관 · 체험교육실': 'manga' };
 const SAMPLE_PRODUCTS = [
-  { photo: 'sky', motif: 'sky', subj: '과학', name: '밤하늘 별자리 관측 교실', price: '12,000원', who: '초등 3~6학년 · 가족 동반', note: '저녁 2시간' },
-  { motif: 'bug', subj: '과학', name: '도심 숲 곤충 관찰 교실', price: '10,000원', who: '초등 1~4학년 · 가족 동반', note: '오전 90분' },
-  { photo: 'pot', motif: 'pot', subj: '사회', name: '옛 생활 도구 만들기', price: '15,000원', who: '초등 3~6학년', note: '오후 2시간' },
-  { photo: 'draw', motif: 'comic', subj: '국어', name: '나만의 이야기책 만들기', price: '9,000원', who: '초등 2~5학년', note: '오전 2시간' },
-  { photo: 'robotcar', motif: 'robot', subj: '과학', name: '코딩 로봇 첫걸음', price: '18,000원', who: '초등 4~6학년', note: '오후 2시간' }
+  { for: ['별자리 탐험대'], photo: 'sky', motif: 'sky', subj: '과학', name: '밤하늘 별자리 관측 교실', price: '12,000원', who: '초등 3~6학년 · 가족 동반', note: '저녁 2시간' },
+  { for: ['곤충 관찰 대작전', '식물원 관찰 그림일기'], motif: 'bug', subj: '과학', name: '도심 숲 곤충 관찰 교실', price: '10,000원', who: '초등 1~4학년 · 가족 동반', note: '오전 90분' },
+  { for: ['옛 물건 비교 탐험', '한옥에서 옛 생활 체험', '선사시대 마을 탐험'], photo: 'pot', motif: 'pot', subj: '사회', name: '옛 생활 도구 만들기', price: '15,000원', who: '초등 3~6학년', note: '오후 2시간' },
+  { for: ['만화로 남기는 하루', '시인의 말 수집가'], photo: 'draw', motif: 'comic', subj: '국어', name: '나만의 이야기책 만들기', price: '9,000원', who: '초등 2~5학년', note: '오전 2시간' },
+  { for: ['로봇 탐정단'], photo: 'robotcar', motif: 'robot', subj: '과학', name: '코딩 로봇 첫걸음', price: '18,000원', who: '초등 4~6학년', note: '오후 2시간' }
 ];
-function pickSamples(item) {
-  const sj = subjOf(item);
-  const pick = SAMPLE_PRODUCTS.filter((s) => s.subj === sj).slice(0, 2);
-  SAMPLE_PRODUCTS.forEach((s) => { if (pick.length < 2 && !pick.includes(s)) pick.push(s); });
-  return pick;
-}
+// 장소와 관련 있는 예시만 고른다(관련 없는 상품으로 채우지 않는다). 해당이 없으면 빈 목록.
+function pickSamples(item) { return SAMPLE_PRODUCTS.filter((x) => x.for && x.for.includes(item.title)); }
+
 function prodImg(item, motif, subj, real, ref) {
   const [c1, c2] = SUBJ_COLOR[subj] || SUBJ_COLOR['통합'];
   const ph = real ? PHOTOS[item.title] : null;
@@ -31,9 +28,8 @@ function prodImg(item, motif, subj, real, ref) {
   return `<div class="prod-img" style="--c1:${c1};--c2:${c2}">${inner}<span class="prod-subj">${subj}</span><span class="prod-cap">${cap}</span></div>`;
 }
 const LINK_SAMPLES = [
-  { motif: 'drop', subj: '과학', name: '갯벌 생태 체험', op: '체험마을 업체(예시)', price: '25,000원', who: '초등 전 학년 · 가족', note: '반나절' },
-  { motif: 'pot', subj: '사회', name: '도자기 손빚기', op: '개인 공방 강사(예시)', price: '20,000원', who: '초등 2~6학년', note: '오후 2시간' },
-  { motif: 'tree', subj: '과학', name: '숲 해설 체험', op: '공공기관 프로그램(예시)', price: '5,000원', who: '초등 전 학년 · 가족', note: '오전 90분' }
+    { for: ['한옥에서 옛 생활 체험', '선사시대 마을 탐험'], motif: 'pot', subj: '사회', name: '도자기 손빚기', op: '개인 공방 강사(예시)', price: '20,000원', who: '초등 2~6학년', note: '오후 2시간' },
+  { for: ['곤충 관찰 대작전', '나무 이름 찾기', '호수 위 식물 탐험', '식물원 관찰 그림일기'], motif: 'tree', subj: '과학', name: '숲 해설 체험', op: '공공기관 프로그램(예시)', price: '5,000원', who: '초등 전 학년 · 가족', note: '오전 90분' }
 ];
 function productsHTML(item) {
   const sj = subjOf(item), P = PROGRAMS[item.title];
@@ -42,7 +38,7 @@ function productsHTML(item) {
       <div class="prod-body"><p class="prod-sub">📍 ${item.place}</p><h4>${x.name}</h4><p class="prod-who">대상 ${x.who}</p>
       <p class="prod-price">${REAL_SHORT[x.name] || '요금 확인'}</p>
       <a class="prod-btn" href="${P.url}" target="_blank" rel="noopener" data-prog="${item.title}">공식 안내 ↗</a></div></article>`);
-  const lk = LINK_SAMPLES.map((s) => `<article class="prod ex" role="listitem">
+  const lk = LINK_SAMPLES.filter((x) => x.for && x.for.includes(item.title)).map((s) => `<article class="prod ex" role="listitem">
       ${prodImg(item, s.motif, s.subj, false, null)}<span class="prod-badge ex">입점 예시</span>
       <div class="prod-body"><p class="prod-sub">${s.op}</p><h4>${s.name} (예시)</h4><p class="prod-who">${s.who} · ${s.note}</p>
       <p class="prod-price">${s.price} <small>(예시)</small></p><button type="button" class="prod-btn interest" data-pk="link" data-pi="${s.name}" data-pl="${item.title}">👍 이런 체험이 있으면 관심 있어요</button><p class="pi-msg" hidden>아직 준비 중인 예시예요. 관심을 남겨 주셔서 고마워요. 입점 체험을 고를 때 참고할게요.</p></div></article>`);
@@ -53,13 +49,17 @@ function productsHTML(item) {
   const foot = P
     ? `<p class="prod-src">예약·문의: ${P.how} · 출처: ${P.src} · 확인일 ${P.checked} · 요금과 운영은 바뀔 수 있어 방문 전 공식 안내를 확인해 주세요.</p>`
     : `<p class="prod-src">이 장소의 프로그램·요금은 확인하는 중이에요. <a href="https://search.naver.com/search.naver?query=${encodeURIComponent('부천 ' + item.place + ' 체험 프로그램 요금 예약')}" target="_blank" rel="noopener" data-prog="${item.title}">공식 정보 찾아보기 ↗</a></p>`;
-  const n1 = real.length + lk.length;
+  const n1 = real.length + lk.length, n2 = own.length;
+  const hasLink = n1 > 0, hasOwn = n2 > 0;
+  if (!hasLink && !hasOwn) return `<section class="prod-wrap" aria-label="체험학습"><p class="prod-empty">이 장소에 연결된 체험 상품은 아직 없어요. 장소 정보와 부모용 가이드를 먼저 확인해 주세요.</p>${foot}</section>`;
+  const first = hasLink ? 'link' : 'own';
+  const types = (hasLink && hasOwn) ? `<div class="ptype" role="tablist"><span class="ptype-lbl">종류</span><button type="button" class="pt on" data-pt="link" data-pl="${item.title}">입점 체험 <i>${n1}</i></button><button type="button" class="pt" data-pt="own" data-pl="${item.title}">교과ON 기획 <i>${n2}</i></button></div>` : '';
   return `<section class="prod-wrap" aria-label="체험학습">
-    <div class="ptype" role="tablist"><span class="ptype-lbl">종류</span><button type="button" class="pt on" data-pt="link" data-pl="${item.title}">🛒 입점 체험 <i>${n1}</i></button><button type="button" class="pt" data-pt="own" data-pl="${item.title}">✏️ 교과ON 기획 <i>2</i></button></div>
-    <p class="ptype-desc" data-pd="link">시설 업체, 개인 강사, 공공기관이 올린 체험을 한곳에서 볼 수 있어요. 지금은 안내와 공식 예약 연결만 하고, 교과ON에서 바로 예약·결제하는 기능은 준비 중이에요.</p>
-    <p class="ptype-desc" data-pd="own" hidden>우리 아이 학년·교과에 맞춰 교과ON이 직접 기획하는 체험이에요. 아직 준비 중이라 아래는 모두 예시예요.</p>
-    <div class="prod-row" role="list" data-pr="link">${real.concat(lk).join('')}</div>
-    <div class="prod-row" role="list" data-pr="own" hidden>${own.join('')}</div>
+    ${types}
+    ${hasLink ? `<p class="ptype-desc" data-pd="link"${first === 'link' ? '' : ' hidden'}>시설 업체, 개인 강사, 공공기관이 올린 체험을 한곳에서 볼 수 있어요. 지금은 안내와 공식 예약 연결만 하고, 교과ON에서 바로 예약·결제하는 기능은 준비 중이에요.</p>` : ''}
+    ${hasOwn ? `<p class="ptype-desc" data-pd="own"${first === 'own' ? '' : ' hidden'}>우리 아이 학년·교과에 맞춰 교과ON이 직접 기획하는 체험이에요. 아직 준비 중이라 아래는 모두 예시예요.</p>` : ''}
+    ${hasLink ? `<div class="prod-row" role="list" data-pr="link"${first === 'link' ? '' : ' hidden'}>${real.concat(lk).join('')}</div>` : ''}
+    ${hasOwn ? `<div class="prod-row" role="list" data-pr="own"${first === 'own' ? '' : ' hidden'}>${own.join('')}</div>` : ''}
     ${foot}</section>`;
 }
 function guideBuyHTML(item) {
@@ -82,7 +82,7 @@ document.addEventListener('click', (e) => {
   if (typeof track === 'function') track('prod_type_view', { place: t.dataset.pl, type: k });
 });
 function tabsHTML(item) {
-  return `<div class="tabs2" role="tablist"><button type="button" class="tab2 on" role="tab" aria-selected="true" data-tab="prod" data-t="${item.title}"><b>🎟 체험학습</b><small>프로그램 · 요금</small></button><button type="button" class="tab2" role="tab" aria-selected="false" data-tab="self" data-t="${item.title}"><b>🏡 스스로 체험</b><small>미션 · 기록 · 부모 가이드</small></button></div>`;
+  return `<div class="tabs2" role="tablist"><button type="button" class="tab2 on" role="tab" aria-selected="true" data-tab="prod" data-t="${item.title}"><b>체험학습</b><small>프로그램 · 요금</small></button><button type="button" class="tab2" role="tab" aria-selected="false" data-tab="self" data-t="${item.title}"><b>학부모가이드</b><small>가이드 · 미션 · 기록</small></button></div>`;
 }
 document.addEventListener('click', (e) => {
   const b = e.target.closest && e.target.closest('.tab2'); if (!b) return;
